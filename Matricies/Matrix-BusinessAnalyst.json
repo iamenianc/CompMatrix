@@ -1,0 +1,242 @@
+[
+  {
+    "Theme": "Delivery",
+    "Competency": "Requirements elicitation",
+    "Levels": {
+      "L1": "Captures requirements from conversations, workshops and documents under supervision. Asks clarifying questions and records what is said accurately. Knows the difference between a need, a want and a constraint.",
+      "L2": "Independently elicits requirements for a single project using a range of techniques (interviews, workshops, document analysis, observation). Probes beyond the stated request to uncover the underlying need.",
+      "L3": "Elicits requirements for large or ambiguous problems, including across multiple business areas (e.g. claims, policy admin, finance). Chooses the right technique for each situation and surfaces conflicting needs early.",
+      "L4": "Sets the AGI standard for elicitation practice and coaches analysts in technique selection. Designs the elicitation approach for complex, cross-domain programmes.",
+      "L5": "Owns elicitation capability across the BA function. Ensures the team consistently uncovers real business needs rather than recording surface-level requests, and that practice scales with AGI.",
+      "L6": "Sets the enterprise direction for how AGI understands and articulates business need. Ensures elicitation feeds directly into business process strategy and transformation decisions at the executive level."
+    }
+  },
+  {
+    "Theme": "Delivery",
+    "Competency": "Requirements analysis & documentation",
+    "Levels": {
+      "L1": "Documents requirements clearly using AGI's templates (user stories, acceptance criteria, requirement specs). Distinguishes functional from non-functional requirements with guidance.",
+      "L2": "Produces complete, unambiguous, testable requirements for a single project. Validates them with stakeholders and traces them through to delivery. Manages scope and change requests against an agreed baseline.",
+      "L3": "Analyses and documents requirements for complex initiatives, decomposing large problems into well-structured, prioritised requirements. Maintains traceability across systems and identifies gaps, overlaps and risks others miss.",
+      "L4": "Defines the requirements artefacts, standards and traceability approach used across the BA practice. Reviews and assures the quality of requirements on the most complex programmes.",
+      "L5": "Owns requirements quality across the function. Ensures documentation supports delivery, audit and regulatory needs (e.g. evidence trails for member, claims and TFN data handling).",
+      "L6": "Ensures AGI's approach to defining and governing requirements aligns with the enterprise operating model and supports transformation, governance and process architecture goals."
+    }
+  },
+  {
+    "Theme": "Delivery",
+    "Competency": "Process analysis & modelling",
+    "Levels": {
+      "L1": "Produces basic process maps (e.g. simple flowcharts, BPMN) of existing processes under guidance. Documents the steps, actors and hand-offs of a single process accurately.",
+      "L2": "Models current-state (as-is) and proposed (to-be) processes for a project independently. Identifies inefficiencies, bottlenecks and control gaps and quantifies their impact.",
+      "L3": "Models complex, cross-functional processes spanning multiple systems and teams (e.g. an end-to-end claims or policy admin flow). Redesigns processes to improve efficiency, control and member experience.",
+      "L4": "Sets AGI's process modelling standards and notation. Leads process redesign on major initiatives and assures the quality of process work across the practice.",
+      "L5": "Owns process modelling and improvement capability across the function. Ensures process work consistently delivers measurable efficiency and risk reduction.",
+      "L6": "Owns AGI's enterprise process architecture. Defines the business process strategy, target operating model and the standards by which processes are designed, governed and optimised organisation-wide."
+    }
+  },
+  {
+    "Theme": "Delivery",
+    "Competency": "Solution definition & options analysis",
+    "Levels": {
+      "L1": "Understands that requirements can be met in different ways. Contributes ideas and helps document options under supervision.",
+      "L2": "Proposes solutions rather than just documenting requirements. Evaluates straightforward options against cost, effort, risk and benefit, and makes a clear recommendation for a single project.",
+      "L3": "Develops and evaluates solution options for complex or enterprise-level problems, including build/buy/configure trade-offs and impacts across multiple systems. Recommends solutions backed by sound reasoning.",
+      "L4": "Sets the approach to options analysis and business-case input across the practice. Guides solution definition on the highest-risk programmes and challenges weak business cases.",
+      "L5": "Ensures solution definition across the function is rigorous, evidence-based and aligned with AGI's strategy. Influences senior stakeholders on where to invest.",
+      "L6": "Shapes enterprise-wide solution and investment direction. Drives the operating-model and transformation choices that determine which solutions AGI pursues."
+    }
+  },
+  {
+    "Theme": "Delivery",
+    "Competency": "Workshop facilitation",
+    "Levels": {
+      "L1": "Assists with workshops by taking notes, preparing materials and capturing actions. Begins to facilitate small, low-risk sessions with support.",
+      "L2": "Plans and facilitates workshops for a single project independently, keeping sessions on track and ensuring all voices are heard. Produces clear outputs and follow-ups.",
+      "L3": "Facilitates complex workshops with senior or conflicting stakeholders, drawing out alignment and resolving tension. Designs the right session format for the problem.",
+      "L4": "Coaches analysts on facilitation and sets the standard for workshop practice. Facilitates the highest-stakes sessions across programmes.",
+      "L5": "Ensures facilitation capability across the function is strong. Facilitates executive and cross-departmental sessions where alignment is critical.",
+      "L6": "Leads enterprise-level workshops and forums that set process and transformation direction, aligning C-suite and cross-functional leaders."
+    }
+  },
+  {
+    "Theme": "Delivery",
+    "Competency": "Data analysis & insight",
+    "Levels": {
+      "L1": "Uses spreadsheets and basic queries to gather and summarise data that supports analysis. Presents simple findings clearly.",
+      "L2": "Analyses business data to validate requirements, quantify problems and measure outcomes for a project. Uses data to support recommendations rather than relying on opinion.",
+      "L3": "Analyses complex datasets across systems to uncover insight, size opportunities and justify change at scale. Defines the metrics that matter for an initiative.",
+      "L4": "Sets the standard for evidence-based analysis across the practice. Ensures decisions on major programmes are grounded in sound data.",
+      "L5": "Embeds a data-driven culture across the function. Ensures analysis reliably measures the business value delivered by change.",
+      "L6": "Drives enterprise measurement of process efficiency, governance and transformation outcomes. Uses data to hold the organisation accountable for operating-model performance."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Attitude",
+    "Levels": {
+      "L1": "Displays a positive and enthusiastic attitude towards learning and developing new skills, taking initiative to contribute where possible. Accepts feedback graciously and shows resilience in the face of challenges. Eager to help out with whatever needs doing.",
+      "L2": "Demonstrates a can-do attitude, taking on complex tasks with confidence. Takes initiative to contribute to the team. Shows adaptability when facing change and maintains an open mindset.",
+      "L3": "Maintains a positive attitude even in stressful situations. Leads by example, showing resilience and a solutions-oriented approach to problems.",
+      "L4": "Demonstrates an uplifting attitude that motivates team members. Consistently solutions-oriented and aware of their position as a leader within the team. Encourages others to do the same.",
+      "L5": "Exhibits a forward-thinking attitude, viewing challenges as opportunities for growth. Inspires team members across multiple teams. Capable of addressing morale issues in their part of the business.",
+      "L6": "Sets the tone for the function and beyond, modelling composure and optimism through significant organisational change. Shapes a culture in which transformation is embraced rather than resisted."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Effective communication",
+    "Levels": {
+      "L1": "Responsive, pleasant and proactive across all channels. Work is usually presented clearly so others can understand. Verbal and written communication is easy to follow.",
+      "L2": "Consistently responsive and clear in communication. Translates between business and technical audiences. Work is consistently presented in a way that others understand.",
+      "L3": "Communicates clearly and concisely in written and verbal form, on both technical and non-technical subjects, in an audience-oriented way. Actively listens and pays attention to non-verbal cues.",
+      "L4": "Presents work with polish and confidence. Leads meetings effectively, internally and externally. Growing skill at conflict resolution. Written communication is clear, compelling and easy to follow.",
+      "L5": "Fosters a culture of clear, audience-oriented communication across several teams. Capable of influencing and persuading others at any level of AGI, including the executive team. Coaches others to uplift their written, verbal and interpersonal skills.",
+      "L6": "Communicates and persuades at board and executive level on enterprise change. Sets the narrative for transformation and ensures it is understood consistently across the organisation."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Stakeholder management",
+    "Levels": {
+      "L1": "Builds positive working relationships with immediate stakeholders. Keeps them informed and responds promptly under supervision.",
+      "L2": "Manages stakeholders for a single project independently, including mapping interests and influence and keeping them appropriately engaged. Handles routine disagreement constructively.",
+      "L3": "Manages senior and competing stakeholders on complex initiatives. Builds trust, navigates politics and influences outcomes without authority.",
+      "L4": "Owns key stakeholder relationships across a domain. Coaches analysts on stakeholder strategy and steps in on the most difficult relationships.",
+      "L5": "Owns senior business relationships for the function and aligns BA work to business goals. Trusted advisor to department leaders.",
+      "L6": "Owns C-suite and external stakeholder relationships relevant to process and transformation. Aligns the enterprise leadership around the operating-model agenda."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Knowledge sharing",
+    "Levels": {
+      "L1": "Understands their area of work and shares their knowledge frequently with their teammates.",
+      "L2": "Understands their work domain, shares their knowledge frequently and contributes to team documentation. Watches out for opportunities to share what they know.",
+      "L3": "Understands their team's domain and contributes actively to documentation. Watches out for opportunities to share knowledge and encourages others to do the same.",
+      "L4": "Fosters a culture of documentation and knowledge sharing within their team and with their business stakeholders; actively demonstrates these behaviours.",
+      "L5": "Fosters this culture across several teams and their respective business stakeholders.",
+      "L6": "Builds enterprise knowledge assets (reusable process libraries, requirement patterns, decision records) and ensures organisational learning is retained and applied."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Teamwork",
+    "Levels": {
+      "L1": "Helps teammates when requested. Gives or shares credit where due.",
+      "L2": "When requested, helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+      "L3": "Often helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+      "L4": "Consistently and proactively helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+      "L5": "Consistently works across teams to help them resolve blockers and complete work. Ensures credit is shared and given where due.",
+      "L6": "Builds collaboration across the entire organisation, breaking down silos between functions to deliver enterprise outcomes. Ensures credit is shared and given where due."
+    }
+  },
+  {
+    "Theme": "Collaboration",
+    "Competency": "Feedback",
+    "Levels": {
+      "L1": "Understands how to deliver praise and constructive feedback in a useful way. Learns and improves from feedback provided by others.",
+      "L2": "Delivers praise and constructive feedback to their team, teammates and manager. Actively seeks feedback to learn and improve.",
+      "L3": "Delivers feedback to teammates and to business stakeholders when opportunities arise. Actively seeks 360-degree feedback to learn and improve.",
+      "L4": "Fosters a culture of delivering praise and constructive feedback within their team and with business stakeholders. Actively demonstrates these behaviours. Proactively seeks 360-degree feedback.",
+      "L5": "Fosters this culture across several teams as well as their respective business stakeholders. Promotes a continual improvement mindset in which feedback is appreciated as a facilitator of professional growth.",
+      "L6": "Embeds a feedback and continual-improvement culture across the organisation, modelling openness to challenge at the most senior levels."
+    }
+  },
+  {
+    "Theme": "Impact",
+    "Competency": "Decision making",
+    "Levels": {
+      "L1": "Understands the impact of bias on decision making. Understands what accountability means.",
+      "L2": "Strives to be objective and reflects on their own biases when making decisions. Holds themselves accountable for outcomes.",
+      "L3": "Strives to be objective and reflects on biases when making decisions. Holds themselves accountable for outcomes and helps teammates do the same.",
+      "L4": "Takes ownership of decisions made in their team by helping teammates make clear decisions aligned with AGI's goals, backing those decisions, and taking responsibility for their success. Raises awareness of how bias impacts decisions and ensures accountability is practised within their team.",
+      "L5": "Takes ownership of decisions made across several teams, helping them make clear decisions aligned with AGI's goals. Raises awareness of bias and ensures accountability is practised throughout those teams.",
+      "L6": "Owns enterprise-level decisions on process, operating model and transformation. Establishes the governance through which major business decisions are made and held accountable across AGI."
+    }
+  },
+  {
+    "Theme": "Impact",
+    "Competency": "Driving alignment",
+    "Levels": {
+      "L1": "Contributes to conversations about AGI's strategy and principles when appropriate. Goal-oriented and works towards their team's goals.",
+      "L2": "Has conversations about strategy and principles with teammates when appropriate. Goal-oriented and works towards the team's goals.",
+      "L3": "Has conversations about strategy with teammates and stakeholders to ensure alignment. Ensures their initiative is continuously working towards shared goals.",
+      "L4": "Fosters a culture within their team of having conversations based on AGI's strategy and principles to create alignment. Ensures the team is continuously working towards its goals.",
+      "L5": "Fosters this culture across several teams. Ensures several teams are continuously working towards shared goals.",
+      "L6": "Aligns the whole organisation behind the process and transformation strategy, ensuring enterprise goals cascade coherently from the executive to delivery teams."
+    }
+  },
+  {
+    "Theme": "Impact",
+    "Competency": "Change management",
+    "Levels": {
+      "L1": "Understands that change affects people and processes. Helps prepare basic change materials (e.g. updated procedures, FAQs) under guidance.",
+      "L2": "Supports adoption of change for a single project, including impact assessment, communications and training input. Anticipates resistance and flags it.",
+      "L3": "Leads the business-change aspects of complex initiatives, planning how affected teams transition to new processes and systems with minimal disruption.",
+      "L4": "Sets the practice's approach to managing business change. Coaches analysts and assures change planning on major programmes.",
+      "L5": "Owns change capability across the function. Ensures change is delivered in a way that sustains adoption and realises benefits.",
+      "L6": "Owns enterprise transformation and operating-model change. Drives large-scale organisational change while protecting governance, efficiency and member outcomes."
+    }
+  },
+  {
+    "Theme": "Impact",
+    "Competency": "Leadership & mentoring",
+    "Levels": {
+      "L1": "Seeks out mentorship to grow their own experience.",
+      "L2": "Seeks out mentorship. Sometimes mentors teammates in an open, respectful, flexible, empathetic manner.",
+      "L3": "Mentors junior analysts in an open, respectful, flexible, empathetic manner. Seeks out mentoring opportunities specifically to create redundancy and backfill ability within the team.",
+      "L4": "Defines BA capability and development. Mentors across teams, with others actively seeking their feedback. Drives initiatives to improve the practice's productivity and standards.",
+      "L5": "Manages and develops BA teams. Leads by example, sets the strategy for the analysis function and grows the next generation of analysts and leads.",
+      "L6": "Provides enterprise leadership. Builds leadership capability across the function and beyond, and shapes how analysis and process disciplines are led organisation-wide."
+    }
+  },
+  {
+    "Theme": "Strategy",
+    "Competency": "Business & domain knowledge",
+    "Levels": {
+      "L1": "Has a basic understanding of the business area they support and how it operates day to day.",
+      "L2": "Understands their business area and how it contributes to AGI's overall business. Knows the systems and data their projects touch.",
+      "L3": "Has a thorough understanding of their domain (e.g. claims, policy admin, member services) and how it contributes to AGI's business. Has a basic understanding of adjacent areas and their interactions.",
+      "L4": "Has a thorough understanding of the domain, AGI's strategy, and how it maps to the wider group insurance market. Understands adjacent business areas and how they interact.",
+      "L5": "Has a thorough understanding of several business domains within AGI and how they contribute to overall strategy.",
+      "L6": "Has enterprise-wide command of AGI's business model, value chain and regulatory environment, and uses it to shape strategy and the target operating model."
+    }
+  },
+  {
+    "Theme": "Strategy",
+    "Competency": "Industry & best-practice research",
+    "Levels": {
+      "L1": "Demonstrates an understanding of basic BA techniques and industry trends relevant to their domain. Willing to learn and apply new methods. Capable of doing research to validate work.",
+      "L2": "Actively stays up to date with BA practices and industry trends relevant to their domain. Applies this knowledge to solve problems and improve existing processes.",
+      "L3": "Has in-depth knowledge of BA best practice (e.g. BABOK-aligned techniques) and emerging trends. Uses this knowledge to lead the team in developing innovative solutions.",
+      "L4": "Leads research efforts to stay ahead of BA practice and industry trends relevant to their domain. Applies this knowledge to planning and decision making.",
+      "L5": "Maintains expert-level knowledge of analysis practice and industry trends. Influences the direction of initiatives at AGI based on this knowledge.",
+      "L6": "Brings external best practice and industry foresight into AGI's enterprise strategy, positioning the organisation ahead of regulatory and market shifts."
+    }
+  },
+  {
+    "Theme": "Strategy",
+    "Competency": "BA methodology & standards",
+    "Levels": {
+      "L1": "Follows AGI's BA methods, templates and standards. Understands why they exist.",
+      "L2": "Applies AGI's BA methodology consistently and adapts techniques sensibly to the needs of a single project.",
+      "L3": "Champions BA methodology within the team. Identifies gaps in standards and proposes improvements based on what works in practice.",
+      "L4": "Defines BA standards, methodologies and templates for the practice. Ensures they are practical, consistent and fit for AGI's projects.",
+      "L5": "Owns the BA methodology and standards across the function. Ensures the practice is fit for AGI's scale and delivers value rather than bureaucracy.",
+      "L6": "Sets the enterprise direction for analysis and process disciplines, ensuring methodology, governance and process architecture cohere across the organisation."
+    }
+  },
+  {
+    "Theme": "Strategy",
+    "Competency": "Information security & privacy",
+    "Levels": {
+      "L1": "Understands and follows AGI's Information Security Management System (ISMS) and Privacy Policy. Aware of the four-tier Information Classification Policy (Public, Internal use, Restricted, Confidential) and what each level means in practice. Aware that AGI handles sensitive member data, including TFNs, subject to the Privacy Act, superannuation and taxation law. Knows to report suspected security events to security.services@agigroup.com.au.",
+      "L2": "Applies the classification model when handling business data, requirements and process documentation that may contain member, claims or financial information. Designs requirements that respect privacy and security obligations and asks for help on decisions with security implications.",
+      "L3": "Approaches all analysis work with a security and privacy lens, given the sensitive member, claims and TFN data involved. Ensures process and solution designs build in appropriate controls (e.g. least privilege, data minimisation, audit trails) and fosters a security-first mindset within the team.",
+      "L4": "Works with the team and the cybersecurity function to apply AGI's security and privacy strategy to the practice's work. Ensures requirements and process designs consistently meet regulatory obligations. Leads by example.",
+      "L5": "Works with the cybersecurity function to ensure analysis and process work reinforces AGI's security and privacy posture. Embeds security-by-design and privacy-by-design across the function.",
+      "L6": "Ensures security, privacy and regulatory obligations are embedded in AGI's enterprise process architecture and operating model. Owns the governance that keeps process change compliant at scale."
+    }
+  }
+]

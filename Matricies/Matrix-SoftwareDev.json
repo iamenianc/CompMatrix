@@ -1,0 +1,279 @@
+{
+  "track": "Software Engineer",
+  "levels": {
+    "L1": {
+      "stage": "Early career",
+      "typical_title": "Junior Software Engineer",
+      "typical_scope": "Yourself",
+      "what_it_looks_like": "Focused on sharpening your engineering skills, learning AGI's stack and group insurance domain, and delivering features with significant oversight and support from more senior engineers."
+    },
+    "L2": {
+      "stage": "Experienced",
+      "typical_title": "Software Engineer",
+      "typical_scope": "Your feature area(s)",
+      "what_it_looks_like": "Continuing to sharpen your engineering skills, potentially with different languages or focus areas. Starting to own a feature area while growing your collaboration and communication skills. Beginning to mentor juniors with support from seniors."
+    },
+    "L3": {
+      "stage": "Emerging leader",
+      "typical_title": "Senior Software Engineer",
+      "typical_scope": "Your team",
+      "what_it_looks_like": "Still sharpening your engineering skills, while starting to grow those skills in others. Trusted to build out a feature area with little oversight, while proposing ideas and solutions across the team."
+    },
+    "L4": {
+      "stage": "Experienced team lead",
+      "typical_title": "Lead Software Engineer / Tech Lead",
+      "typical_scope": "Your team(s)",
+      "what_it_looks_like": "Strong engineering skills, focused on keeping up with industry trends to continually improve your craft. Someone the team looks up to and learns from. Guiding the team on a significant product area, capable of handling complex projects across teams."
+    },
+    "L5": {
+      "stage": "Seasoned lead",
+      "typical_title": "Principal Engineer",
+      "typical_scope": "IT / across several teams",
+      "what_it_looks_like": "Seasoned engineer at the top of your game. Trusted to lead the largest and highest-impact projects with significant complexity. Capable of guiding work from multiple engineering teams and turning product visions into reality."
+    }
+  },
+  "competencies": [
+    {
+      "theme": "Delivery",
+      "competency": "Software development",
+      "levels": {
+        "L1": "Writes code with testability, readability, edge cases and errors in mind.",
+        "L2": "Consistently writes functions that are easily testable, readable by other developers, and account for edge cases and errors.",
+        "L3": "Consistently writes production-ready code that is testable, readable, and handles edge cases and errors. Competently applies modern standards.",
+        "L4": "Consistently writes production-ready code to a high standard and guides others to do so. Sets and reinforces team coding standards.",
+        "L5": "Maintains technical responsibility for all stages of software development projects. Coaches others in modern standards and practices. Provides technical advice to stakeholders and sets team standards for tools and techniques."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Code review",
+      "levels": {
+        "L1": "Participates in code reviews, learning from feedback and making appropriate changes to improve quality and readability.",
+        "L2": "Actively engages in code reviews, providing constructive feedback to peers. Takes feedback received into consideration in their own work.",
+        "L3": "Leads code reviews, providing clear and actionable feedback. Ensures the team's code adheres to AGI's coding standards and best practices.",
+        "L4": "Oversees the code review process within the team, ensuring it's thorough and effective. Encourages a culture of learning through constructive feedback.",
+        "L5": "Sets standards for code review across teams. Provides mentorship and guidance during reviews to ensure consistently high-quality code."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Testing",
+      "levels": {
+        "L1": "Knows the testing pyramid. Writes unit tests, sometimes with help from senior engineers.",
+        "L2": "Writes unit tests and higher-level tests with help from senior engineers. Always tests expected edge cases and errors as well as the happy path.",
+        "L3": "Writes unit and higher-level tests in line with the testing pyramid. Always writes tests to handle expected edge cases and errors gracefully, including the kinds of malformed data we see in insurer feeds.",
+        "L4": "Understands the team's testing approach and uses quality metrics to identify gaps. Recommends solutions in line with accepted testing frameworks.",
+        "L5": "Understands the testing approach of several teams and uses metrics to identify gaps. Recommends solutions and influences AGI's overall testing strategy."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Debugging",
+      "levels": {
+        "L1": "Understands the basics of debugging and the tools used for it.",
+        "L2": "Uses a systematic approach to debug issues located within a single service.",
+        "L3": "Proficient at systematic debugging of issues in a single service. Uses systematic debugging to diagnose cross-service issues, sometimes with help from more senior engineers.",
+        "L4": "Proficient at systematic debugging of issues across their domain (e.g. a full claims or policy admin flow that crosses several services).",
+        "L5": "Proficient at debugging issues across related domains. Often called in for the trickiest production problems."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Software architecture",
+      "levels": {
+        "L1": "Aware of the overall service architecture they work in.",
+        "L2": "Designs basic functions with awareness of the overall service architecture, avoiding duplication and interface-breaking changes.",
+        "L3": "Designs functions and components that are aligned with the overall service architecture. Uses abstractions and isolation effectively.",
+        "L4": "Architects services and systems using well-accepted design patterns to allow for iterative, autonomous development and future scaling. Anticipates future use cases and makes decisions that minimise the cost of future change — particularly important given the long-lived nature of insurance products.",
+        "L5": "Works across teams to foster an architecture culture that allows for iterative development and future scaling. Guides several teams in anticipating future use cases."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Information security & privacy",
+      "levels": {
+        "L1": "Understands and follows AGI's Information Security Management System (ISMS) and Privacy Policy. Aware of the four-tier Information Classification Policy (Public, Internal use, Restricted, Confidential) and what each level means in practice. Aware that AGI handles sensitive member data, including TFNs, subject to the Privacy Act, superannuation and taxation law, and the obligations that flow from our insurer partners. Knows to report suspected security events to security.services@agigroup.com.au.",
+        "L2": "Follows the ISMS, Acceptable Use Policy and Information Classification Policy. Applies the classification model when handling production-like data in dev and test environments. Knows that cryptographic tools require CTO authorisation before being introduced. Uses this knowledge to identify vulnerabilities and asks senior engineers for help on decisions with security implications.",
+        "L3": "Approaches all engineering work with a security and privacy lens, given the sensitive member, claims and TFN data we handle. Designs solutions that respect the Information Classification Policy (e.g. encryption for Restricted and Confidential data at rest and in transit). Actively looks for vulnerabilities in code and peer reviews. Fosters a security-first mindset within the team.",
+        "L4": "Works with the team and consults the cybersecurity function where needed to apply AGI's security strategy to their team's work. Fosters a security-first mindset within the team and leads by example.",
+        "L5": "Works with the cybersecurity function and their team to refine AGI's security strategy. Carries out regular vulnerability reviews for projects they are involved in. Fosters a security-first mindset across teams."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Reliability & delivery accountability",
+      "levels": {
+        "L1": "Has daily conversations with the team about the progress of their work. Delivers on commitments with a sense of urgency.",
+        "L2": "Commits to a realistic amount of work. Understands priority and urgency and delivers accordingly. Escalates blockers, delays and scope changes daily.",
+        "L3": "Ensures their commitments are realistic and delivers on them. Anticipates and communicates blockers, delays and scope changes before they require escalation. Clarifies expectations across involved parties.",
+        "L4": "Anticipates and communicates blockers, delays and scope changes within their team's projects before escalation is needed. Ensures expectations with internal and external stakeholders (including insurer partners) are clarified.",
+        "L5": "Successfully manages cross-team commitments, progress and roadmap to delivery. Anticipates and communicates risk across teams."
+      }
+    },
+    {
+      "theme": "Delivery",
+      "competency": "Demonstrations",
+      "levels": {
+        "L1": "Contributes to the team's demo culture by clearly and concisely demonstrating completed work to the team.",
+        "L2": "Demonstrates completed work clearly and concisely to the team, the wider business, and external stakeholders.",
+        "L3": "Demonstrates individual items of work and single product features to internal and external stakeholders. Assists and guides others to improve their demonstrations.",
+        "L4": "Fosters the team's demo culture by consistently delivering clear, impactful demonstrations to internal and external stakeholders. Facilitates presentations and supports others.",
+        "L5": "Fosters the demo culture across multiple teams or products. Assists at sales or insurer-partner demonstrations to provide information in a technical capacity."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Attitude",
+      "levels": {
+        "L1": "Displays a positive and enthusiastic attitude towards learning and developing new skills, taking initiative to contribute where possible. Accepts feedback graciously and shows resilience in the face of challenges. Eager to help out with whatever needs doing.",
+        "L2": "Demonstrates a can-do attitude, taking on complex tasks with confidence. Takes initiative to contribute to the team. Shows adaptability when facing change and maintains an open mindset.",
+        "L3": "Maintains a positive attitude even in stressful situations. Leads by example, showing resilience and a solutions-oriented approach to problems.",
+        "L4": "Demonstrates an uplifting attitude that motivates team members. Consistently solutions-oriented and aware of their position as a leader within the team. Encourages others to do the same.",
+        "L5": "Exhibits a forward-thinking attitude, viewing challenges as opportunities for growth. Inspires team members across multiple teams. Capable of addressing morale issues in their part of IT."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Effective communication",
+      "levels": {
+        "L1": "Responsive, pleasant and proactive across all channels. Work is usually presented clearly so others can understand. Verbal and written communication is easy to follow.",
+        "L2": "Consistently responsive and clear in communication. Work is consistently presented in a way that others understand.",
+        "L3": "Communicates clearly and concisely in written and verbal form, on both technical and non-technical subjects, in an audience-oriented way. Actively listens to others and pays attention to non-verbal cues.",
+        "L4": "Presents work with polish and confidence. Leads team meetings effectively, internally and externally. Growing skill at conflict resolution. Written communication is clear, compelling and easy to follow.",
+        "L5": "Fosters a culture of clear, audience-oriented communication across several teams. Capable of influencing and persuading others at any level of AGI, including the executive team. Coaches others to uplift their written, verbal and interpersonal skills."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Engagement",
+      "levels": {
+        "L1": "Actively participates in team events, contributing ideas during planning and retros. Shows eagerness to learn from more experienced team members. Conducts themselves in line with AGI's Code of Conduct.",
+        "L2": "Consistently engages in team activities and discussions, stepping up to provide expertise and raising issues or asking for clarification when needed. Voluntarily takes on additional tasks.",
+        "L3": "Fosters a collaborative team environment, encouraging active participation. Takes initiative to lead technical discussions and decision-making, explaining concepts and clarifying misunderstandings.",
+        "L4": "Encourages and enables team members to contribute. Challenges assumptions and encourages a diversity of views to surface misunderstandings. Suggests additional sessions where they help the team align.",
+        "L5": "Facilitates engagement across multiple teams by organising regular events, workshops, and team-building activities. Promotes a culture of learning and sharing."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Knowledge sharing",
+      "levels": {
+        "L1": "Understands their area of work and shares their knowledge frequently with their teammates.",
+        "L2": "Understands their work domain, shares their knowledge frequently and contributes to team documentation. Watches out for opportunities to share what they know.",
+        "L3": "Understands their team's domain and contributes actively to documentation. Watches out for opportunities to share knowledge and encourages others to do the same.",
+        "L4": "Fosters a culture of documentation and knowledge sharing within their team and with their business stakeholders; actively demonstrates these behaviours.",
+        "L5": "Fosters this culture across several teams and their respective business stakeholders."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Teamwork",
+      "levels": {
+        "L1": "Helps teammates when requested. Gives or shares credit where due.",
+        "L2": "When requested, helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+        "L3": "Often helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+        "L4": "Consistently and proactively helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+        "L5": "Consistently works across teams to help them resolve blockers and complete work. Ensures credit is shared and given where due."
+      }
+    },
+    {
+      "theme": "Collaboration",
+      "competency": "Feedback",
+      "levels": {
+        "L1": "Understands how to deliver praise and constructive feedback in a useful way. Learns and improves from feedback provided by others.",
+        "L2": "Delivers praise and constructive feedback to their team, teammates and manager. Actively seeks feedback to learn and improve.",
+        "L3": "Delivers feedback to teammates and to business stakeholders when opportunities arise. Actively seeks 360-degree feedback to learn and improve.",
+        "L4": "Fosters a culture of delivering praise and constructive feedback within their team and with business stakeholders. Actively demonstrates these behaviours. Proactively seeks 360-degree feedback.",
+        "L5": "Fosters this culture across several teams as well as their respective business stakeholders. Promotes a continual improvement mindset in which feedback is appreciated as a facilitator of professional growth."
+      }
+    },
+    {
+      "theme": "Impact",
+      "competency": "Decision making",
+      "levels": {
+        "L1": "Understands the impact of bias on decision making. Understands what accountability means.",
+        "L2": "Strives to be objective and reflects on their own biases when making decisions. Holds themselves accountable for outcomes.",
+        "L3": "Strives to be objective and reflects on biases when making decisions. Holds themselves accountable for outcomes and helps teammates do the same.",
+        "L4": "Takes ownership of decisions made in their team by helping teammates make clear decisions aligned with AGI's goals, backing those decisions, and taking responsibility for their success. Raises awareness of how bias impacts decisions and ensures accountability is practised within their team.",
+        "L5": "Takes ownership of decisions made across several teams, helping them make clear decisions aligned with AGI's goals. Raises awareness of bias and ensures accountability is practised throughout those teams."
+      }
+    },
+    {
+      "theme": "Impact",
+      "competency": "Driving alignment",
+      "levels": {
+        "L1": "Contributes to conversations about AGI's strategy and principles when appropriate. Goal-oriented and works towards their team's goals.",
+        "L2": "Has conversations about strategy and principles with teammates when appropriate. Goal-oriented and works towards the team's goals.",
+        "L3": "Has conversations about strategy with teammates to ensure team alignment. Ensures their team is continuously working towards shared goals.",
+        "L4": "Fosters a culture within their team of having conversations based on AGI's strategy and principles to create alignment. Ensures the team is continuously working towards its goals.",
+        "L5": "Fosters this culture across several teams. Ensures several teams are continuously working towards shared goals."
+      }
+    },
+    {
+      "theme": "Impact",
+      "competency": "Process thinking",
+      "levels": {
+        "L1": "Understands their team's practices and processes.",
+        "L2": "Sometimes thinks about team practices and processes and discusses improvements with the team.",
+        "L3": "Regularly thinks about team practices and processes and discusses improvements with the team.",
+        "L4": "Thinks about team practices and processes and regularly discusses improvements with their team. Sometimes collaborates with others to improve practices across IT.",
+        "L5": "Thinks about practices and processes that affect several teams, discusses improvements with the right parties, and drives implementation. Usually collaborates with others on improving practices across IT."
+      }
+    },
+    {
+      "theme": "Impact",
+      "competency": "Leadership & mentoring",
+      "levels": {
+        "L1": "Seeks out mentorship to grow their own experience.",
+        "L2": "Seeks out mentorship. Sometimes mentors teammates in an open, respectful, flexible, empathetic manner.",
+        "L3": "Mentors teammates in an open, respectful, flexible, empathetic manner. Seeks out mentoring opportunities specifically to create redundancy and backfill ability within the team.",
+        "L4": "Mentors teammates and members of other teams as needed, with others actively seeking their feedback. Capable of driving initiatives to improve team productivity.",
+        "L5": "Leads by example, never hesitating to get hands-on wherever needed. Implements processes and identifies opportunities for improvement. Fosters a mentoring culture across teams."
+      }
+    },
+    {
+      "theme": "Strategy",
+      "competency": "Domain knowledge",
+      "levels": {
+        "L1": "Has a basic understanding of the systems they work on (e.g. claims, policy admin, member portal).",
+        "L2": "Has a basic understanding of the systems they work on and how they contribute to AGI's overall business.",
+        "L3": "Has a thorough understanding of the systems they work on and how they contribute to AGI's business. Has a basic understanding of adjacent business areas.",
+        "L4": "Has a thorough understanding of the systems they work on, AGI's strategy, and how it maps to the wider group insurance market. Understands adjacent business areas and how they interact.",
+        "L5": "Has a thorough understanding of several business domains within AGI and how they contribute to overall strategy."
+      }
+    },
+    {
+      "theme": "Strategy",
+      "competency": "Industry research",
+      "levels": {
+        "L1": "Demonstrates an understanding of basic industry trends and technologies relevant to their domain. Willing to learn and apply new technologies and processes. Capable of doing research to validate work.",
+        "L2": "Actively stays up to date with industry trends and technologies relevant to their domain. Applies this knowledge to solve problems and improve existing systems.",
+        "L3": "Has in-depth knowledge of industry best practices and emerging trends. Uses this knowledge to lead the team in developing innovative solutions.",
+        "L4": "Leads research efforts to stay ahead of industry trends and technologies relevant to their domain. Applies this knowledge to planning and decision making.",
+        "L5": "Maintains expert-level knowledge of industry trends and technologies. Influences the direction of projects and initiatives at AGI based on this knowledge."
+      }
+    },
+    {
+      "theme": "Strategy",
+      "competency": "Technology strategy",
+      "levels": {
+        "L1": "Understands AGI's technology strategy.",
+        "L2": "Understands AGI's technology strategy and consistently applies it to their work.",
+        "L3": "Understands AGI's technology strategy. Usually involved in discussions about implications for their team.",
+        "L4": "Collaborates on their team's technology choices in line with AGI's strategy. Sometimes involved in work on the overall IT strategy.",
+        "L5": "Usually involved in strategic IT decisions and plans. Leads cross-team strategic efforts, influencing decisions to achieve alignment on major goals."
+      }
+    },
+    {
+      "theme": "Strategy",
+      "competency": "Product thinking",
+      "levels": {
+        "L1": "Asks good questions to clarify the objectives of features they are building. Understands the basic utility of the product or project goals.",
+        "L2": "Understands the area of focus for the products or projects they're building, how it fits into AGI's business, and sometimes suggests improvements.",
+        "L3": "Thoroughly understands the business model in relation to their current focus area. Sometimes participates in roadmap and backlog feedback. Looks for opportunities to simplify product and technical design.",
+        "L4": "Evaluates and suggests new product features in collaboration with BAs and the business. Regularly participates in shaping the team's roadmap. Simplifies product and technical design through proactive conversations.",
+        "L5": "Recognises opportunities and differentiators relative to the competition in group insurance administration. Helps refine roadmaps across teams based on technical strategy and constraints. Helps define new product capabilities."
+      }
+    }
+  ]
+}

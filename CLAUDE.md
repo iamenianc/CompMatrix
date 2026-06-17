@@ -1,0 +1,1 @@
+- commit all work to the local main branch when task completed
