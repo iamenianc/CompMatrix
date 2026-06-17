@@ -113,8 +113,9 @@ body {
 .ovgrid__t-theme { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
 .ovgrid__t-name { display: block; font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
 /* Body cells: collapsed shows a left-aligned '+', open shows the descriptor */
-.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); }
-.ovgrid__c.is-open { color: var(--body); font-size: 0.8rem; line-height: 1.45; min-height: 9.5rem; overflow: hidden; }
+.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); cursor: pointer; }
+.ovgrid__c.is-open { cursor: default; }
+.ovgrid__c.is-open { color: var(--body); font-size: 0.9rem; line-height: 1.45; min-height: 9.5rem; overflow: hidden; }
 .ovgrid__plus { font-size: 0.95rem; font-weight: 700; color: var(--muted); }
 
 /* Context bar */
@@ -650,8 +651,10 @@ function renderOverview() {
 
     // Column widths reflow with open state: title fixed, closed levels narrow,
     // open levels take a generous share.
+    // Open columns get a fixed width so a single open column is the same width
+    // as each of two open columns (width doesn't depend on how many are open).
     grid.style.gridTemplateColumns =
-        "minmax(180px, 1.4fr) " + LEVELS.map(l => isOpen(l.id) ? "3.2fr" : "minmax(48px, 0.5fr)").join(" ");
+        "minmax(180px, 1.4fr) " + LEVELS.map(l => isOpen(l.id) ? "minmax(360px, 360px)" : "minmax(48px, 0.5fr)").join(" ");
 
     let html = '<div class="ovgrid__corner">Competency</div>';
     html += LEVELS.map(l =>
@@ -667,7 +670,7 @@ function renderOverview() {
         + '<span class="ovgrid__t-name">' + esc(comp.title) + '</span>'
         + '</div>'
         + LEVELS.map(l =>
-            '<div class="ovgrid__c' + (isOpen(l.id) ? " is-open" : "") + '">'
+            '<div class="ovgrid__c' + (isOpen(l.id) ? " is-open" : "") + '" data-level="' + l.id + '">'
             + (isOpen(l.id) ? esc(comp.levels[l.id]) : '<span class="ovgrid__plus">+</span>')
             + '</div>'
         ).join("")
@@ -857,8 +860,11 @@ function removePrintChips() {
 document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
 // Overview: expand/collapse a level column by clicking its header (event delegation).
 document.getElementById("ovGrid").addEventListener("click", e => {
+    // Header click toggles the column; clicking a collapsed body cell expands it.
     const h = e.target.closest(".ovgrid__h");
-    if (h) toggleOverviewColumn(h.dataset.level);
+    if (h) { toggleOverviewColumn(h.dataset.level); return; }
+    const c = e.target.closest(".ovgrid__c");
+    if (c && !c.classList.contains("is-open")) toggleOverviewColumn(c.dataset.level);
 });
 document.getElementById("exportBtn").addEventListener("click", () => {
     if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
