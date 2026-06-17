@@ -319,7 +319,7 @@ textarea:focus { outline: none; border-color: var(--navy); }
 </section>
 
 <div class="container">
-    <div class="section-head">
+    <div class="section-head" id="employeeSectionHead">
         <span class="eyebrow">Self-assessment</span>
         <h1>Where you are, and where you're growing</h1>
         <div class="subtitle">Eight core competencies, rated against your current level and the one you're growing toward, with a manager review step.</div>
@@ -714,7 +714,14 @@ document.getElementById("printBtn").addEventListener("click", () => {
 window.addEventListener("afterprint", removePrintChips);
 
 load();
-renderEmployee();
+if (EXPORTED_STATE) {
+    // Manager's exported copy: show only the manager report, never the
+    // employee self-assessment view.
+    document.getElementById("employeeView").classList.add("hidden");
+    document.getElementById("employeeSectionHead").classList.add("hidden");
+} else {
+    renderEmployee();
+}
 renderManager();
 </script>
 </body>
