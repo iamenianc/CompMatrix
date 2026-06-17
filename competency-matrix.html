@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title id="docTitle">Group Insurance Administration Competency Matrix</title>
+<title id="docTitle">Competency Matrix</title>
 <style>
 /* ════════════════════════════════════════════════════════════════════════════
    Competency Matrix — self-contained, offline-only single file.
@@ -293,8 +293,8 @@ body {
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <section class="hero">
     <div class="hero__inner">
-        <p class="hero__eyebrow" id="heroEyebrow">Group Insurance Career Framework</p>
-        <h1 class="hero__title" id="heroTitle">Group Insurance Administration Competency Matrix</h1>
+        <p class="hero__eyebrow" id="heroEyebrow"></p>
+        <h1 class="hero__title" id="heroTitle"></h1>
     </div>
 </section>
 
@@ -303,14 +303,14 @@ body {
          Sits above the self-assessment; screen-only (hidden in print/manager view). -->
     <div id="overview" class="overview">
         <div class="overview__head">
-            <span class="eyebrow">Framework overview</span>
-            <div class="subtitle">The full matrix, L1&ndash;L6. Click a level heading to expand its descriptions &mdash; up to two open at once.</div>
+            <span class="eyebrow" id="overviewEyebrow"></span>
+            <div class="subtitle" id="overviewSubtitle"></div>
         </div>
         <div class="ovgrid" id="ovGrid"></div>
     </div>
 
     <div class="section-head" id="employeeSectionHead">
-        <span class="eyebrow">Self-assessment</span>
+        <span class="eyebrow" id="selfAssessEyebrow"></span>
         <div class="subtitle" id="employeeSubtitle"></div>
     </div>
 
@@ -378,23 +378,35 @@ body {
 "use strict";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   1. DATA
+   1. DATA  —  ★ ROLE-SPECIFIC BLOCK ★
 
-   This block is the single source of truth for the matrix. To swap in a
-   different role's matrix, replace `MATRIX` below — nothing else in the file
-   needs to change. `MATRIX.levels` defines the rungs (id/name/tag); each
-   `MATRIX.competencies[].levels` is keyed by those level ids.
+   *** This MATRIX object is the ONLY thing you edit to adapt the file to a
+   different role. *** Everything role-specific — page wording AND the full
+   competency content — lives here, in one contiguous block. Nothing outside
+   it (HTML markup, CSS, the rest of the script) carries role text; the page
+   chrome is filled from MATRIX at load time.
 
-   The competency data here is generated from the role's source JSON
-   (Matricies/Matrix-*.json), which carries Theme / Competency / Levels(L1–L6).
-   Theme is preserved on each competency for future grouping, but the matrix is
-   currently rendered as a flat list.
+   DRAFT NOTE: the competency descriptions below are a first pass generated from
+   the role's source JSON (Matricies/Matrix-*.json: Theme / Competency /
+   Levels L1–L6) and are expected to be hand-edited. Edit the strings freely.
+
+   Shape:
+     • title / *Eyebrow / *Subtitle / storageKey — user-facing copy & storage.
+     • levels[]        — the rungs: { id, name, tag }. ids key the descriptions.
+     • competencies[]  — { theme, title, levels:{ <levelId>: "description" } }.
+                         `theme` is preserved for future grouping (currently the
+                         matrix renders as a flat list).
    ════════════════════════════════════════════════════════════════════════════ */
 const MATRIX = {
-    // Hero / page identity for this role.
+    // ── Page identity / wording for this role (all user-facing copy) ─────────
     role: "Group Insurance Administration",
-    eyebrow: "Group Insurance Career Framework",
-    title: "Group Insurance Administration Competency Matrix",
+    title: "Group Insurance Administration Competency Matrix",   // <title>, hero, print header
+    heroEyebrow: "Group Insurance Career Framework",             // small caps line above the hero title
+    selfAssessEyebrow: "Self-assessment",                        // eyebrow above the assessment section
+    overviewEyebrow: "Framework overview",                       // eyebrow above the overview grid
+    overviewSubtitle: "The full matrix, L1–L6. Click a level heading to expand its descriptions — up to two open at once.",
+    // {n} is replaced with the competency count.
+    selfAssessSubtitle: "{n} core competencies, rated against your current level and the one you're growing toward, with a manager review step.",
     // Persistence key — bump the suffix if the data shape changes.
     storageKey: "compmatrix-group-insurance-admin-v1",
 
@@ -552,12 +564,19 @@ const MATRIX = {
     ]
 };
 
+/* ──────────────────────────────────────────────────────────────────────────
+   END of the role-specific block. Everything above this line (the MATRIX
+   object) is what you edit to adapt the file to a different role; everything
+   below is shared framework machinery and should not need changing.
+   ────────────────────────────────────────────────────────────────────────── */
+
 // Derived shortcuts so the rest of the file reads the same as before.
 const STORAGE_KEY = MATRIX.storageKey;
 const LEVELS = MATRIX.levels;
 const COMPETENCIES = MATRIX.competencies;
 
-// Single source of truth for ratings. `id` drives the .lbl-*/.chip-* CSS classes.
+// Rating scale — shared across all roles (not role-specific). `id` drives the
+// .lbl-*/.chip-* CSS classes.
 const RATINGS = [
     { id: "green",  name: "Growth Needed",      color: "#2f9e6f", desc: "Requires development to fully meet current expectations." },
     { id: "orange", name: "On Track",           color: "#e08a2c", desc: "Consistently meeting the requirements of the level." },
@@ -905,14 +924,17 @@ document.getElementById("mgrExportBtn").addEventListener("click", () => generate
 document.getElementById("printBtn").addEventListener("click", () => { injectPrintChips(); window.print(); });
 window.addEventListener("afterprint", removePrintChips);
 
-// Apply role identity from MATRIX so swapping the data block updates the page.
-const compCount = COMPETENCIES.length;
-document.getElementById("docTitle").textContent = MATRIX.title;
-document.getElementById("heroEyebrow").textContent = MATRIX.eyebrow;
-document.getElementById("heroTitle").textContent = MATRIX.title;
-document.getElementById("employeeSubtitle").textContent =
-    compCount + " core competencies, rated against your current level and the one you're growing toward, with a manager review step.";
-document.getElementById("mgrPrintHeader").textContent = MATRIX.title + " — Manager Report";
+// Apply all role-specific wording from MATRIX so swapping the data block (and
+// nothing else) re-skins the whole page.
+const setText = (id, text) => { document.getElementById(id).textContent = text; };
+setText("docTitle", MATRIX.title);
+setText("heroEyebrow", MATRIX.heroEyebrow);
+setText("heroTitle", MATRIX.title);
+setText("overviewEyebrow", MATRIX.overviewEyebrow);
+setText("overviewSubtitle", MATRIX.overviewSubtitle);
+setText("selfAssessEyebrow", MATRIX.selfAssessEyebrow);
+setText("employeeSubtitle", MATRIX.selfAssessSubtitle.replace("{n}", COMPETENCIES.length));
+setText("mgrPrintHeader", MATRIX.title + " — Manager Report");
 
 renderRatingKey();
 load();
