@@ -291,75 +291,77 @@ body {
        manager comment on the right. The aspirational Next-level box is dropped.
    ──────────────────────────────────────────────────────────────────────────── */
 @media print {
-    body { background: #fff; font-size: 11pt; line-height: 1.32; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 8.5pt; line-height: 1.35; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .container { max-width: 100%; padding: 0 !important; }
     /* Hide screen chrome; force the manager report visible */
     .hero, .section-head, #employeeView, #overview, .export-banner, .actions { display: none !important; }
     #managerView, #mgrContent { display: block !important; }
     #mgrNoData { display: none !important; }
     #mgrPrintHeader {
-        display: block !important; font-family: var(--serif); font-size: 13pt; font-weight: 700; color: #10266b;
-        border-bottom: 1.25pt solid #10266b; padding-bottom: 2mm; margin-bottom: 3mm;
+        display: block !important; font-family: var(--serif); font-size: 14.5pt; font-weight: 700; color: #10266b;
+        border-bottom: 1.25pt solid #10266b; padding-bottom: 2mm; margin-bottom: 3.5mm;
     }
-    #mgrPrintHeader .mgr-print-sub { display: block; font-family: var(--sans); font-size: 8pt; font-weight: 600; color: #43506e; margin-top: 1mm; }
+    #mgrPrintHeader .mgr-print-sub { display: block; font-family: var(--sans); font-size: 8.5pt; font-weight: 600; color: #43506e; margin-top: 1.2mm; }
     /* Identity + context collapse into one tight band each. */
-    .identity-bar { background: #eef1f8 !important; border: 0.75pt solid #c5cee6 !important; border-left: 2pt solid #10266b !important; padding: 1.5mm 3mm; margin-bottom: 2mm; break-inside: avoid; gap: 0.5mm 4mm; }
-    .identity-bar .id-name { font-size: 11pt; color: #1c2b50 !important; }
+    .identity-bar { background: #eef1f8 !important; border: 0.75pt solid #c5cee6 !important; border-left: 2pt solid #10266b !important; padding: 2mm 3mm; margin-bottom: 2.5mm; break-inside: avoid; gap: 0.8mm 4mm; }
+    .identity-bar .id-name { font-size: 10.5pt; font-weight: 700; color: #1c2b50 !important; }
     .identity-bar .id-doc { font-size: 8pt; font-weight: 600; color: #10266b !important; }
-    .identity-bar .id-meta { font-size: 8pt; color: #43506e !important; }
+    .identity-bar .id-meta { font-size: 7.5pt; color: #43506e !important; }
     .identity-bar .id-meta strong { color: #10266b !important; }
     /* Rating key — dense grid (5 ratings wrap 3+2). */
-    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 1.5mm 3mm; margin-bottom: 2.5mm; break-inside: avoid; }
-    .rating-key h3 { font-size: 8pt; color: #10266b !important; margin-bottom: 1mm; }
-    .rating-key__items { grid-template-columns: repeat(3, 1fr) !important; gap: 0.5mm 3mm; }
-    .rating-key__item { font-size: 8pt; gap: 0.35rem; }
+    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 2mm 3mm; margin-bottom: 3mm; break-inside: avoid; }
+    .rating-key h3 { font-size: 8pt; text-transform: uppercase; letter-spacing: 0.05em; color: #10266b !important; margin-bottom: 1.2mm; }
+    .rating-key__items { grid-template-columns: repeat(3, 1fr) !important; gap: 1mm 3mm; }
+    .rating-key__item { font-size: 7.5pt; gap: 0.35rem; }
     .rating-key__dot { width: 9px; height: 9px; }
     /* Context bar */
-    .context-bar { display: block !important; background: #eef1f8 !important; color: #1c2b50 !important; border: 0.75pt solid #c5cee6 !important; padding: 1.5mm 3mm; margin-bottom: 2.5mm; font-size: 11pt; }
+    .context-bar { display: block !important; background: #eef1f8 !important; color: #1c2b50 !important; border: 0.75pt solid #c5cee6 !important; padding: 1.8mm 3mm; margin-bottom: 3mm; font-size: 8.5pt; }
     .context-bar strong { color: #10266b !important; }
     .context-bar span { display: none !important; }   /* drop the on-screen instructional aside */
 
     /* ── Competency band ──────────────────────────────────────────────────── */
     /* Cards flow and split across pages so each sheet fills up. */
-    .competency-card { border: 0; border-top: 0.75pt solid #c5cee6; padding: 3mm 0 2mm; margin: 0; box-shadow: none; break-inside: auto; }
+    .competency-card { border: 0; border-top: 0.75pt solid #c5cee6; padding: 4mm 0 3mm; margin: 0; box-shadow: none; break-inside: auto; }
     #mgrForm > .competency-card:first-child { border-top: 0; }
-    .add-comp-card { border: 0.75pt dashed #c5cee6 !important; padding: 2mm 3mm !important; margin-top: 2mm; }
-    .competency-title { font-size: 11pt; font-weight: 700; color: #10266b !important; margin-bottom: 1mm; }
+    .add-comp-card { border: 0.75pt dashed #c5cee6 !important; padding: 3mm !important; margin-top: 3mm; }
+    .competency-title { font-size: 10.5pt; font-weight: 700; color: #10266b !important; margin-bottom: 1.5mm; }
 
-    /* Level standards: current and next side by side, compact, no boxed panels.
-       Each box shows its heading inline with the description text. A thin rule
-       between the two keeps them legible without the heavy screen card styling. */
-    .grid-comparison { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 4mm; background: transparent !important; padding: 0 !important; margin: 1.5mm 0 1mm !important; }
-    .grid-comparison.single { grid-template-columns: 1fr !important; }
-    .level-box { padding: 0 !important; }
-    .level-box--current { background: transparent !important; border: 0 !important; }
-    .level-box--next { display: block !important; background: transparent !important; border: 0 !important; border-left: 0.75pt solid #dde2ee !important; padding-left: 4mm !important; }
-    .level-box h4 { display: inline; font-size: 8pt; margin: 0 1mm 0 0; }
-    .level-box--current h4 { color: #10266b !important; }
-    .level-box--next h4 { color: #7a849c !important; }
+    /* Level standard: only the Current-level benchmark is shown — the Next-level
+       description is dropped in print to save space. The heading sits inline with
+       the description text. */
+    .grid-comparison { display: block !important; background: transparent !important; padding: 0 !important; margin: 1.5mm 0 2mm !important; }
+    .level-box { padding: 0 !important; background: transparent !important; border: 0 !important; }
+    .level-box--next { display: none !important; }
+    .level-box h4 { display: inline; font-size: 7pt; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 1.2mm 0 0; color: #10266b !important; }
     .level-box h4::after { content: ""; }
-    .level-box p { display: inline; font-size: 11pt; color: #1c2b50 !important; }
-    .level-box--next p { color: #43506e !important; }
+    .level-box p { display: inline; font-size: 8.5pt; color: #1c2b50 !important; }
 
     /* Rating row: employee column | manager column, side by side, intact.
        The markup gives two columns; the manager column stacks its rating chip
        then the comment beneath, all kept tight. The whole row never splits. */
-    .compare-grid { display: grid !important; grid-template-columns: 36mm 1fr !important; gap: 4mm; break-inside: avoid; page-break-inside: avoid; align-items: start; margin-top: 1mm; }
+    .compare-grid { display: grid !important; grid-template-columns: 42mm 1fr !important; gap: 5mm; break-inside: avoid; page-break-inside: avoid; align-items: start; margin-top: 2mm; }
     .compare-col { border: 0 !important; padding: 0 !important; min-width: 0; }
-    .compare-col h5 { font-size: 8pt; margin-bottom: 0.8mm; color: #7a849c !important; display: inline; margin-right: 1.5mm; }
+    .compare-col h5 { font-size: 7pt; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 1mm; color: #7a849c !important; display: block; margin-right: 1.5mm; }
     .compare-col.manager h5 { color: #10266b !important; }
     .compare-col.manager .btn-group { display: none !important; }
     .print-chip-wrap { display: inline-block !important; }
     /* Employee comment runs full width beneath the rating row. */
-    .compare-span { grid-column: 1 / -1 !important; margin-top: 1mm !important; }
-    .compare-span h5 { font-size: 8pt !important; display: inline !important; margin: 0 1.5mm 0 0 !important; color: #7a849c !important; }
-    .compare-span p { display: inline !important; font-size: 11pt !important; color: #1c2b50 !important; line-height: 1.32 !important; }
-    /* Manager comment sits just below the manager chip, label inline. */
+    .compare-span { grid-column: 1 / -1 !important; margin-top: 1.5mm !important; }
+    .compare-span h5 { font-size: 7pt !important; text-transform: uppercase; letter-spacing: 0.04em; display: inline !important; margin: 0 1.5mm 0 0 !important; color: #7a849c !important; }
+    .compare-span p { display: inline !important; font-size: 8.5pt !important; color: #1c2b50 !important; line-height: 1.35 !important; }
+    /* Manager comment — always rendered as a small bordered box (a place to write
+       even when no comment was entered), with its label above. */
     .mgr-comment { display: none !important; }
-    .mgr-comment-wrap { margin-top: 1mm !important; }
-    .mgr-comment-label { display: inline !important; font-size: 8pt !important; margin: 0 1.5mm 0 0 !important; color: #7a849c !important; }
-    .mgr-comment-print { display: inline !important; font-size: 11pt; color: #1c2b50; white-space: pre-wrap; line-height: 1.32; }
-    .mgr-comment-print:empty::before { content: "\2014"; color: #7a849c; }
+    .mgr-comment-wrap { margin-top: 1.5mm !important; }
+    .mgr-comment-label { display: block !important; font-size: 7pt !important; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 0.8mm 0 !important; color: #7a849c !important; }
+    .mgr-comment-print {
+        display: block !important; min-height: 8mm;
+        border: 0.5pt solid #c2cbe0; border-radius: 1pt; background: #fcfdff !important;
+        padding: 1.2mm 1.6mm; font-size: 8.5pt; color: #1c2b50;
+        white-space: pre-wrap; line-height: 1.35; break-inside: avoid;
+    }
+    .mgr-comment-print:empty::before { content: ""; }
+    #mgrSummaryPrint { min-height: 18mm; margin-top: 0.5mm; }
 
     /* Overall manager comments — kept, compact, allowed to break. */
     #mgrSummaryCard { break-inside: auto; }
@@ -375,8 +377,8 @@ body {
     .chip-aqua  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; } .chip-aqua::before  { background: #17a2b8 !important; }
     .chip-grey  { background: #f0f1f4 !important; color: #4a5260 !important; border-color: #8a93a6 !important; } .chip-grey::before  { background: #8a93a6 !important; }
     .chip-none  { color: #7a849c !important; }
-    .empty-note { font-size: 11pt; }
-    .subtitle { font-size: 8pt; }
+    .empty-note { font-size: 8.5pt; }
+    .subtitle { font-size: 7.5pt; }
 }
 </style>
 </head>
