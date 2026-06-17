@@ -35,6 +35,7 @@
     --color-orange: #e08a2c;
     --color-blue: #10266b;    /* navy blue — Beyond Expectation */
     --color-aqua: #17a2b8;    /* aqua — At Next Level */
+    --color-grey: #8a93a6;    /* grey — Not Applicable */
     --serif: "Spectral", Georgia, "Times New Roman", serif;
     --sans: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -187,10 +188,23 @@ body {
 .lbl-orange::before { background-color: var(--color-orange); }
 .lbl-blue::before   { background-color: var(--color-blue); }
 .lbl-aqua::before   { background-color: var(--color-aqua); }
+.lbl-grey::before   { background-color: var(--color-grey); }
 .btn-radio:checked + .lbl-green  { border-color: var(--color-green);  background-color: #eef7f2; color: #1d6e4c; box-shadow: inset 0 -3px 0 var(--color-green); }
 .btn-radio:checked + .lbl-orange { border-color: var(--color-orange); background-color: #fdf4e8; color: #9a5e16; box-shadow: inset 0 -3px 0 var(--color-orange); }
 .btn-radio:checked + .lbl-blue   { border-color: var(--color-blue);   background-color: #e7ebf5; color: #10266b; box-shadow: inset 0 -3px 0 var(--color-blue); }
 .btn-radio:checked + .lbl-aqua   { border-color: var(--color-aqua);   background-color: #e4f6f8; color: #0f7c8c; box-shadow: inset 0 -3px 0 var(--color-aqua); }
+.btn-radio:checked + .lbl-grey   { border-color: var(--color-grey);   background-color: #f0f1f4; color: #4a5260; box-shadow: inset 0 -3px 0 var(--color-grey); }
+
+/* Employee self-assessment comment box (below the rating radios) */
+.self-comment-wrap { margin-top: 1rem; }
+.self-comment-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.self-comment { width: 100%; border: 1px solid var(--border); padding: 0.7rem 0.85rem; font: inherit; font-size: 0.95rem; line-height: 1.55; color: var(--ink); background: #fff; resize: none; overflow: hidden; min-height: 4.5rem; }
+.self-comment::placeholder { color: var(--muted); }
+.self-comment:focus { outline: none; border-color: var(--navy); box-shadow: inset 0 -2px 0 var(--navy); }
+/* Read-only employee comment shown in the manager report */
+.self-comment-readonly { margin-top: 1rem; }
+.self-comment-readonly h5 { margin: 0 0 0.4rem 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.self-comment-readonly p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap; }
 
 /* Rating chips (read-only display of a rating) */
 .chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.95rem; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--border); }
@@ -199,6 +213,7 @@ body {
 .chip-orange{ background:#fdf4e8; color:#9a5e16; border-color:var(--color-orange);} .chip-orange::before { background:var(--color-orange); }
 .chip-blue  { background:#e7ebf5; color:#10266b; border-color:var(--color-blue);}   .chip-blue::before   { background:var(--color-blue); }
 .chip-aqua  { background:#e4f6f8; color:#0f7c8c; border-color:var(--color-aqua);}   .chip-aqua::before   { background:var(--color-aqua); }
+.chip-grey  { background:#f0f1f4; color:#4a5260; border-color:var(--color-grey);}   .chip-grey::before   { background:var(--color-grey); }
 .chip-none  { color: var(--muted); font-style: italic; font-weight: 600; border-style: dashed; }
 
 /* Additional-strengths card */
@@ -277,10 +292,10 @@ body {
     .identity-bar .id-doc { font-size: 8pt; font-weight: 600; color: #10266b !important; }
     .identity-bar .id-meta { font-size: 7.5pt; color: #43506e !important; }
     .identity-bar .id-meta strong { color: #10266b !important; }
-    /* Rating key — single dense row of four. */
+    /* Rating key — dense grid (5 ratings wrap 3+2). */
     .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 1.5mm 3mm; margin-bottom: 2.5mm; break-inside: avoid; }
     .rating-key h3 { font-size: 8pt; color: #10266b !important; margin-bottom: 1mm; }
-    .rating-key__items { grid-template-columns: repeat(4, 1fr) !important; gap: 0.5mm 3mm; }
+    .rating-key__items { grid-template-columns: repeat(3, 1fr) !important; gap: 0.5mm 3mm; }
     .rating-key__item { font-size: 6.5pt; gap: 0.35rem; }
     .rating-key__dot { width: 9px; height: 9px; }
     /* Context bar */
@@ -338,6 +353,7 @@ body {
     .chip-orange{ background: #fdf4e8 !important; color: #9a5e16 !important; border-color: #e08a2c !important; } .chip-orange::before{ background: #e08a2c !important; }
     .chip-blue  { background: #e7ebf5 !important; color: #10266b !important; border-color: #10266b !important; } .chip-blue::before  { background: #10266b !important; }
     .chip-aqua  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; } .chip-aqua::before  { background: #17a2b8 !important; }
+    .chip-grey  { background: #f0f1f4 !important; color: #4a5260 !important; border-color: #8a93a6 !important; } .chip-grey::before  { background: #8a93a6 !important; }
     .chip-none  { color: #7a849c !important; }
     .empty-note { font-size: 7.5pt; }
     .subtitle { font-size: 7pt; }
@@ -655,7 +671,8 @@ const RATINGS = [
     { id: "green",  name: "Growth Needed",      colorName: "Green",  color: "#2f9e6f", desc: "Requires development to fully meet current expectations." },
     { id: "orange", name: "On Track",           colorName: "Orange", color: "#e08a2c", desc: "Consistently meeting the requirements of the level." },
     { id: "blue",   name: "Beyond Expectation", colorName: "Blue",   color: "#10266b", desc: "Exceeding the requirements of the current level." },
-    { id: "aqua",   name: "At Next Level",      colorName: "Aqua",   color: "#17a2b8", desc: "Fully mastering the competency, operating at the next-level standard." }
+    { id: "aqua",   name: "At Next Level",      colorName: "Aqua",   color: "#17a2b8", desc: "Fully mastering the competency, operating at the next-level standard." },
+    { id: "grey",   name: "Not Applicable",     colorName: "Grey",   color: "#8a93a6", desc: "This competency does not apply to the role or circumstances." }
 ];
 const RATING_BY_ID = Object.fromEntries(RATINGS.map(r => [r.id, r]));
 
@@ -666,7 +683,7 @@ const EXPORTED_STATE = null;
 /* ════════════════════════════════════════════════════════════════════════════
    2. STATE + STORAGE
    ════════════════════════════════════════════════════════════════════════════ */
-let state = { employeeName: "", completedAt: null, level: null, ratings: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {}, mgrSummary: "" };
+let state = { employeeName: "", completedAt: null, level: null, ratings: {}, comments: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {}, mgrSummary: "" };
 
 function load() {
     if (EXPORTED_STATE) {
@@ -853,12 +870,31 @@ function renderMatrix() {
         + comparisonHTML(cur, nxt, comp)
         + '<div class="rating-section"><span class="rating-label">Self-Assessment Rating</span>'
         + ratingRadiosHTML("comp-" + idx, idx, state.ratings["comp-" + idx])
+        + '<div class="self-comment-wrap"><label class="self-comment-label" for="selfc-' + idx + '">Comments</label>'
+        + '<textarea id="selfc-' + idx + '" class="self-comment" data-key="comp-' + idx + '" placeholder="Add further comments &mdash; especially if you selected &ldquo;At Next Level&rdquo; or &ldquo;Not Applicable&rdquo;.">' + esc(state.comments["comp-" + idx] || "") + '</textarea></div>'
         + '</div></div>'
     ).join("");
 
-    form.querySelectorAll(".btn-radio").forEach(inp => inp.addEventListener("change", e => {
-        state.ratings[e.target.name] = e.target.value; save(); flashSaved("saveNote");
-    }));
+    // Radios are click-to-toggle: clicking the selected option again clears it,
+    // leaving the question unanswered.
+    form.querySelectorAll(".btn-radio").forEach(inp => {
+        inp.addEventListener("click", e => {
+            const t = e.target;
+            if (state.ratings[t.name] === t.value) {
+                t.checked = false;
+                delete state.ratings[t.name];
+            } else {
+                state.ratings[t.name] = t.value;
+            }
+            save(); flashSaved("saveNote");
+        });
+    });
+    form.querySelectorAll(".self-comment").forEach(ta => {
+        autoGrow(ta);
+        ta.addEventListener("input", e => {
+            state.comments[e.target.dataset.key] = e.target.value; autoGrow(e.target); save();
+        });
+    });
     renderExtras();
 }
 
@@ -933,7 +969,9 @@ function renderManager() {
             + '<div class="competency-title">' + (idx + 1) + '. ' + comp.title + '</div>'
             + comparisonHTML(cur, nxt, comp)
             + '<div class="compare-grid">'
-            +   '<div class="compare-col employee"><h5>Employee self-rating</h5>' + chipHTML(state.ratings[key]) + '</div>'
+            +   '<div class="compare-col employee"><h5>Employee self-rating</h5>' + chipHTML(state.ratings[key])
+            +     (state.comments[key] && state.comments[key].trim() ? '<div class="self-comment-readonly"><h5>Employee comments</h5><p>' + esc(state.comments[key]) + '</p></div>' : '')
+            +   '</div>'
             +   '<div class="compare-col manager"><h5>Manager rating</h5>'
             +     ratingRadiosHTML("mgr-" + key, idx, state.mgrRatings[key])
             +     '<div class="mgr-comment-wrap"><label class="mgr-comment-label" for="mgrc-' + idx + '">Manager comments</label>'
@@ -960,11 +998,18 @@ function renderManager() {
     form.innerHTML = html;
 
     // Wire up manager inputs. The radio `name` is "<scope>-<key>"; strip the scope to get the state key.
-    form.querySelectorAll('.btn-radio[name^="mgr-comp"]').forEach(inp => inp.addEventListener("change", e => {
-        state.mgrRatings[e.target.name.replace("mgr-", "")] = e.target.value; save(); flashSaved("mgrSaveNote");
+    // Click-to-toggle: clicking the selected option again clears it.
+    form.querySelectorAll('.btn-radio[name^="mgr-comp"]').forEach(inp => inp.addEventListener("click", e => {
+        const t = e.target, key = t.name.replace("mgr-", "");
+        if (state.mgrRatings[key] === t.value) { t.checked = false; delete state.mgrRatings[key]; }
+        else { state.mgrRatings[key] = t.value; }
+        save(); flashSaved("mgrSaveNote");
     }));
-    form.querySelectorAll('.btn-radio[name^="mgrx-"]').forEach(inp => inp.addEventListener("change", e => {
-        state.mgrExtraRatings[e.target.name.replace("mgrx-", "")] = e.target.value; save(); flashSaved("mgrSaveNote");
+    form.querySelectorAll('.btn-radio[name^="mgrx-"]').forEach(inp => inp.addEventListener("click", e => {
+        const t = e.target, key = t.name.replace("mgrx-", "");
+        if (state.mgrExtraRatings[key] === t.value) { t.checked = false; delete state.mgrExtraRatings[key]; }
+        else { state.mgrExtraRatings[key] = t.value; }
+        save(); flashSaved("mgrSaveNote");
     }));
     form.querySelectorAll('.mgr-comment').forEach(t => {
         autoGrow(t);
