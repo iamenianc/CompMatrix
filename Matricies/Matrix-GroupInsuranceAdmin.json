@@ -61,14 +61,14 @@
   },
   {
     "Theme": "Delivery",
-    "Competency": "Quantitative accuracy & attention to detail",
+    "Competency": "Quantitative accuracy, attention to detail & Excel tooling",
     "Levels": {
-      "L1": "Works carefully and double-checks figures, dates and categories before submitting. Applies common-sense sense-checks (e.g. does this premium look reasonable?) to spot obvious errors.",
-      "L2": "Independently produces accurate quantitative work in Excel and GroupAdmin, reconciling inputs to outputs. Builds checks into their own work rather than relying on others to catch mistakes.",
-      "L3": "Identifies and explains subtle numerical errors driven by date context, salary inputs, category setup, leave/eligibility or underwriting impacts. Reconciles complex figures across systems and stands behind the result.",
-      "L4": "Sets the standard for quantitative rigour across the team. Designs the checks and reconciliations that prevent errors, and reviews high-risk calculations before they are released.",
-      "L5": "Embeds a culture of quantitative accuracy across the team. Ensures controls reliably catch the calculation errors that matter, while keeping the team productive.",
-      "L6": "Drives enterprise standards for quantitative control and premium governance, ensuring accuracy is engineered into the platform and process rather than depending on individual diligence."
+      "L1": "Works carefully and double-checks figures, dates and categories before submitting. Applies common-sense sense-checks (e.g. does this premium look reasonable?) to spot obvious errors. Uses Excel for standard lookups, formulas and simple reconciliations within established templates.",
+      "L2": "Independently produces accurate quantitative work in Excel and GroupAdmin, reconciling inputs to outputs. Builds reliable workbooks using functions and pivots to check data against system outputs, and builds checks into their own work rather than relying on others to catch mistakes.",
+      "L3": "Identifies and explains subtle numerical errors driven by date context, salary inputs, category setup, leave/eligibility or underwriting impacts. Designs robust, reusable Excel tooling with built-in checks that surface these common failure points, and reconciles complex figures across systems with confidence.",
+      "L4": "Sets the standard for quantitative rigour and Excel tooling across the team. Designs the checks and reconciliations that prevent errors, ensures workbooks are accurate, controlled and maintainable rather than fragile, and reviews high-risk calculations and tools before they are relied upon.",
+      "L5": "Embeds a culture of quantitative accuracy across the team and reduces reliance on undocumented spreadsheets by improving how tooling complements the system. Ensures controls reliably catch the calculation errors that matter, while keeping the team productive.",
+      "L6": "Drives enterprise standards for quantitative control and premium governance, ensuring accuracy is engineered into the platform, tooling and process rather than depending on individual diligence."
     }
   },
   {
@@ -217,14 +217,14 @@
   },
   {
     "Theme": "Strategy",
-    "Competency": "Excel & data tooling proficiency",
+    "Competency": "Operating model & scalability",
     "Levels": {
-      "L1": "Uses Excel for standard tasks such as lookups, basic formulas and simple reconciliations under established templates. Keeps workbooks tidy and avoids breaking shared structures.",
-      "L2": "Builds reliable Excel workbooks for routine quoting, validation and reconciliation independently, using functions and pivots to check data against GroupAdmin outputs.",
-      "L3": "Designs robust, reusable Excel tooling that handles complex reconciliations and review-period scenarios, with built-in checks that surface the common failure points (date, salary, category, eligibility).",
-      "L4": "Sets the standard for Excel and data tooling across the team, ensuring workbooks are accurate, controlled and maintainable rather than fragile. Reviews high-risk tools before they are relied upon.",
-      "L5": "Embeds good data-tooling practice across the team and reduces reliance on undocumented spreadsheets by improving how tooling complements the system. Champions repeatable, auditable approaches.",
-      "L6": "Sets strategic direction for how the function balances Excel-based tooling against system capability, driving toward scalable, controlled tooling that supports premium governance and auditability."
+      "L1": "Understands that the team services many policies for multiple insurers and that consistent ways of working keep the service reliable as volume grows.",
+      "L2": "Understands how their work fits the team's operating model and where standard process keeps service consistent. Spots when a one-off workaround risks becoming an unscalable habit.",
+      "L3": "Understands how insurer-specific and broker-specific variants share a common core, and works in ways that keep that common core intact rather than fragmenting practice per insurer.",
+      "L4": "Improves how the team operates across import, calculation, documentation and insurer coordination so the service scales without losing control. Identifies bottlenecks that limit capacity as the portfolio grows.",
+      "L5": "Shapes the team's operating model so it can absorb more policies and insurers without proportional headcount, balancing turnaround, control and consistency across the team.",
+      "L6": "Sets strategic direction for the function's operating model, scalability and transformation, ensuring it supports insurer-specific and broker-specific variants over a common core and operates as a blended admin-and-analysis capability rather than a back-office processing team."
     }
   },
   {
