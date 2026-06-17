@@ -148,7 +148,9 @@ body {
 .ovgrid__t-theme { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
 .ovgrid__t-name { display: block; font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
 /* Body cells: collapsed shows a left-aligned '+', open shows the descriptor */
-.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); cursor: pointer; min-height: 7.5rem; }
+/* Collapsed cells reserve the same min-height as the expanded state so rows keep
+   a fixed height and don't jump shorter when a column is hidden. */
+.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); cursor: pointer; min-height: 9.5rem; }
 .ovgrid__c.is-open { cursor: default; }
 .ovgrid__c.is-open { color: var(--body); font-size: 0.9rem; line-height: 1.45; min-height: 9.5rem; overflow: hidden; }
 .ovgrid__plus { font-size: 0.95rem; font-weight: 700; color: var(--muted); }
