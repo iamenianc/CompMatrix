@@ -205,6 +205,8 @@ body {
 .self-comment-readonly { margin-top: 1rem; }
 .self-comment-readonly h5 { margin: 0 0 0.4rem 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .self-comment-readonly p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap; }
+/* Employee comment spans the full width of the rating grid (both columns). */
+.compare-grid > .compare-span { grid-column: 1 / -1; }
 
 /* Read-only looking-ahead answers in the manager report */
 .growth-readonly { margin-bottom: 1.4rem; }
@@ -348,6 +350,10 @@ body {
     .compare-col.manager h5 { color: #10266b !important; }
     .compare-col.manager .btn-group { display: none !important; }
     .print-chip-wrap { display: inline-block !important; }
+    /* Employee comment runs full width beneath the rating row. */
+    .compare-span { grid-column: 1 / -1 !important; margin-top: 1mm !important; }
+    .compare-span h5 { font-size: 6pt !important; display: inline !important; margin: 0 1.5mm 0 0 !important; color: #7a849c !important; }
+    .compare-span p { display: inline !important; font-size: 7.5pt !important; color: #1c2b50 !important; line-height: 1.32 !important; }
     /* Manager comment sits just below the manager chip, label inline. */
     .mgr-comment { display: none !important; }
     .mgr-comment-wrap { margin-top: 1mm !important; }
@@ -1010,7 +1016,6 @@ function renderManager() {
             + comparisonHTML(cur, nxt, comp)
             + '<div class="compare-grid">'
             +   '<div class="compare-col employee"><h5>Employee self-rating</h5>' + chipHTML(state.ratings[key])
-            +     (state.comments[key] && state.comments[key].trim() ? '<div class="self-comment-readonly"><h5>Employee comments</h5><p>' + esc(state.comments[key]) + '</p></div>' : '')
             +   '</div>'
             +   '<div class="compare-col manager"><h5>Manager rating</h5>'
             +     ratingRadiosHTML("mgr-" + key, idx, state.mgrRatings[key])
@@ -1018,6 +1023,7 @@ function renderManager() {
             +     '<textarea id="mgrc-' + idx + '" class="mgr-comment" data-key="' + key + '" placeholder="Evidence, context, and guidance for this competency...">' + esc(state.mgrComments[key] || "") + '</textarea>'
             +     '<div class="mgr-comment-print"></div></div>'
             +   '</div>'
+            +   (state.comments[key] && state.comments[key].trim() ? '<div class="self-comment-readonly compare-span"><h5>Employee comments</h5><p>' + esc(state.comments[key]) + '</p></div>' : '')
             + '</div></div>';
     }).join("");
 
