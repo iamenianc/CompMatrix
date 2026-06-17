@@ -675,7 +675,16 @@ function toggleOverviewColumn(levelId) {
         overviewOpen.splice(at, 1);          // already open → toggle closed
     } else {
         overviewOpen.push(levelId);          // open it
-        if (overviewOpen.length > 2) overviewOpen.shift();   // keep newest 2
+        if (overviewOpen.length > 2) {
+            // Keep the new column and whichever open column is nearest to it (by
+            // level position); collapse the one furthest from it.
+            const idx = id => LEVELS.findIndex(l => l.id === id);
+            const newIdx = idx(levelId);
+            const others = overviewOpen.filter(id => id !== levelId);
+            others.sort((a, b) => Math.abs(idx(a) - newIdx) - Math.abs(idx(b) - newIdx));
+            const drop = others[others.length - 1];   // furthest from the new column
+            overviewOpen = overviewOpen.filter(id => id !== drop);
+        }
     }
     renderOverview();
 }
