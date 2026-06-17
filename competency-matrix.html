@@ -372,7 +372,6 @@ textarea:focus { outline: none; border-color: var(--navy); }
         <div id="matrix" class="hidden">
             <div class="context-bar">
                 <div>Assessing as <strong id="ctxLevel"></strong> &rarr; growth toward <strong id="ctxNext"></strong></div>
-                <button class="reset-link" id="changeLevel">Change level</button>
             </div>
             <form id="assessForm"></form>
             <div class="competency-card add-comp-card">
@@ -706,7 +705,6 @@ function generateShareableHTML(filenamePrefix) {
 }
 
 
-document.getElementById("changeLevel").addEventListener("click", () => document.getElementById("levelPicker").scrollIntoView({behavior:"smooth"}));
 document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
 
 document.getElementById("exportBtn").addEventListener("click", () => {
