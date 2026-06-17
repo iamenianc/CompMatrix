@@ -94,8 +94,17 @@ body {
 .level-btn.active { border-color: var(--navy); box-shadow: inset 4px 0 0 var(--navy); }
 .level-btn.active .lvl-name, .level-btn.active .lvl-tag { color: var(--navy); }
 
-/* Framework overview grid — whole matrix, columns expand on click */
-.overview { margin-bottom: 2.5rem; }
+/* Framework overview grid — whole matrix, columns expand on click.
+   Screen-only (excluded from print), so it breaks out of the 1140px container
+   to use the full viewport width, capped at 1760px with 2rem gutters. */
+.overview {
+    margin-bottom: 2.5rem;
+    width: min(1760px, calc(100vw - 4rem));
+    /* Center on the viewport while breaking out of the 1140px container.
+       50vw is viewport-relative; 50% is container-relative — together they
+       offset the left edge back to the viewport's centre line. */
+    margin-left: calc(50% - 50vw + (100vw - min(1760px, calc(100vw - 4rem))) / 2);
+}
 .overview__head { margin-bottom: 1.25rem; }
 .overview__head .subtitle { margin-top: 0.25rem; }
 /* grid-template-columns is set inline by JS so column widths reflow as columns open/close */
@@ -219,7 +228,7 @@ body {
     body { background: #fff; font-size: 9pt; line-height: 1.4; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .container { max-width: 100%; padding: 0 !important; }
     /* Hide screen chrome; force the manager report visible */
-    .hero, .section-head, #employeeView, .export-banner, .actions { display: none !important; }
+    .hero, .section-head, #employeeView, #overview, .export-banner, .actions { display: none !important; }
     #managerView, #mgrContent { display: block !important; }
     #mgrNoData { display: none !important; }
     #mgrPrintHeader {
@@ -654,7 +663,7 @@ function renderOverview() {
     // Open columns get a fixed width so a single open column is the same width
     // as each of two open columns (width doesn't depend on how many are open).
     grid.style.gridTemplateColumns =
-        "minmax(180px, 1.4fr) " + LEVELS.map(l => isOpen(l.id) ? "minmax(360px, 360px)" : "minmax(48px, 0.5fr)").join(" ");
+        "minmax(200px, 1fr) " + LEVELS.map(l => isOpen(l.id) ? "minmax(520px, 520px)" : "minmax(52px, 0.5fr)").join(" ");
 
     let html = '<div class="ovgrid__corner">Competency</div>';
     html += LEVELS.map(l =>
