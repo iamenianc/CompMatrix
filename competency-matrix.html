@@ -659,12 +659,18 @@ function renderOverview() {
     if (!grid) return;
     const isOpen = id => overviewOpen.includes(id);
 
-    // Column widths reflow with open state: title fixed, closed levels narrow,
-    // open levels take a generous share.
-    // Open columns get a fixed width so a single open column is the same width
-    // as each of two open columns (width doesn't depend on how many are open).
+    // Column widths reflow with open state. Open columns get an explicit width
+    // computed from the current grid width so they scale with the browser, while
+    // a single open column stays the same width as each of two open columns
+    // (we always size to the two-open budget regardless of how many are open).
+    const TITLE_W = 240, CLOSED_W = 56, GAP = 12;   // px; GAP covers borders/rounding slack
+    const total = grid.clientWidth || 1140;
+    // Size to the two-open budget (LEVELS.length - 2 closed) regardless of how
+    // many are actually open, so a single open column matches each of two.
+    const budget = total - TITLE_W - (LEVELS.length - 2) * CLOSED_W - GAP;
+    const openW = Math.max(360, Math.min(720, Math.floor(budget / 2)));
     grid.style.gridTemplateColumns =
-        "minmax(200px, 1fr) " + LEVELS.map(l => isOpen(l.id) ? "minmax(520px, 520px)" : "minmax(52px, 0.5fr)").join(" ");
+        "minmax(200px, 1fr) " + LEVELS.map(l => isOpen(l.id) ? openW + "px" : "minmax(52px, 0.5fr)").join(" ");
 
     let html = '<div class="ovgrid__corner">Competency</div>';
     html += LEVELS.map(l =>
@@ -875,6 +881,13 @@ document.getElementById("ovGrid").addEventListener("click", e => {
     if (h) { toggleOverviewColumn(h.dataset.level); return; }
     const c = e.target.closest(".ovgrid__c");
     if (c && !c.classList.contains("is-open")) toggleOverviewColumn(c.dataset.level);
+});
+// Recompute open-column widths when the browser is resized (overview is screen-only).
+let ovResizeTimer = null;
+window.addEventListener("resize", () => {
+    if (EXPORTED_STATE) return;
+    clearTimeout(ovResizeTimer);
+    ovResizeTimer = setTimeout(renderOverview, 120);
 });
 document.getElementById("exportBtn").addEventListener("click", () => {
     if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
