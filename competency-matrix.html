@@ -278,9 +278,9 @@ textarea:focus { outline: none; border-color: var(--navy); }
     .grid-comparison { gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; border-radius: 0; }
     .level-box h4 { font-size: 7pt; color: #10266b !important; margin-bottom: 1mm; }
     .level-box p  { font-size: 8pt; }
-    /* Rating columns */
-    .compare-grid { gap: 3mm; }
-    .compare-col { border: 1pt solid #dde2ee; border-radius: 0; padding: 3mm; }
+    /* Rating columns — keep employee & manager side by side, never stacked */
+    .compare-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
+    .compare-col { border: 1pt solid #dde2ee; border-radius: 0; padding: 3mm; min-width: 0; }
     .compare-col.manager { background: #f7f9fd !important; border-color: #c5cee6 !important; border-top: 2pt solid #10266b !important; }
     .compare-col h5 { font-size: 7pt; margin-bottom: 2mm; }
     .compare-col.manager h5 { color: #10266b !important; }
