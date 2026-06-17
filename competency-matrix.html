@@ -690,16 +690,18 @@ function renderOverview() {
     // computed from the current grid width so they scale with the browser, while
     // a single open column stays the same width as each of two open columns
     // (we always size to the two-open budget regardless of how many are open).
-    const TITLE_W = 240, CLOSED_W = 56, GAP = 12;   // px; GAP covers borders/rounding slack
+    // Competency (title) column keeps a fixed preferred width on wide screens and
+    // only shrinks toward TITLE_MIN when space runs out — it never grows to soak
+    // up slack (leftover space goes to the closed level columns instead).
+    const TITLE_W = 320, TITLE_MIN = 220, CLOSED_W = 56, GAP = 12;   // px; GAP covers borders/rounding slack
     const total = grid.clientWidth || 1140;
     // Size to the two-open budget (LEVELS.length - 2 closed) regardless of how
     // many are actually open, so a single open column matches each of two.
     const budget = total - TITLE_W - (LEVELS.length - 2) * CLOSED_W - GAP;
     const openW = Math.max(360, Math.min(720, Math.floor(budget / 2)));
-    // Title column is a fixed width — it must not grow on wide screens. Closed
-    // columns flex (minmax) to absorb any leftover width.
     grid.style.gridTemplateColumns =
-        TITLE_W + "px " + LEVELS.map(l => isOpen(l.id) ? openW + "px" : "minmax(52px, 1fr)").join(" ");
+        "minmax(" + TITLE_MIN + "px, " + TITLE_W + "px) "
+        + LEVELS.map(l => isOpen(l.id) ? openW + "px" : "minmax(52px, 0.5fr)").join(" ");
 
     let html = '<div class="ovgrid__corner">Competency</div>';
     html += LEVELS.map(l =>
