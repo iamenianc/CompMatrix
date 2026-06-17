@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SWE Competency Matrix</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=Mulish:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
     --navy: #10266b;          /* primary brand navy */
@@ -242,7 +239,7 @@ textarea:focus { outline: none; border-color: var(--navy); }
     #mgrNoData { display: none !important; }
     /* Print title */
     #managerView::before {
-        content: "AGI \2014 SWE Competency Matrix \2014 Manager Report";
+        content: "SWE Competency Matrix \2014 Manager Report";
         display: block;
         font-family: var(--serif);
         font-size: 15pt;
@@ -313,12 +310,6 @@ textarea:focus { outline: none; border-color: var(--navy); }
 </style>
 </head>
 <body>
-<header class="site-header">
-    <div class="site-header__inner">
-        <a href="#" class="brand">AGI</a>
-    </div>
-</header>
-
 <section class="hero">
     <div class="hero__inner">
         <p class="hero__eyebrow">Engineering Career Framework</p>
@@ -363,7 +354,7 @@ textarea:focus { outline: none; border-color: var(--navy); }
         </div>
     </div>
 
-    <div id="managerView">
+    <div id="managerView" class="hidden">
         <div id="mgrNoData" class="no-data hidden">No self-assessment found. Switch to the Employee view, pick a level, and fill in the assessment first — or open the file shared by the employee.</div>
         <div id="mgrContent" class="hidden">
             <div id="exportedBanner" class="export-banner hidden">
@@ -552,6 +543,11 @@ function ratingChip(val) {
 }
 
 function renderManager() {
+    // The manager report is only viewable from an exported file, never on the
+    // working copy. Keep it hidden entirely until a baked-in state is present.
+    const managerView = document.getElementById("managerView");
+    if (!EXPORTED_STATE) { managerView.classList.add("hidden"); return; }
+    managerView.classList.remove("hidden");
     const noData = document.getElementById("mgrNoData");
     const content = document.getElementById("mgrContent");
     if (!state.level) { noData.classList.remove("hidden"); content.classList.add("hidden"); return; }
