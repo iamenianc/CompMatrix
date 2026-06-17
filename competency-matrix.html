@@ -185,16 +185,8 @@ body {
 /* ── 5. Utilities ─────────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
 
-/* ── 6. Responsive ────────────────────────────────────────────────────────── */
-@media (max-width: 720px) {
-    .hero__inner { padding: 3rem 1.25rem 2.75rem; }
-    .container { padding: 2rem 1.25rem 3rem; }
-    .level-options { grid-template-columns: 1fr 1fr; }
-    .grid-comparison, .compare-grid, .rating-key__items { grid-template-columns: 1fr; }
-    .competency-card, .level-picker { padding: 1.5rem; }
-}
-
-/* ── 7. Print ─────────────────────────────────────────────────────────────── */
+/* ── 6. Print ─────────────────────────────────────────────────────────────── */
+/* Desktop-only target — no mobile/narrow breakpoint is needed. */
 @page { size: A4 portrait; margin: 1cm 10mm; }
 @media print {
     body { background: #fff; font-size: 9pt; line-height: 1.4; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
