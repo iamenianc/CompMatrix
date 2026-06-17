@@ -206,6 +206,12 @@ body {
 .self-comment-readonly h5 { margin: 0 0 0.4rem 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .self-comment-readonly p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap; }
 
+/* Read-only looking-ahead answers in the manager report */
+.growth-readonly { margin-bottom: 1.4rem; }
+.growth-readonly:last-child { margin-bottom: 0; }
+.growth-readonly h5 { margin: 0 0 0.5rem 0; font-size: 0.9rem; font-weight: 600; line-height: 1.5; color: var(--ink); }
+.growth-readonly p { margin: 0; padding: 0.7rem 0.85rem; background: var(--bg-soft); border: 1px solid var(--border); font-size: 0.95rem; line-height: 1.55; color: var(--ink); white-space: pre-wrap; }
+
 /* Rating chips (read-only display of a rating) */
 .chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.95rem; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--border); }
 .chip::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
@@ -226,6 +232,14 @@ body {
 .remove-btn:hover { border-color: #c0392b; color: #c0392b; }
 .add-btn { border: 1px solid var(--navy); background: #fff; color: var(--navy); padding: 0.65rem 1.25rem; font: inherit; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; margin-top: 0.5rem; transition: all .15s; }
 .add-btn:hover { background: var(--navy); color: #fff; }
+
+/* Looking-ahead open-ended questions */
+.growth-q { margin-bottom: 1.5rem; }
+.growth-q:last-child { margin-bottom: 0; }
+.growth-q label { display: block; font-weight: 600; font-size: 0.95rem; line-height: 1.5; color: var(--ink); margin-bottom: 0.6rem; }
+.growth-q .add-comp-input { width: 100%; border: 1px solid var(--border); padding: 0.7rem 0.85rem; font: inherit; font-size: 0.98rem; line-height: 1.55; color: var(--ink); background: #fff; resize: none; min-height: 4.5rem; overflow: hidden; }
+.growth-q .add-comp-input::placeholder { color: var(--muted); }
+.growth-q .add-comp-input:focus { outline: none; border-color: var(--navy); box-shadow: inset 0 -2px 0 var(--navy); }
 
 /* Manager review columns */
 /* Employee column on the left (read-only chip), wider manager column on the
@@ -411,6 +425,18 @@ body {
                 <p class="subtitle" style="margin-top:-0.5rem;margin-bottom:1rem;">Competencies you excel at that aren't listed above. These carry into the manager report.</p>
                 <div id="addCompList"></div>
                 <button type="button" class="add-btn" id="addCompBtn">+ Add a strength</button>
+            </div>
+            <div class="competency-card add-comp-card">
+                <div class="competency-title">Looking Ahead <span style="font-weight:400;font-size:0.85rem;opacity:0.7;">(optional)</span></div>
+                <p class="subtitle" style="margin-top:-0.5rem;margin-bottom:1.25rem;">A few open-ended questions about where you want to grow. These carry into the manager report.</p>
+                <div class="growth-q">
+                    <label for="growthAbilities">What abilities do you want to develop over the next year, and how will it impact your role/team?</label>
+                    <textarea id="growthAbilities" class="add-comp-input" rows="3" placeholder="Your answer..."></textarea>
+                </div>
+                <div class="growth-q">
+                    <label for="growthSupport">What support, resources, or opportunities from management would most effectively help you achieve that growth?</label>
+                    <textarea id="growthSupport" class="add-comp-input" rows="3" placeholder="Your answer..."></textarea>
+                </div>
             </div>
             <div class="actions">
                 <span class="save-note" id="saveNote">Progress saves automatically.</span>
@@ -683,7 +709,7 @@ const EXPORTED_STATE = null;
 /* ════════════════════════════════════════════════════════════════════════════
    2. STATE + STORAGE
    ════════════════════════════════════════════════════════════════════════════ */
-let state = { employeeName: "", completedAt: null, level: null, ratings: {}, comments: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {}, mgrSummary: "" };
+let state = { employeeName: "", completedAt: null, level: null, ratings: {}, comments: {}, extras: [], growth: { abilities: "", support: "" }, mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {}, mgrSummary: "" };
 
 function load() {
     if (EXPORTED_STATE) {
@@ -896,6 +922,20 @@ function renderMatrix() {
         });
     });
     renderExtras();
+    renderGrowth();
+}
+
+function renderGrowth() {
+    if (!state.growth) state.growth = { abilities: "", support: "" };
+    [["growthAbilities", "abilities"], ["growthSupport", "support"]].forEach(([id, key]) => {
+        const ta = document.getElementById(id);
+        if (!ta) return;
+        ta.value = state.growth[key] || "";
+        autoGrow(ta);
+        ta.addEventListener("input", e => {
+            state.growth[key] = e.target.value; autoGrow(e.target); save();
+        });
+    });
 }
 
 function renderExtras() {
@@ -995,6 +1035,22 @@ function renderManager() {
                 + '</div></div>';
         }).join("");
     html += '</div>';
+
+    // Looking-ahead open-ended answers (read-only)
+    const g = state.growth || {};
+    const growthQs = [
+        ["What abilities do you want to develop over the next year, and how will it impact your role/team?", g.abilities],
+        ["What support, resources, or opportunities from management would most effectively help you achieve that growth?", g.support]
+    ];
+    if (growthQs.some(([, a]) => a && a.trim())) {
+        html += '<div class="competency-card add-comp-card"><div class="competency-title">Looking Ahead (employee responses)</div>';
+        html += growthQs.map(([q, a]) =>
+            '<div class="growth-readonly"><h5>' + esc(q) + '</h5><p>'
+            + (a && a.trim() ? esc(a) : '<em class="empty-note">No response.</em>') + '</p></div>'
+        ).join("");
+        html += '</div>';
+    }
+
     form.innerHTML = html;
 
     // Wire up manager inputs. The radio `name` is "<scope>-<key>"; strip the scope to get the state key.
