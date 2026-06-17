@@ -87,6 +87,10 @@ body {
 .rating-key__item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.92rem; color: var(--body); }
 .rating-key__dot { flex-shrink: 0; width: 13px; height: 13px; border-radius: 50%; margin-top: 0.28rem; border: 1px solid rgba(0,0,0,0.08); }
 .rating-key__name { font-weight: 700; color: var(--ink); }
+.rating-key__color { font-weight: 700; color: var(--muted); }
+/* Colour-blind cue: the colour name shown with every rating so a rating is
+   never distinguished by hue alone. */
+.btn-color, .chip-color { font-weight: 600; opacity: 0.75; font-size: 0.92em; }
 
 /* Employee name field */
 .name-field { background: #fff; border: 1px solid var(--border-soft); border-left: 3px solid var(--navy); padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
@@ -94,11 +98,14 @@ body {
 .name-field input { width: 100%; max-width: 28rem; border: 1px solid var(--border); padding: 0.7rem 0.85rem; font: inherit; font-size: 1.05rem; color: var(--ink); background: #fff; }
 .name-field input:focus { outline: none; border-color: var(--navy); box-shadow: inset 0 -2px 0 var(--navy); }
 
-/* Manager view — employee identity / completion bar */
-.identity-bar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1.5rem; background: var(--bg-band); border: 1px solid var(--border); border-left: 3px solid var(--navy); padding: 1rem 1.4rem; margin-bottom: 1.5rem; }
-.identity-bar .id-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; color: var(--ink); }
-.identity-bar .id-meta { font-size: 0.9rem; color: var(--muted); }
-.identity-bar .id-meta strong { color: var(--body); font-weight: 700; }
+/* Manager view — employee identity / completion bar.
+   First thing on the manager report: the employee's name and completion time
+   shown prominently. */
+.identity-bar { display: flex; flex-direction: column; gap: 0.25rem; background: var(--navy); border: 1px solid var(--navy); border-left: 6px solid var(--navy-deep); padding: 1.4rem 1.8rem; margin-bottom: 1.5rem; }
+.identity-bar .id-name { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; color: #fff; line-height: 1.1; }
+.identity-bar .id-doc { font-size: 1.05rem; font-weight: 600; color: #eaf0ff; }
+.identity-bar .id-meta { font-size: 0.95rem; color: #c3cdec; }
+.identity-bar .id-meta strong { color: #fff; font-weight: 700; }
 
 /* Level picker */
 .level-picker { background: var(--bg-soft); border: 1px solid var(--border-soft); padding: 2rem; margin-bottom: 2rem; }
@@ -241,71 +248,99 @@ body {
 
 /* ── 6. Print ─────────────────────────────────────────────────────────────── */
 /* Desktop-only target — no mobile/narrow breakpoint is needed. */
-@page { size: A4 portrait; margin: 1cm 10mm; }
+@page { size: A4 portrait; margin: 8mm 9mm 10mm; }
+/* ── Print layout: a purpose-built, density-first manager report. ────────────
+   The screen layout (big cards, side-by-side current/next boxes, stacked rating
+   panels) is replaced here by a compact one-row-per-competency band so the
+   report fills the page rather than spreading over ~8 sheets:
+     • Cards flow freely (no break-inside:avoid) so the last card on a page
+       splits and fills the page bottom; only the tight rating row stays intact.
+     • Each competency becomes a horizontal band: the Current-level standard on
+       the left (the benchmark being rated), employee + manager rating and the
+       manager comment on the right. The aspirational Next-level box is dropped.
+   ──────────────────────────────────────────────────────────────────────────── */
 @media print {
-    body { background: #fff; font-size: 9pt; line-height: 1.4; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 8pt; line-height: 1.32; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .container { max-width: 100%; padding: 0 !important; }
     /* Hide screen chrome; force the manager report visible */
     .hero, .section-head, #employeeView, #overview, .export-banner, .actions { display: none !important; }
     #managerView, #mgrContent { display: block !important; }
     #mgrNoData { display: none !important; }
     #mgrPrintHeader {
-        display: block !important; font-family: var(--serif); font-size: 15pt; font-weight: 700; color: #10266b;
-        border-bottom: 1.5pt solid #10266b; padding-bottom: 4mm; margin-bottom: 5mm;
+        display: block !important; font-family: var(--serif); font-size: 13pt; font-weight: 700; color: #10266b;
+        border-bottom: 1.25pt solid #10266b; padding-bottom: 2mm; margin-bottom: 3mm;
     }
-    #mgrPrintHeader .mgr-print-sub { display: block; font-family: var(--sans); font-size: 9pt; font-weight: 600; color: #43506e; margin-top: 2mm; }
-    /* Employee identity / completion bar */
-    .identity-bar { background: #eef1f8 !important; border: 1pt solid #c5cee6 !important; border-left: 2pt solid #10266b !important; padding: 3mm 4mm; margin-bottom: 4mm; break-inside: avoid; gap: 1mm 4mm; }
-    .identity-bar .id-name { font-size: 11pt; color: #1c2b50 !important; }
-    .identity-bar .id-meta { font-size: 8pt; color: #43506e !important; }
+    #mgrPrintHeader .mgr-print-sub { display: block; font-family: var(--sans); font-size: 8pt; font-weight: 600; color: #43506e; margin-top: 1mm; }
+    /* Identity + context collapse into one tight band each. */
+    .identity-bar { background: #eef1f8 !important; border: 0.75pt solid #c5cee6 !important; border-left: 2pt solid #10266b !important; padding: 1.5mm 3mm; margin-bottom: 2mm; break-inside: avoid; gap: 0.5mm 4mm; }
+    .identity-bar .id-name { font-size: 10pt; color: #1c2b50 !important; }
+    .identity-bar .id-doc { font-size: 8pt; font-weight: 600; color: #10266b !important; }
+    .identity-bar .id-meta { font-size: 7.5pt; color: #43506e !important; }
     .identity-bar .id-meta strong { color: #10266b !important; }
-    /* Rating key */
-    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 3mm 4mm; margin-bottom: 4mm; break-inside: avoid; }
-    .rating-key h3 { font-size: 9pt; color: #10266b !important; margin-bottom: 2mm; }
-    .rating-key__items { grid-template-columns: 1fr 1fr; gap: 1.5mm 4mm; }
-    .rating-key__item { font-size: 7.5pt; }
+    /* Rating key — single dense row of four. */
+    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 1.5mm 3mm; margin-bottom: 2.5mm; break-inside: avoid; }
+    .rating-key h3 { font-size: 8pt; color: #10266b !important; margin-bottom: 1mm; }
+    .rating-key__items { grid-template-columns: repeat(4, 1fr) !important; gap: 0.5mm 3mm; }
+    .rating-key__item { font-size: 6.5pt; gap: 0.35rem; }
     .rating-key__dot { width: 9px; height: 9px; }
     /* Context bar */
-    .context-bar { background: #eef1f8 !important; color: #1c2b50 !important; border: 1pt solid #c5cee6 !important; padding: 3mm 4mm; margin-bottom: 4mm; font-size: 9pt; }
+    .context-bar { display: block !important; background: #eef1f8 !important; color: #1c2b50 !important; border: 0.75pt solid #c5cee6 !important; padding: 1.5mm 3mm; margin-bottom: 2.5mm; font-size: 8pt; }
     .context-bar strong { color: #10266b !important; }
-    /* Cards */
-    .competency-card { border: 1pt solid #cbd5e1; border-top: 2pt solid #10266b; padding: 4mm; margin-bottom: 3mm; box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
-    .add-comp-card { border-style: solid; border-top: 1pt solid #cbd5e1; }
-    .competency-title { font-size: 11pt; font-weight: 700; color: #1c2b50 !important; margin-bottom: 2.5mm; }
-    /* Level description boxes — keep current & next side by side */
-    .grid-comparison { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; break-inside: avoid; }
+    .context-bar span { display: none !important; }   /* drop the on-screen instructional aside */
+
+    /* ── Competency band ──────────────────────────────────────────────────── */
+    /* Cards flow and split across pages so each sheet fills up. */
+    .competency-card { border: 0; border-top: 0.75pt solid #c5cee6; padding: 3mm 0 2mm; margin: 0; box-shadow: none; break-inside: auto; }
+    #mgrForm > .competency-card:first-child { border-top: 0; }
+    .add-comp-card { border: 0.75pt dashed #c5cee6 !important; padding: 2mm 3mm !important; margin-top: 2mm; }
+    .competency-title { font-size: 9pt; font-weight: 700; color: #10266b !important; margin-bottom: 1mm; }
+
+    /* Level standards: current and next side by side, compact, no boxed panels.
+       Each box shows its heading inline with the description text. A thin rule
+       between the two keeps them legible without the heavy screen card styling. */
+    .grid-comparison { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 4mm; background: transparent !important; padding: 0 !important; margin: 1.5mm 0 1mm !important; }
     .grid-comparison.single { grid-template-columns: 1fr !important; }
-    .level-box { padding: 2.5mm 3mm; }
-    .level-box h4 { font-size: 7pt; color: #10266b !important; margin-bottom: 1mm; }
-    .level-box p { font-size: 8pt; }
-    .level-box--current { background: #fff !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; }
-    .level-box--current p { color: #1c2b50 !important; }
-    .level-box--next { background: transparent !important; border: 0.75pt dashed #dde2ee !important; border-left: 2pt dashed #c5cee6 !important; }
+    .level-box { padding: 0 !important; }
+    .level-box--current { background: transparent !important; border: 0 !important; }
+    .level-box--next { display: block !important; background: transparent !important; border: 0 !important; border-left: 0.75pt solid #dde2ee !important; padding-left: 4mm !important; }
+    .level-box h4 { display: inline; font-size: 7pt; margin: 0 1mm 0 0; }
+    .level-box--current h4 { color: #10266b !important; }
     .level-box--next h4 { color: #7a849c !important; }
-    /* Rating columns — keep employee & manager side by side, never stacked */
-    .compare-grid { display: grid !important; grid-template-columns: 1fr 1.6fr !important; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
-    .compare-col { border: 1pt solid #dde2ee; padding: 3mm; min-width: 0; }
-    .compare-col.manager { background: #f7f9fd !important; border-color: #c5cee6 !important; border-top: 2pt solid #10266b !important; }
-    .compare-col h5 { font-size: 7pt; margin-bottom: 2mm; }
+    .level-box h4::after { content: ""; }
+    .level-box p { display: inline; font-size: 7.5pt; color: #1c2b50 !important; }
+    .level-box--next p { color: #43506e !important; }
+
+    /* Rating row: employee column | manager column, side by side, intact.
+       The markup gives two columns; the manager column stacks its rating chip
+       then the comment beneath, all kept tight. The whole row never splits. */
+    .compare-grid { display: grid !important; grid-template-columns: 36mm 1fr !important; gap: 4mm; break-inside: avoid; page-break-inside: avoid; align-items: start; margin-top: 1mm; }
+    .compare-col { border: 0 !important; padding: 0 !important; min-width: 0; }
+    .compare-col h5 { font-size: 6pt; margin-bottom: 0.8mm; color: #7a849c !important; display: inline; margin-right: 1.5mm; }
     .compare-col.manager h5 { color: #10266b !important; }
-    /* Replace manager radios with injected static chip */
     .compare-col.manager .btn-group { display: none !important; }
-    .print-chip-wrap { display: block !important; }
-    /* Replace editable comment textarea with injected static text */
+    .print-chip-wrap { display: inline-block !important; }
+    /* Manager comment sits just below the manager chip, label inline. */
     .mgr-comment { display: none !important; }
-    .mgr-comment-wrap { margin-top: 2.5mm; }
-    .mgr-comment-label { font-size: 6.5pt !important; margin-bottom: 1mm !important; }
-    .mgr-comment-print { display: block !important; font-size: 8pt; color: #1c2b50; white-space: pre-wrap; line-height: 1.4; }
+    .mgr-comment-wrap { margin-top: 1mm !important; }
+    .mgr-comment-label { display: inline !important; font-size: 6pt !important; margin: 0 1.5mm 0 0 !important; color: #7a849c !important; }
+    .mgr-comment-print { display: inline !important; font-size: 7.5pt; color: #1c2b50; white-space: pre-wrap; line-height: 1.32; }
     .mgr-comment-print:empty::before { content: "\2014"; color: #7a849c; }
-    /* Chips */
-    .chip { font-size: 8pt; padding: 1.5mm 3mm; border-width: 1pt; }
-    .chip::before { width: 8px; height: 8px; }
+
+    /* Overall manager comments — kept, compact, allowed to break. */
+    #mgrSummaryCard { break-inside: auto; }
+    #mgrSummaryCard .subtitle { display: none !important; }
+
+    /* Chips — slim, with colour name (colour-blind safe). */
+    .chip { font-size: 7.5pt; padding: 0.8mm 2mm; border-width: 0.75pt; gap: 0.3rem; }
+    .chip::before { width: 7px; height: 7px; }
+    .chip-color { font-size: 0.9em; opacity: 0.8; }
     .chip-green { background: #eef7f2 !important; color: #1d6e4c !important; border-color: #2f9e6f !important; } .chip-green::before { background: #2f9e6f !important; }
     .chip-orange{ background: #fdf4e8 !important; color: #9a5e16 !important; border-color: #e08a2c !important; } .chip-orange::before{ background: #e08a2c !important; }
     .chip-blue  { background: #e7ebf5 !important; color: #10266b !important; border-color: #10266b !important; } .chip-blue::before  { background: #10266b !important; }
     .chip-aqua  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; } .chip-aqua::before  { background: #17a2b8 !important; }
     .chip-none  { color: #7a849c !important; }
-    .empty-note { font-size: 8pt; }
+    .empty-note { font-size: 7.5pt; }
+    .subtitle { font-size: 7pt; }
 }
 </style>
 </head>
@@ -376,13 +411,14 @@ body {
         <div id="mgrPrintHeader"></div>
         <div id="mgrNoData" class="no-data hidden">No self-assessment found. Open the file shared by the employee.</div>
         <div id="mgrContent" class="hidden">
+            <div class="identity-bar" id="mgrIdentity">
+                <span class="id-name" id="mgrEmployeeName"></span>
+                <span class="id-doc" id="mgrDocTitle"></span>
+                <span class="id-meta" id="mgrCompletedAt"></span>
+            </div>
             <div id="exportedBanner" class="export-banner hidden">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 <div>This file was shared by an employee. Their self-assessment is pre-filled and read-only. Add your ratings and comments in the panels on the right, then use <strong>Print Report</strong> and choose <em>Save as PDF</em> to produce the finished review.</div>
-            </div>
-            <div class="identity-bar" id="mgrIdentity">
-                <span class="id-name" id="mgrEmployeeName"></span>
-                <span class="id-meta" id="mgrCompletedAt"></span>
             </div>
             <div class="context-bar">
                 <div>Reviewing <strong id="mgrCtxLevel"></strong> &rarr; growth toward <strong id="mgrCtxNext"></strong></div>
@@ -613,11 +649,13 @@ const COMPETENCIES = MATRIX.competencies;
 
 // Rating scale — shared across all roles (not role-specific). `id` drives the
 // .lbl-*/.chip-* CSS classes.
+// `colorName` is shown alongside the name so a rating is never conveyed by hue
+// alone (colour-blind accessibility).
 const RATINGS = [
-    { id: "green",  name: "Growth Needed",      color: "#2f9e6f", desc: "Requires development to fully meet current expectations." },
-    { id: "orange", name: "On Track",           color: "#e08a2c", desc: "Consistently meeting the requirements of the level." },
-    { id: "blue",   name: "Beyond Expectation", color: "#10266b", desc: "Exceeding the requirements of the current level." },
-    { id: "aqua",   name: "At Next Level",      color: "#17a2b8", desc: "Fully mastering the competency, operating at the next-level standard." }
+    { id: "green",  name: "Growth Needed",      colorName: "Green",  color: "#2f9e6f", desc: "Requires development to fully meet current expectations." },
+    { id: "orange", name: "On Track",           colorName: "Orange", color: "#e08a2c", desc: "Consistently meeting the requirements of the level." },
+    { id: "blue",   name: "Beyond Expectation", colorName: "Blue",   color: "#10266b", desc: "Exceeding the requirements of the current level." },
+    { id: "aqua",   name: "At Next Level",      colorName: "Aqua",   color: "#17a2b8", desc: "Fully mastering the competency, operating at the next-level standard." }
 ];
 const RATING_BY_ID = Object.fromEntries(RATINGS.map(r => [r.id, r]));
 
@@ -674,7 +712,7 @@ function flashSaved(noteId) {
 // ── Shared HTML fragments (DRY: used by both employee and manager renders) ──
 function chipHTML(ratingId) {
     const r = RATING_BY_ID[ratingId];
-    return r ? '<span class="chip chip-' + r.id + '">' + r.name + '</span>'
+    return r ? '<span class="chip chip-' + r.id + '">' + r.name + ' <span class="chip-color">(' + r.colorName + ')</span></span>'
              : '<span class="chip chip-none">Not rated</span>';
 }
 // Current-vs-next level description block.
@@ -689,7 +727,7 @@ function ratingRadiosHTML(group, uid, selected) {
     return '<div class="btn-group">' + RATINGS.map(r => {
         const inputId = group + "-" + r.id + "-" + uid;
         return '<input type="radio" id="' + inputId + '" name="' + group + '" value="' + r.id + '" class="btn-radio"' + (selected === r.id ? " checked" : "") + '>'
-             + '<label for="' + inputId + '" class="btn-label lbl-' + r.id + '">' + r.name + '</label>';
+             + '<label for="' + inputId + '" class="btn-label lbl-' + r.id + '">' + r.name + ' <span class="btn-color">(' + r.colorName + ')</span></label>';
     }).join("") + '</div>';
 }
 
@@ -700,7 +738,7 @@ function renderRatingKey() {
     const items = RATINGS.map(r =>
         '<div class="rating-key__item">'
         + '<span class="rating-key__dot" style="background:' + r.color + '"></span>'
-        + '<span><span class="rating-key__name">' + r.name + '</span> &mdash; ' + r.desc + '</span>'
+        + '<span><span class="rating-key__name">' + r.colorName + '</span> <span class="rating-key__color">(' + r.name + ')</span> &mdash; ' + r.desc + '</span>'
         + '</div>'
     ).join("");
     document.getElementById("ratingKey").innerHTML = '<h3>Rating key</h3><div class="rating-key__items">' + items + '</div>';
@@ -874,6 +912,7 @@ function renderManager() {
     // Employee identity + completion timestamp (carried over from the export).
     const empName = state.employeeName || "Unnamed employee";
     document.getElementById("mgrEmployeeName").textContent = empName;
+    document.getElementById("mgrDocTitle").textContent = MATRIX.role + " Core Competency Self-Assessment";
     const completed = formatTimestamp(state.completedAt);
     document.getElementById("mgrCompletedAt").innerHTML = completed
         ? 'Self-assessment completed <strong>' + esc(completed) + '</strong>'
@@ -1031,7 +1070,9 @@ document.getElementById("exportBtn").addEventListener("click", () => {
     // this flows through to the manager's copy via the baked-in state.
     state.completedAt = new Date().toISOString();
     save();
-    generateShareableHTML("comp-matrix");
+    // The employee's shareable file is the copy the manager opens and completes,
+    // so it carries the "ManagerCopy" name.
+    generateShareableHTML("comp-matrix-ManagerCopy");
 });
 document.getElementById("mgrExportBtn").addEventListener("click", () => generateShareableHTML("comp-matrix-manager-report"));
 document.getElementById("printBtn").addEventListener("click", () => { injectPrintChips(); window.print(); });
@@ -1052,10 +1093,15 @@ setText("mgrPrintHeader", MATRIX.title + " — Manager Report");
 renderRatingKey();
 load();
 if (EXPORTED_STATE) {
-    // Manager's exported copy: show only the manager report.
+    // Manager's exported copy: show only the manager report. This is a purely
+    // functional working document, so the decorative hero banner, overview grid
+    // and employee self-assessment chrome are all hidden.
+    document.querySelector(".hero").classList.add("hidden");
     document.getElementById("overview").classList.add("hidden");
     document.getElementById("employeeView").classList.add("hidden");
     document.getElementById("employeeSectionHead").classList.add("hidden");
+    document.getElementById("ratingKey").classList.add("hidden");
+    document.querySelector(".container").style.paddingTop = "2rem";
 } else {
     renderOverview();
     renderEmployee();
