@@ -125,7 +125,7 @@ body {
 .ovgrid__t-theme { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
 .ovgrid__t-name { display: block; font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
 /* Body cells: collapsed shows a left-aligned '+', open shows the descriptor */
-.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); cursor: pointer; }
+.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); cursor: pointer; min-height: 7.5rem; }
 .ovgrid__c.is-open { cursor: default; }
 .ovgrid__c.is-open { color: var(--body); font-size: 0.9rem; line-height: 1.45; min-height: 9.5rem; overflow: hidden; }
 .ovgrid__plus { font-size: 0.95rem; font-weight: 700; color: var(--muted); }
@@ -693,7 +693,7 @@ function renderOverview() {
     // Competency (title) column keeps a fixed preferred width on wide screens and
     // only shrinks toward TITLE_MIN when space runs out — it never grows to soak
     // up slack (leftover space goes to the closed level columns instead).
-    const TITLE_W = 320, TITLE_MIN = 220, CLOSED_W = 56, GAP = 12;   // px; GAP covers borders/rounding slack
+    const TITLE_W = 360, TITLE_MIN = 240, CLOSED_W = 56, GAP = 12;   // px; GAP covers borders/rounding slack
     const total = grid.clientWidth || 1140;
     // Size to the two-open budget (LEVELS.length - 2 closed) regardless of how
     // many are actually open, so a single open column matches each of two.
