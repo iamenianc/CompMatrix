@@ -19,8 +19,8 @@
     --border-soft: #e9edf6;
     --color-green-rating: #2f9e6f;
     --color-orange: #e08a2c;
-    --color-blue: #2f6fd0;
-    --color-lilac: #8a6fc4;
+    --color-blue: #10266b;    /* navy blue — Beyond Expectation */
+    --color-lilac: #17a2b8;   /* aqua — At Next Level */
     --serif: "Spectral", Georgia, "Times New Roman", serif;
     --sans: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -165,8 +165,8 @@ body {
 .btn-label:hover { border-color: var(--navy); }
 .btn-radio:checked + .lbl-green-rating { border-color: var(--color-green-rating); background-color: #eef7f2; color: #1d6e4c; box-shadow: inset 0 -3px 0 var(--color-green-rating); }
 .btn-radio:checked + .lbl-orange { border-color: var(--color-orange); background-color: #fdf4e8; color: #9a5e16; box-shadow: inset 0 -3px 0 var(--color-orange); }
-.btn-radio:checked + .lbl-blue { border-color: var(--color-blue); background-color: #eaf1fb; color: #1f4f9e; box-shadow: inset 0 -3px 0 var(--color-blue); }
-.btn-radio:checked + .lbl-lilac { border-color: var(--color-lilac); background-color: #f2eefa; color: #594389; box-shadow: inset 0 -3px 0 var(--color-lilac); }
+.btn-radio:checked + .lbl-blue { border-color: var(--color-blue); background-color: #e7ebf5; color: #10266b; box-shadow: inset 0 -3px 0 var(--color-blue); }
+.btn-radio:checked + .lbl-lilac { border-color: var(--color-lilac); background-color: #e4f6f8; color: #0f7c8c; box-shadow: inset 0 -3px 0 var(--color-lilac); }
 textarea {
     width: 100%; border: 1px solid var(--border); border-radius: 0; padding: 0.85rem;
     font-family: inherit; font-size: 0.97rem; resize: vertical; min-height: 70px; color: var(--ink);
@@ -192,8 +192,8 @@ textarea:focus { outline: none; border-color: var(--navy); }
 .chip::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 .chip-green-rating { background:#eef7f2; color:#1d6e4c; border-color:var(--color-green-rating);} .chip-green-rating::before{background:var(--color-green-rating);}
 .chip-orange { background:#fdf4e8; color:#9a5e16; border-color:var(--color-orange);} .chip-orange::before{background:var(--color-orange);}
-.chip-blue { background:#eaf1fb; color:#1f4f9e; border-color:var(--color-blue);} .chip-blue::before{background:var(--color-blue);}
-.chip-lilac { background:#f2eefa; color:#594389; border-color:var(--color-lilac);} .chip-lilac::before{background:var(--color-lilac);}
+.chip-blue { background:#e7ebf5; color:#10266b; border-color:var(--color-blue);} .chip-blue::before{background:var(--color-blue);}
+.chip-lilac { background:#e4f6f8; color:#0f7c8c; border-color:var(--color-lilac);} .chip-lilac::before{background:var(--color-lilac);}
 .chip-none { color: var(--muted); font-style: italic; font-weight: 600; border-style: dashed; }
 .mgr-comment-wrap { margin-top: 1rem; }
 .mgr-comment-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
@@ -324,10 +324,10 @@ textarea:focus { outline: none; border-color: var(--navy); }
     .chip-green-rating::before { background: #2f9e6f !important; }
     .chip-orange { background: #fdf4e8 !important; color: #9a5e16 !important; border-color: #e08a2c !important; }
     .chip-orange::before { background: #e08a2c !important; }
-    .chip-blue   { background: #eaf1fb !important; color: #1f4f9e !important; border-color: #2f6fd0 !important; }
-    .chip-blue::before   { background: #2f6fd0 !important; }
-    .chip-lilac  { background: #f2eefa !important; color: #594389 !important; border-color: #8a6fc4 !important; }
-    .chip-lilac::before  { background: #8a6fc4 !important; }
+    .chip-blue   { background: #e7ebf5 !important; color: #10266b !important; border-color: #10266b !important; }
+    .chip-blue::before   { background: #10266b !important; }
+    .chip-lilac  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; }
+    .chip-lilac::before  { background: #17a2b8 !important; }
     .chip-none   { color: #7a849c !important; }
     .empty-note  { font-size: 8pt; }
 }
@@ -456,11 +456,11 @@ const COMPETENCIES = [
 ];
 const RATINGS = [
     { id: "green-rating", label: "Green (Growth Needed)", cls: "lbl-green-rating" },
-    { id: "orange", label: "Orange (Okay)", cls: "lbl-orange" },
-    { id: "blue", label: "Blue (Excelling)", cls: "lbl-blue" },
-    { id: "lilac", label: "Lilac (Levelling Up)", cls: "lbl-lilac" }
+    { id: "orange", label: "Orange (On Track)", cls: "lbl-orange" },
+    { id: "blue", label: "Blue (Beyond Expectation)", cls: "lbl-blue" },
+    { id: "lilac", label: "Aqua (At Next Level)", cls: "lbl-lilac" }
 ];
-const RATING_LABEL = { "green-rating":"Green (Growth Needed)", orange:"Orange (Okay)", blue:"Blue (Excelling)", lilac:"Lilac (Levelling Up)" };
+const RATING_LABEL = { "green-rating":"Green (Growth Needed)", orange:"Orange (On Track)", blue:"Blue (Beyond Expectation)", lilac:"Aqua (At Next Level)" };
 
 // Replaced at export time with a JSON snapshot of the current state.
 // When non-null, this file was shared by an employee and the manager can add ratings.
