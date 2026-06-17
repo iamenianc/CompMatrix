@@ -153,7 +153,9 @@ body {
 .add-btn:hover { background: var(--navy); color: #fff; }
 
 /* Manager review columns */
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+/* Employee column on the left (read-only chip), wider manager column on the
+   right for the radios + comment box. */
+.compare-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 1rem; }
 .compare-col { border: 1px solid var(--border); padding: 1.25rem; }
 .compare-col.employee { background: var(--bg-soft); }
 .compare-col.manager { background: #fff; border-top: 3px solid var(--navy); }
@@ -219,8 +221,9 @@ body {
     .competency-card { border: 1pt solid #cbd5e1; border-top: 2pt solid #10266b; padding: 4mm; margin-bottom: 3mm; box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
     .add-comp-card { border-style: solid; border-top: 1pt solid #cbd5e1; }
     .competency-title { font-size: 11pt; font-weight: 700; color: #1c2b50 !important; margin-bottom: 2.5mm; }
-    /* Level description boxes */
-    .grid-comparison { gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; }
+    /* Level description boxes — keep current & next side by side */
+    .grid-comparison { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; break-inside: avoid; }
+    .grid-comparison.single { grid-template-columns: 1fr !important; }
     .level-box { padding: 2.5mm 3mm; }
     .level-box h4 { font-size: 7pt; color: #10266b !important; margin-bottom: 1mm; }
     .level-box p { font-size: 8pt; }
@@ -229,7 +232,7 @@ body {
     .level-box--next { background: transparent !important; border: 0.75pt dashed #dde2ee !important; border-left: 2pt dashed #c5cee6 !important; }
     .level-box--next h4 { color: #7a849c !important; }
     /* Rating columns — keep employee & manager side by side, never stacked */
-    .compare-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
+    .compare-grid { display: grid !important; grid-template-columns: 1fr 1.6fr !important; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
     .compare-col { border: 1pt solid #dde2ee; padding: 3mm; min-width: 0; }
     .compare-col.manager { background: #f7f9fd !important; border-color: #c5cee6 !important; border-top: 2pt solid #10266b !important; }
     .compare-col h5 { font-size: 7pt; margin-bottom: 2mm; }
