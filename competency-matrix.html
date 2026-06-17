@@ -213,6 +213,14 @@ textarea:focus { outline: none; border-color: var(--navy); }
 }
 .export-btn:hover { background-color: var(--navy); color: #fff; }
 .hidden { display: none !important; }
+/* Rating key / legend */
+.rating-key { background: var(--bg-soft); border: 1px solid var(--border-soft); border-left: 3px solid var(--navy); padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+.rating-key h3 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 0.9rem 0; font-size: 1.05rem; }
+.rating-key__items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem 1.5rem; }
+.rating-key__item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.92rem; color: var(--body); }
+.rating-key__dot { flex-shrink: 0; width: 13px; height: 13px; border-radius: 50%; margin-top: 0.28rem; border: 1px solid rgba(0,0,0,0.08); }
+.rating-key__name { font-weight: 700; color: var(--ink); }
+@media (max-width: 720px) { .rating-key__items { grid-template-columns: 1fr; } }
 .no-data { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 0; padding: 2.5rem; text-align: center; color: var(--body); }
 .export-banner {
     display: flex; align-items: flex-start; gap: 0.85rem;
@@ -330,6 +338,12 @@ textarea:focus { outline: none; border-color: var(--navy); }
     .chip-aqua::before  { background: #17a2b8 !important; }
     .chip-none   { color: #7a849c !important; }
     .empty-note  { font-size: 8pt; }
+    /* Rating key */
+    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 3mm 4mm; margin-bottom: 4mm; break-inside: avoid; }
+    .rating-key h3 { font-size: 9pt; color: #10266b !important; margin-bottom: 2mm; }
+    .rating-key__items { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5mm 4mm; }
+    .rating-key__item { font-size: 7.5pt; }
+    .rating-key__dot { width: 9px; height: 9px; }
 }
 </style>
 </head>
@@ -338,16 +352,16 @@ textarea:focus { outline: none; border-color: var(--navy); }
     <div class="hero__inner">
         <p class="hero__eyebrow">Engineering Career Framework</p>
         <h1 class="hero__title">Software Engineering Competency Matrix</h1>
-        <p class="hero__sub">A clear, shared picture of what great looks like at each level — completed by you, then reviewed with your manager.</p>
     </div>
 </section>
 
 <div class="container">
     <div class="section-head" id="employeeSectionHead">
         <span class="eyebrow">Self-assessment</span>
-        <h1>Where you are, and where you're growing</h1>
         <div class="subtitle">Eight core competencies, rated against your current level and the one you're growing toward, with a manager review step.</div>
     </div>
+
+    <div class="rating-key" id="ratingKey"></div>
 
     <div id="employeeView">
         <div class="level-picker" id="levelPicker">
@@ -455,11 +469,12 @@ const COMPETENCIES = [
         staff: "Aligns engineering investment with company strategy and measurable impact." } }
 ];
 const RATINGS = [
-    { id: "green", label: "Green (Growth Needed)", cls: "lbl-green" },
-    { id: "orange", label: "Orange (On Track)", cls: "lbl-orange" },
-    { id: "blue", label: "Blue (Beyond Expectation)", cls: "lbl-blue" },
-    { id: "aqua", label: "Aqua (At Next Level)", cls: "lbl-aqua" }
+    { id: "green", label: "Green (Growth Needed)", cls: "lbl-green", name: "Growth Needed", desc: "Requires development to fully meet current expectations." },
+    { id: "orange", label: "Orange (On Track)", cls: "lbl-orange", name: "On Track", desc: "Consistently meeting the requirements of the level." },
+    { id: "blue", label: "Blue (Beyond Expectation)", cls: "lbl-blue", name: "Beyond Expectation", desc: "Exceeding the requirements of the current level." },
+    { id: "aqua", label: "Aqua (At Next Level)", cls: "lbl-aqua", name: "At Next Level", desc: "Fully mastering the competency, operating at the next-level standard." }
 ];
+const RATING_COLOR = { green: "#2f9e6f", orange: "#e08a2c", blue: "#10266b", aqua: "#17a2b8" };
 const RATING_LABEL = { "green":"Green (Growth Needed)", orange:"Orange (On Track)", blue:"Blue (Beyond Expectation)", aqua:"Aqua (At Next Level)" };
 
 // Replaced at export time with a JSON snapshot of the current state.
@@ -734,6 +749,18 @@ document.getElementById("printBtn").addEventListener("click", () => {
 });
 window.addEventListener("afterprint", removePrintChips);
 
+function renderRatingKey() {
+    const items = RATINGS.map(r =>
+        '<div class="rating-key__item">'
+        + '<span class="rating-key__dot" style="background:'+RATING_COLOR[r.id]+'"></span>'
+        + '<span><span class="rating-key__name">'+r.name+'</span> &mdash; '+r.desc+'</span>'
+        + '</div>'
+    ).join("");
+    document.getElementById("ratingKey").innerHTML =
+        '<h3>Rating key</h3><div class="rating-key__items">'+items+'</div>';
+}
+
+renderRatingKey();
 load();
 if (EXPORTED_STATE) {
     // Manager's exported copy: show only the manager report, never the
