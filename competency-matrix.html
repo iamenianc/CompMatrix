@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SWE Competency Matrix</title>
+<title id="docTitle">Group Insurance Administration Competency Matrix</title>
 <style>
 /* ════════════════════════════════════════════════════════════════════════════
-   SWE Competency Matrix — self-contained, offline-only single file.
+   Competency Matrix — self-contained, offline-only single file.
+   The role/matrix is defined by the MATRIX object in the script (section 1, DATA);
+   swap that block to render a different role's matrix.
 
    STRUCTURE
      <style>   1. Design tokens   2. Base   3. Layout   4. Components
@@ -84,13 +86,36 @@ body {
 .level-picker { background: var(--bg-soft); border: 1px solid var(--border-soft); padding: 2rem; margin-bottom: 2rem; }
 .level-picker h2 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 0.35rem 0; font-size: 1.35rem; }
 .level-picker p { margin: 0 0 1.4rem 0; color: var(--body); font-size: 0.98rem; max-width: 60ch; }
-.level-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.level-options { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
 .level-btn { padding: 1.1rem 1rem; border: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; transition: all 0.15s ease; font: inherit; }
 .level-btn .lvl-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
 .level-btn .lvl-tag { display: block; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
 .level-btn:hover { border-color: var(--navy); }
 .level-btn.active { border-color: var(--navy); box-shadow: inset 4px 0 0 var(--navy); }
 .level-btn.active .lvl-name, .level-btn.active .lvl-tag { color: var(--navy); }
+
+/* Framework overview grid — whole matrix, columns expand on click */
+.overview { margin-bottom: 2.5rem; }
+.overview__head { margin-bottom: 1.25rem; }
+.overview__head .subtitle { margin-top: 0.25rem; }
+/* grid-template-columns is set inline by JS so column widths reflow as columns open/close */
+.ovgrid { display: grid; border: 1px solid var(--border); border-bottom: none; background: var(--bg-soft); }
+/* Header row */
+.ovgrid__corner { background: var(--bg-band); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0.85rem 1rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; }
+.ovgrid__h { appearance: none; border: none; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; padding: 0.85rem 0.9rem; font: inherit; transition: background 0.15s ease, box-shadow 0.15s ease; }
+.ovgrid__h .ovgrid__h-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1rem; color: var(--ink); }
+.ovgrid__h .ovgrid__h-tag { display: block; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
+.ovgrid__h:hover { background: var(--bg-soft); }
+.ovgrid__h.is-open { background: var(--bg-soft); box-shadow: inset 0 -3px 0 var(--navy); }
+.ovgrid__h.is-open .ovgrid__h-name, .ovgrid__h.is-open .ovgrid__h-tag { color: var(--navy); }
+/* Title (row label) cells */
+.ovgrid__t { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: var(--bg-soft); padding: 0.8rem 1rem; }
+.ovgrid__t-theme { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.2rem; }
+.ovgrid__t-name { display: block; font-family: var(--serif); font-size: 0.95rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+/* Body cells: collapsed shows a left-aligned '+', open shows the descriptor */
+.ovgrid__c { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; padding: 0.7rem 0.85rem; color: var(--muted); }
+.ovgrid__c.is-open { color: var(--body); font-size: 0.8rem; line-height: 1.45; min-height: 9.5rem; overflow: hidden; }
+.ovgrid__plus { font-size: 0.95rem; font-weight: 700; color: var(--muted); }
 
 /* Context bar */
 .context-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--navy); color: #eaf0ff; padding: 1rem 1.5rem; margin-bottom: 2rem; font-size: 0.98rem; }
@@ -184,6 +209,7 @@ body {
 
 /* ── 5. Utilities ─────────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
+#mgrPrintHeader { display: none; }   /* shown only in print (see Print section) */
 
 /* ── 6. Print ─────────────────────────────────────────────────────────────── */
 /* Desktop-only target — no mobile/narrow breakpoint is needed. */
@@ -195,9 +221,8 @@ body {
     .hero, .section-head, #employeeView, .export-banner, .actions { display: none !important; }
     #managerView, #mgrContent { display: block !important; }
     #mgrNoData { display: none !important; }
-    #managerView::before {
-        content: "SWE Competency Matrix \2014 Manager Report";
-        display: block; font-family: var(--serif); font-size: 15pt; font-weight: 700; color: #10266b;
+    #mgrPrintHeader {
+        display: block !important; font-family: var(--serif); font-size: 15pt; font-weight: 700; color: #10266b;
         border-bottom: 1.5pt solid #10266b; padding-bottom: 4mm; margin-bottom: 5mm;
     }
     /* Rating key */
@@ -255,15 +280,15 @@ body {
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <section class="hero">
     <div class="hero__inner">
-        <p class="hero__eyebrow">Engineering Career Framework</p>
-        <h1 class="hero__title">Software Engineering Competency Matrix</h1>
+        <p class="hero__eyebrow" id="heroEyebrow">Group Insurance Career Framework</p>
+        <h1 class="hero__title" id="heroTitle">Group Insurance Administration Competency Matrix</h1>
     </div>
 </section>
 
 <div class="container">
     <div class="section-head" id="employeeSectionHead">
         <span class="eyebrow">Self-assessment</span>
-        <div class="subtitle">Eight core competencies, rated against your current level and the one you're growing toward, with a manager review step.</div>
+        <div class="subtitle" id="employeeSubtitle"></div>
     </div>
 
     <!-- Rating key (shared by both views) -->
@@ -271,6 +296,15 @@ body {
 
     <!-- ── Employee self-assessment view ─────────────────────────────────── -->
     <div id="employeeView">
+        <!-- Framework overview: the whole matrix at a glance, columns expand on click -->
+        <div id="overview" class="overview">
+            <div class="overview__head">
+                <span class="eyebrow">Framework overview</span>
+                <div class="subtitle">The full matrix, L1&ndash;L6. Click a level heading to expand its descriptions &mdash; up to two open at once.</div>
+            </div>
+            <div class="ovgrid" id="ovGrid"></div>
+        </div>
+
         <div class="level-picker" id="levelPicker">
             <h2>Select your current level</h2>
             <p>This filters the matrix to show your current expectations alongside the level you're growing toward.</p>
@@ -299,6 +333,7 @@ body {
 
     <!-- ── Manager report view (only rendered from an exported file) ─────── -->
     <div id="managerView" class="hidden">
+        <div id="mgrPrintHeader"></div>
         <div id="mgrNoData" class="no-data hidden">No self-assessment found. Open the file shared by the employee.</div>
         <div id="mgrContent" class="hidden">
             <div id="exportedBanner" class="export-banner hidden">
@@ -330,58 +365,183 @@ body {
 
 /* ════════════════════════════════════════════════════════════════════════════
    1. DATA
+
+   This block is the single source of truth for the matrix. To swap in a
+   different role's matrix, replace `MATRIX` below — nothing else in the file
+   needs to change. `MATRIX.levels` defines the rungs (id/name/tag); each
+   `MATRIX.competencies[].levels` is keyed by those level ids.
+
+   The competency data here is generated from the role's source JSON
+   (Matricies/Matrix-*.json), which carries Theme / Competency / Levels(L1–L6).
+   Theme is preserved on each competency for future grouping, but the matrix is
+   currently rendered as a flat list.
    ════════════════════════════════════════════════════════════════════════════ */
-const STORAGE_KEY = "swe-matrix-state-v2";
+const MATRIX = {
+    // Hero / page identity for this role.
+    role: "Group Insurance Administration",
+    eyebrow: "Group Insurance Career Framework",
+    title: "Group Insurance Administration Competency Matrix",
+    // Persistence key — bump the suffix if the data shape changes.
+    storageKey: "compmatrix-group-insurance-admin-v1",
 
-const LEVELS = [
-    { id: "swe1",   name: "SWE I",      tag: "Entry" },
-    { id: "swe2",   name: "SWE II",     tag: "Mid" },
-    { id: "senior", name: "Senior SWE", tag: "Senior" },
-    { id: "staff",  name: "Staff SWE",  tag: "Top of ladder" }
-];
+    // Six rungs (L1–L6). Tags are descriptive labels, edit freely.
+    levels: [
+        { id: "l1", name: "L1", tag: "Junior" },
+        { id: "l2", name: "L2", tag: "Analyst" },
+        { id: "l3", name: "L3", tag: "Senior" },
+        { id: "l4", name: "L4", tag: "Team Lead" },
+        { id: "l5", name: "L5", tag: "Manager" },
+        { id: "l6", name: "L6", tag: "Head" }
+    ],
 
-const COMPETENCIES = [
-    { title: "System Architecture & Design", levels: {
-        swe1: "Implements well-defined components to spec; asks for design guidance on anything non-trivial.",
-        swe2: "Designs reliable, scalable components and medium-sized services independently; identifies technical debt.",
-        senior: "Designs multi-system architectures, sets engineering standards across teams, and explicitly mitigates long-term technical risk.",
-        staff: "Defines architecture direction across an org; resolves cross-team design tradeoffs and sets multi-year technical strategy." } },
-    { title: "Code Quality & Craft", levels: {
-        swe1: "Writes clean, tested code for assigned tasks; incorporates review feedback reliably.",
-        swe2: "Produces robust, maintainable code; raises the quality bar in reviews for their team.",
-        senior: "Establishes patterns and tooling that lift code quality team-wide; reviews are a teaching tool.",
-        staff: "Drives quality practices and standards adopted across multiple teams." } },
-    { title: "Problem Solving & Debugging", levels: {
-        swe1: "Solves scoped problems; escalates ambiguous or cross-cutting issues.",
-        swe2: "Independently diagnoses and resolves complex bugs across their service.",
-        senior: "Leads diagnosis of gnarly, cross-system production issues; builds prevention into the system.",
-        staff: "Anticipates classes of failure org-wide and drives systemic resilience improvements." } },
-    { title: "Ownership & Delivery", levels: {
-        swe1: "Owns individual tasks to completion within an estimate.",
-        swe2: "Owns features end-to-end, including rollout, monitoring, and follow-up.",
-        senior: "Owns delivery of significant projects spanning multiple people and quarters.",
-        staff: "Owns outcomes across teams; unblocks delivery at the program level." } },
-    { title: "Collaboration & Communication", levels: {
-        swe1: "Communicates progress and blockers clearly within the team.",
-        swe2: "Coordinates effectively across the team; writes clear design docs and updates.",
-        senior: "Aligns multiple stakeholders; communicates tradeoffs to technical and non-technical audiences.",
-        staff: "Builds alignment across orgs; influences direction through clear written and verbal communication." } },
-    { title: "Mentorship & People Development", levels: {
-        swe1: "Shares learnings with peers; supports new joiners informally.",
-        swe2: "Actively mentors junior engineers via code reviews and pairing.",
-        senior: "Maps growth tracks for engineers, sponsors individuals for promotion, and scales onboarding.",
-        staff: "Develops senior engineers; shapes the engineering culture and mentorship norms across teams." } },
-    { title: "Technical Judgment & Decision-Making", levels: {
-        swe1: "Makes sound choices within a defined task; knows when to ask.",
-        swe2: "Makes good build-vs-buy and tradeoff calls for their own work.",
-        senior: "Makes high-leverage technical decisions for the team and defends them with data.",
-        staff: "Makes decisions with org-wide and long-term impact under high ambiguity." } },
-    { title: "Impact & Business Alignment", levels: {
-        swe1: "Understands how their tasks connect to team goals.",
-        swe2: "Connects their work to product and team outcomes; flags low-value effort.",
-        senior: "Prioritizes work by business impact and influences team roadmap.",
-        staff: "Aligns engineering investment with company strategy and measurable impact." } }
-];
+    competencies: [
+        { theme: "Delivery", title: "Quote preparation & premium calculation", levels: {
+            l1: "Prepares standard quotes and performs basic premium checks within established process rules using Excel and GroupAdmin. Understands that premium outcomes depend on inputs such as cover, category and rates, and escalates anything outside the standard path.",
+            l2: "Independently prepares routine quotes and validates premium inputs and outputs with limited supervision. Reconciles a quote back to its source data and explains how the headline numbers were derived.",
+            l3: "Handles more complex quotes and premium validation issues. Investigates premium mismatches caused by date context, salary inputs, category setup, leave/eligibility or underwriting impacts, which are key calculation drivers in GroupAdmin, and resolves them with confidence.",
+            l4: "Oversees quoting and premium validation across the team, managing escalations where output quality depends on the right review period, correct category design and correct salary/date inputs. Uplifts turnaround and consistency across the quoting workflow.",
+            l5: "Owns quote quality and premium validation accuracy for the team. Sets control standards that keep estimated premium, actual premium and adjustment handling correctly separated, and ensures the team operates confidently across both business workflow and system calculation logic.",
+            l6: "Sets strategic direction for premium governance across the function. Ensures quoting and premium calculation are scalable, well-controlled and consistent across insurer-specific and broker-specific variants." } },
+        { theme: "Delivery", title: "Member & policy data validation", levels: {
+            l1: "Validates member data and checks that imported data is complete and ready for processing under established rules. Spots obviously missing or malformed records and flags them.",
+            l2: "Independently performs member and policy data checks across a policy. Confirms category, salary, date and eligibility fields are present and sensible before processing proceeds.",
+            l3: "Investigates data discrepancies driven by category setup, leave/eligibility, salary or date context. Traces a problem record back through the import to its source and determines the correct fix.",
+            l4: "Oversees data validation and ETL quality across the team, managing escalations where output depends on correct category design and correct salary/date inputs. Strengthens the checks applied at import.",
+            l5: "Owns data integrity for the team. Sets control standards for review-cycle processing so that data feeding calculation and reporting is consistently complete, correct and traceable.",
+            l6: "Drives enterprise improvement in how the business handles data integrity across annual review cycles, ensuring the import-to-core-to-snapshot flow remains auditable and reliable at scale." } },
+        { theme: "Delivery", title: "Data import & ETL processing", levels: {
+            l1: "Assists with review-cycle data preparation and checks that imported data is complete and ready for processing. Follows the import steps in order and escalates exceptions.",
+            l2: "Runs routine imports independently and works across the operational flow from imported source data through validation. Confirms record counts and key totals reconcile after each load.",
+            l3: "Resolves complex import and ETL scenarios, including review-period data issues and mismatches introduced during loading. Understands how source layouts map to the GroupAdmin schema and corrects translation errors.",
+            l4: "Oversees data validation and ETL across the team. Manages escalations in the import-to-core-to-snapshot flow and improves how the team moves data from import through calculation reliably.",
+            l5: "Owns data integrity across the ETL pipeline for the team. Sets control standards for review-cycle processing and ensures imports are repeatable, reconciled and auditable.",
+            l6: "Sets strategic direction for how the business ingests and processes data across insurers, ensuring the import-to-core-to-snapshot architecture scales across insurer-specific and broker-specific variants." } },
+        { theme: "Delivery", title: "Annual review cycle execution", levels: {
+            l1: "Supports review-cycle data preparation and basic checks within established process rules. Understands that a review period frames the data and that working in the wrong period produces wrong results.",
+            l2: "Supports routine review-cycle processing independently, working from imported source data through validation and into review reporting support. Follows the cycle steps and confirms each gate before moving on.",
+            l3: "Handles complex review-period data scenarios, investigating issues caused by date context, category setup or eligibility within a cycle. Reviews outputs for completeness, consistency and traceability against the correct review period.",
+            l4: "Oversees day-to-day delivery of the review cycle across quoting, validation, ETL and documentation. Manages escalations where output quality depends on the right review period and correct adjustment logic.",
+            l5: "Owns review execution for the team. Sets control standards for review-cycle processing and adjustment reconciliation, ensuring the team handles each cycle accurately and on time.",
+            l6: "Drives strategic improvement in how the business runs annual review cycles, building scalability, control and consistency into the cycle across all serviced insurers." } },
+        { theme: "Delivery", title: "Policy documentation & reporting output", levels: {
+            l1: "Updates policy documentation within established process rules. Produces simple reporting outputs and checks them against a template before they go out.",
+            l2: "Completes policy documentation with limited supervision and supports review reporting. Ensures documents reflect the current policy state and the correct review period.",
+            l3: "Reviews policy documentation and reporting outputs for completeness, consistency and traceability, using snapshot and reporting structures as intended. Catches mismatches between the documented position and the underlying data.",
+            l4: "Oversees policy documentation and reporting delivery across the team. Manages escalations where output quality depends on correct adjustment logic and the right review period, and uplifts documentation controls and turnaround.",
+            l5: "Owns policy output and reporting quality for the team. Sets standards that keep estimated premium, actual premium, transaction/receipt adjustments and reporting snapshots correctly distinguished and reconciled.",
+            l6: "Sets the strategic direction for reporting, documentation and auditability across the function, ensuring outputs meet insurer needs consistently across insurer-specific and broker-specific variants." } },
+        { theme: "Delivery", title: "Quantitative accuracy, attention to detail & Excel tooling", levels: {
+            l1: "Works carefully and double-checks figures, dates and categories before submitting. Applies common-sense sense-checks (e.g. does this premium look reasonable?) to spot obvious errors. Uses Excel for standard lookups, formulas and simple reconciliations within established templates.",
+            l2: "Independently produces accurate quantitative work in Excel and GroupAdmin, reconciling inputs to outputs. Builds reliable workbooks using functions and pivots to check data against system outputs, and builds checks into their own work rather than relying on others to catch mistakes.",
+            l3: "Identifies and explains subtle numerical errors driven by date context, salary inputs, category setup, leave/eligibility or underwriting impacts. Designs robust, reusable Excel tooling with built-in checks that surface these common failure points, and reconciles complex figures across systems with confidence.",
+            l4: "Sets the standard for quantitative rigour and Excel tooling across the team. Designs the checks and reconciliations that prevent errors, ensures workbooks are accurate, controlled and maintainable rather than fragile, and reviews high-risk calculations and tools before they are relied upon.",
+            l5: "Embeds a culture of quantitative accuracy across the team and reduces reliance on undocumented spreadsheets by improving how tooling complements the system. Ensures controls reliably catch the calculation errors that matter, while keeping the team productive.",
+            l6: "Drives enterprise standards for quantitative control and premium governance, ensuring accuracy is engineered into the platform, tooling and process rather than depending on individual diligence." } },
+        { theme: "Collaboration", title: "Customer & insurer focus", levels: {
+            l1: "Understands that the team services insurers and keeps the insurer's needs in mind when doing the work. Responds to insurer queries promptly and politely under supervision.",
+            l2: "Collaborates directly with insurer teams on routine clarifications, discrepancies and policy updates. Anticipates what the insurer will need and prepares accordingly.",
+            l3: "Manages insurer relationships on complex or sensitive matters, resolving discrepancies and underwriting-impacted issues while keeping the insurer informed and confident.",
+            l4: "Owns insurer coordination across the team's portfolio, managing escalations and improving how the team coordinates with insurers across import, calculation and documentation.",
+            l5: "Owns insurer service management for the team. Sets the standard for how the team partners with insurers and is a trusted point of contact for senior insurer stakeholders.",
+            l6: "Sets strategic direction for service quality and insurer outcomes across the function, driving cross-insurer operating consistency while respecting insurer-specific variants." } },
+        { theme: "Collaboration", title: "Attitude", levels: {
+            l1: "Displays a positive and enthusiastic attitude towards learning and developing new skills, taking initiative to contribute where possible. Accepts feedback graciously and shows resilience in the face of challenges. Eager to help out with whatever needs doing.",
+            l2: "Demonstrates a can-do attitude, taking on complex tasks with confidence. Takes initiative to contribute to the team. Shows adaptability when facing change and maintains an open mindset.",
+            l3: "Maintains a positive attitude even in stressful situations, such as peak review cycles. Leads by example, showing resilience and a solutions-oriented approach to problems.",
+            l4: "Demonstrates an uplifting attitude that motivates team members. Consistently solutions-oriented and aware of their position as a leader within the team. Encourages others to do the same.",
+            l5: "Exhibits a forward-thinking attitude, viewing challenges as opportunities for growth. Inspires team members across multiple teams. Capable of addressing morale issues in their part of the business.",
+            l6: "Sets the tone for the function and beyond, modelling composure and optimism through significant change. Shapes a culture in which transformation is embraced rather than resisted." } },
+        { theme: "Collaboration", title: "Effective communication", levels: {
+            l1: "Responsive, pleasant and proactive across all channels. Work is usually presented clearly so others can understand. Verbal and written communication is easy to follow.",
+            l2: "Consistently responsive and clear in communication. Translates between business detail and system behaviour for different audiences. Work is consistently presented in a way that others understand.",
+            l3: "Communicates clearly and concisely in written and verbal form, on both numerical and process subjects, in an audience-oriented way. Explains discrepancies and their drivers plainly to insurers and colleagues. Actively listens and pays attention to non-verbal cues.",
+            l4: "Presents work with polish and confidence. Leads meetings effectively, internally and with insurers. Growing skill at conflict resolution. Written communication is clear, compelling and easy to follow.",
+            l5: "Fosters a culture of clear, audience-oriented communication across several teams. Capable of influencing and persuading others at any level, including senior insurer stakeholders. Coaches others to uplift their written, verbal and interpersonal skills.",
+            l6: "Communicates and persuades at executive and senior-insurer level on service and transformation. Sets the narrative for change and ensures it is understood consistently across the function." } },
+        { theme: "Collaboration", title: "Knowledge sharing", levels: {
+            l1: "Understands their area of work and shares their knowledge frequently with their teammates.",
+            l2: "Understands their work domain, shares their knowledge frequently and contributes to team documentation and process notes. Watches out for opportunities to share what they know.",
+            l3: "Understands their team's domain, including GroupAdmin's calculation drivers and common failure points, and contributes actively to documentation. Watches for opportunities to share knowledge and encourages others to do the same.",
+            l4: "Fosters a culture of documentation and knowledge sharing within their team and with insurer stakeholders; actively demonstrates these behaviours.",
+            l5: "Fosters this culture across several teams and their respective insurer stakeholders.",
+            l6: "Builds enterprise knowledge assets (reusable process guides, calculation-driver references, review-cycle runbooks) and ensures organisational learning is retained and applied." } },
+        { theme: "Collaboration", title: "Teamwork", levels: {
+            l1: "Helps teammates when requested. Gives or shares credit where due.",
+            l2: "When requested, helps teammates overcome obstacles, resolve blockers, and complete work, especially during busy review periods. Shares credit where due.",
+            l3: "Often helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+            l4: "Consistently and proactively helps teammates overcome obstacles, resolve blockers, and complete work. Shares credit where due.",
+            l5: "Consistently works across teams to help them resolve blockers and complete work. Ensures credit is shared and given where due.",
+            l6: "Builds collaboration across the entire function, breaking down silos between teams and insurers to deliver shared outcomes. Ensures credit is shared and given where due." } },
+        { theme: "Collaboration", title: "Feedback", levels: {
+            l1: "Understands how to deliver praise and constructive feedback in a useful way. Learns and improves from feedback provided by others.",
+            l2: "Delivers praise and constructive feedback to their team, teammates and manager. Actively seeks feedback to learn and improve.",
+            l3: "Delivers feedback to teammates and to insurer stakeholders when opportunities arise. Actively seeks 360-degree feedback to learn and improve.",
+            l4: "Fosters a culture of delivering praise and constructive feedback within their team and with insurer stakeholders. Actively demonstrates these behaviours. Proactively seeks 360-degree feedback.",
+            l5: "Fosters this culture across several teams as well as their respective insurer stakeholders. Promotes a continual improvement mindset in which feedback is appreciated as a facilitator of professional growth.",
+            l6: "Embeds a feedback and continual-improvement culture across the function, modelling openness to challenge at the most senior levels." } },
+        { theme: "Impact", title: "Decision making", levels: {
+            l1: "Understands what accountability means and knows when a decision is theirs to make versus when to escalate. Aware that acting on the wrong review period or wrong inputs leads to wrong outcomes.",
+            l2: "Strives to be objective and sense-checks their own conclusions before acting. Holds themselves accountable for the accuracy of their outputs.",
+            l3: "Makes sound judgement calls on complex discrepancies and review-period scenarios, weighing the calculation drivers at play. Holds themselves accountable and helps teammates do the same.",
+            l4: "Takes ownership of decisions made in their team, helping teammates make clear decisions about quoting, validation and adjustments, backing those decisions and taking responsibility for their success. Ensures accountability is practised within their team.",
+            l5: "Takes ownership of decisions across several teams, helping them make clear, well-controlled decisions. Ensures accountability is practised throughout those teams.",
+            l6: "Owns function-level decisions on service, controls and operating model. Establishes the governance through which major decisions are made and held accountable across the function." } },
+        { theme: "Impact", title: "Controls, governance & auditability", levels: {
+            l1: "Follows the controls and checks built into the process and understands why they exist. Keeps a clear record of what was done so work can be traced later.",
+            l2: "Applies controls consistently and keeps work traceable from source data through to output. Flags where a control is missing or being bypassed.",
+            l3: "Ensures snapshot and reporting structures are used as intended so that outputs are reconcilable and auditable. Distinguishes estimated premium, actual premium and transaction/receipt adjustments correctly in their work.",
+            l4: "Uplifts controls, consistency and turnaround by improving how the team works across import, calculation, documentation and insurer coordination. Strengthens auditability across the import-to-core-to-snapshot flow.",
+            l5: "Sets control standards for review-cycle processing, adjustment reconciliation and reporting quality across the team. Ensures the team's work stands up to audit and reconciliation scrutiny.",
+            l6: "Owns governance, controls and auditability for the function. Ensures premium governance, reporting and auditability are embedded in the operating model and scale across insurers." } },
+        { theme: "Impact", title: "Process improvement", levels: {
+            l1: "Spots small inefficiencies in their own work and suggests simple improvements. Open to better ways of doing routine tasks.",
+            l2: "Identifies and implements improvements to routine tasks, such as better Excel checks or cleaner data-prep steps, for a single workflow.",
+            l3: "Investigates recurring failure points (date context, salary inputs, category setup, leave/eligibility, underwriting impacts) and proposes process changes that prevent them recurring.",
+            l4: "Uplifts controls, consistency and turnaround by improving how the team works across import, calculation, documentation and insurer coordination. Leads improvement initiatives within the team.",
+            l5: "Leads process improvement and capability uplift so the team operates confidently across both business workflow and system-driven calculation logic. Prioritises improvements by impact across the team.",
+            l6: "Drives strategic transformation of how the business handles review cycles, premium governance, reporting and cross-insurer operating consistency, building a scalable blended admin-and-analysis capability." } },
+        { theme: "Impact", title: "Leadership & mentoring", levels: {
+            l1: "Seeks out mentorship to grow their own experience.",
+            l2: "Seeks out mentorship. Sometimes mentors teammates in an open, respectful, flexible, empathetic manner.",
+            l3: "Mentors junior analysts in an open, respectful, flexible, empathetic manner. Seeks out mentoring opportunities specifically to create redundancy and backfill ability within the team.",
+            l4: "Defines team capability and development. Mentors across the team of 6 to 10, with others actively seeking their feedback. Drives initiatives to improve the team's productivity and standards.",
+            l5: "Manages and develops the team. Leads by example, sets the direction for the team and grows the next generation of analysts and leads. Owns team performance across review execution, quote quality, validation accuracy, data integrity, policy output and insurer service.",
+            l6: "Provides functional leadership. Builds leadership capability across the function and shapes how the blended admin-and-analysis discipline is led, rather than running a simple back-office processing team." } },
+        { theme: "Strategy", title: "Group insurance domain knowledge", levels: {
+            l1: "Has a basic understanding of group insurance and how the team services insurers day to day. Knows the core concepts of policies, members, categories and premiums.",
+            l2: "Understands their book of policies and how group insurance administration contributes to the insurer's outcomes. Knows the data and process their work touches.",
+            l3: "Has a thorough understanding of group insurance administration, including how date context, salary, category, eligibility and underwriting drive premium outcomes. Understands adjacent areas and their interactions.",
+            l4: "Has a thorough understanding of the domain and how it maps to the wider group insurance market. Understands how insurer-specific and broker-specific variants differ while sharing common core concepts.",
+            l5: "Has a thorough command of group insurance administration across multiple insurers and how the function contributes to overall service strategy.",
+            l6: "Has function-wide command of the group insurance operating model, value chain and regulatory environment, and uses it to shape strategy and cross-insurer operating consistency." } },
+        { theme: "Strategy", title: "System & calculation logic mastery", levels: {
+            l1: "Uses Excel and the GroupAdmin SQL-server GUI to complete standard tasks. Understands which screen or sheet to use for each routine activity.",
+            l2: "Works confidently across the operational flow in GroupAdmin from imported source data through validation and review reporting support. Understands how inputs map to outputs in the system.",
+            l3: "Understands GroupAdmin's calculation drivers and date layers, and translates business situations into the correct system setup. Exercises caution around date context, which is explicitly highlighted as a risk area.",
+            l4: "Guides the team in using the system correctly across import, calculation, documentation and reporting. Understands the business-to-schema translation well enough to diagnose system-driven issues.",
+            l5: "Leads capability uplift so the team operates confidently across both business workflow and system-driven calculation logic. Ensures business-to-schema translation and caution around date layers are well understood across the team.",
+            l6: "Sets strategic direction for how the business exploits and evolves the platform, ensuring the import-to-core-to-snapshot model and calculation logic scale across insurer-specific and broker-specific variants." } },
+        { theme: "Strategy", title: "Operating model & scalability", levels: {
+            l1: "Understands that the team services many policies for multiple insurers and that consistent ways of working keep the service reliable as volume grows.",
+            l2: "Understands how their work fits the team's operating model and where standard process keeps service consistent. Spots when a one-off workaround risks becoming an unscalable habit.",
+            l3: "Understands how insurer-specific and broker-specific variants share a common core, and works in ways that keep that common core intact rather than fragmenting practice per insurer.",
+            l4: "Improves how the team operates across import, calculation, documentation and insurer coordination so the service scales without losing control. Identifies bottlenecks that limit capacity as the portfolio grows.",
+            l5: "Shapes the team's operating model so it can absorb more policies and insurers without proportional headcount, balancing turnaround, control and consistency across the team.",
+            l6: "Sets strategic direction for the function's operating model, scalability and transformation, ensuring it supports insurer-specific and broker-specific variants over a common core and operates as a blended admin-and-analysis capability rather than a back-office processing team." } },
+        { theme: "Strategy", title: "Information security & privacy", levels: {
+            l1: "Understands and follows the Information Security Management System (ISMS) and Privacy Policy. Aware that the team handles sensitive member and insurer data subject to the Privacy Act, superannuation and taxation law, and knows to report suspected security events promptly.",
+            l2: "Applies data-handling rules when working with member, policy and premium information in Excel and GroupAdmin. Asks for help on decisions with security or privacy implications.",
+            l3: "Approaches all administration and analysis work with a security and privacy lens, given the sensitive member and financial data involved. Ensures controls such as least privilege, data minimisation and audit trails are respected, and fosters a security-first mindset within the team.",
+            l4: "Works with the team and the cybersecurity function to apply security and privacy standards to the team's work. Ensures data handling consistently meets regulatory obligations. Leads by example.",
+            l5: "Works with the cybersecurity function to ensure the team's processing reinforces the organisation's security and privacy posture. Embeds security-by-design and privacy-by-design across the team.",
+            l6: "Ensures security, privacy and regulatory obligations are embedded in the function's operating model and controls. Owns the governance that keeps processing compliant at scale across insurers." } }
+    ]
+};
+
+// Derived shortcuts so the rest of the file reads the same as before.
+const STORAGE_KEY = MATRIX.storageKey;
+const LEVELS = MATRIX.levels;
+const COMPETENCIES = MATRIX.competencies;
 
 // Single source of truth for ratings. `id` drives the .lbl-*/.chip-* CSS classes.
 const RATINGS = [
@@ -465,6 +625,55 @@ function renderRatingKey() {
         + '</div>'
     ).join("");
     document.getElementById("ratingKey").innerHTML = '<h3>Rating key</h3><div class="rating-key__items">' + items + '</div>';
+}
+
+// ── Framework overview grid ─────────────────────────────────────────────────
+// Transient view-state only (not persisted): ordered list of expanded level
+// ids, acting as a rolling window of at most 2.
+let overviewOpen = [];
+
+function toggleOverviewColumn(levelId) {
+    const at = overviewOpen.indexOf(levelId);
+    if (at !== -1) {
+        overviewOpen.splice(at, 1);          // already open → toggle closed
+    } else {
+        overviewOpen.push(levelId);          // open it
+        if (overviewOpen.length > 2) overviewOpen.shift();   // keep newest 2
+    }
+    renderOverview();
+}
+
+function renderOverview() {
+    const grid = document.getElementById("ovGrid");
+    if (!grid) return;
+    const isOpen = id => overviewOpen.includes(id);
+
+    // Column widths reflow with open state: title fixed, closed levels narrow,
+    // open levels take a generous share.
+    grid.style.gridTemplateColumns =
+        "minmax(180px, 1.4fr) " + LEVELS.map(l => isOpen(l.id) ? "3.2fr" : "minmax(48px, 0.5fr)").join(" ");
+
+    let html = '<div class="ovgrid__corner">Competency</div>';
+    html += LEVELS.map(l =>
+        '<button type="button" class="ovgrid__h' + (isOpen(l.id) ? " is-open" : "") + '" data-level="' + l.id + '">'
+        + '<span class="ovgrid__h-name">' + l.name + '</span>'
+        + '<span class="ovgrid__h-tag">' + esc(l.tag) + '</span>'
+        + '</button>'
+    ).join("");
+
+    html += COMPETENCIES.map(comp =>
+        '<div class="ovgrid__t">'
+        + (comp.theme ? '<span class="ovgrid__t-theme">' + esc(comp.theme) + '</span>' : '')
+        + '<span class="ovgrid__t-name">' + esc(comp.title) + '</span>'
+        + '</div>'
+        + LEVELS.map(l =>
+            '<div class="ovgrid__c' + (isOpen(l.id) ? " is-open" : "") + '">'
+            + (isOpen(l.id) ? esc(comp.levels[l.id]) : '<span class="ovgrid__plus">+</span>')
+            + '</div>'
+        ).join("")
+    ).join("");
+
+    grid.innerHTML = html;
 }
 
 // ── Employee view ──────────────────────────────────────────────────────────
@@ -646,13 +855,27 @@ function removePrintChips() {
    6. INIT
    ════════════════════════════════════════════════════════════════════════════ */
 document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
+// Overview: expand/collapse a level column by clicking its header (event delegation).
+document.getElementById("ovGrid").addEventListener("click", e => {
+    const h = e.target.closest(".ovgrid__h");
+    if (h) toggleOverviewColumn(h.dataset.level);
+});
 document.getElementById("exportBtn").addEventListener("click", () => {
     if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
-    generateShareableHTML("swe-matrix");
+    generateShareableHTML("comp-matrix");
 });
-document.getElementById("mgrExportBtn").addEventListener("click", () => generateShareableHTML("swe-matrix-manager-report"));
+document.getElementById("mgrExportBtn").addEventListener("click", () => generateShareableHTML("comp-matrix-manager-report"));
 document.getElementById("printBtn").addEventListener("click", () => { injectPrintChips(); window.print(); });
 window.addEventListener("afterprint", removePrintChips);
+
+// Apply role identity from MATRIX so swapping the data block updates the page.
+const compCount = COMPETENCIES.length;
+document.getElementById("docTitle").textContent = MATRIX.title;
+document.getElementById("heroEyebrow").textContent = MATRIX.eyebrow;
+document.getElementById("heroTitle").textContent = MATRIX.title;
+document.getElementById("employeeSubtitle").textContent =
+    compCount + " core competencies, rated against your current level and the one you're growing toward, with a manager review step.";
+document.getElementById("mgrPrintHeader").textContent = MATRIX.title + " — Manager Report";
 
 renderRatingKey();
 load();
@@ -661,6 +884,7 @@ if (EXPORTED_STATE) {
     document.getElementById("employeeView").classList.add("hidden");
     document.getElementById("employeeSectionHead").classList.add("hidden");
 } else {
+    renderOverview();
     renderEmployee();
 }
 renderManager();
