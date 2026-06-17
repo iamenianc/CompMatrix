@@ -5,10 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SWE Competency Matrix</title>
 <style>
+/* ════════════════════════════════════════════════════════════════════════════
+   SWE Competency Matrix — self-contained, offline-only single file.
+
+   STRUCTURE
+     <style>   1. Design tokens   2. Base   3. Layout   4. Components
+               5. Utilities       6. Responsive          7. Print
+     <body>    Hero · Employee self-assessment view · Manager report view
+     <script>  1. Data   2. State + storage   3. Helpers   4. Renderers
+               5. Export + print   6. Init
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Design tokens ─────────────────────────────────────────────────────── */
 :root {
     --navy: #10266b;          /* primary brand navy */
-    --navy-deep: #0b1d52;     /* darker navy for active block / hovers */
-    --navy-line: #0f2a6b;     /* nav underline */
+    --navy-deep: #0b1d52;     /* darker navy for hovers */
     --ink: #1c2b50;           /* heading ink */
     --body: #43506e;          /* navy-tinted body text */
     --muted: #7a849c;         /* muted captions */
@@ -17,13 +28,16 @@
     --bg-band: #eef1f8;       /* section band */
     --border: #dde2ee;
     --border-soft: #e9edf6;
+    /* Rating colours — keep in sync with RATINGS[].color in the script. */
     --color-green: #2f9e6f;
     --color-orange: #e08a2c;
     --color-blue: #10266b;    /* navy blue — Beyond Expectation */
-    --color-aqua: #17a2b8;   /* aqua — At Next Level */
+    --color-aqua: #17a2b8;    /* aqua — At Next Level */
     --serif: "Spectral", Georgia, "Times New Roman", serif;
     --sans: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+/* ── 2. Base ──────────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
 body {
     font-family: var(--sans);
@@ -31,188 +45,33 @@ body {
     color: var(--body);
     line-height: 1.65;
     margin: 0;
-    padding: 0;
     -webkit-font-smoothing: antialiased;
 }
 
-/* ── Site header / nav (AGI style) ──────────────────────────────────────── */
-.site-header {
-    background: #fff;
-    border-bottom: 2px solid var(--navy-line);
-    position: sticky; top: 0; z-index: 50;
-}
-.site-header__inner {
-    max-width: 1140px; margin: 0 auto;
-    display: flex; align-items: center;
-    padding: 0 2rem; min-height: 78px;
-}
-.brand {
-    display: flex; align-items: center;
-    font-family: var(--serif); font-weight: 500; font-size: 2rem;
-    letter-spacing: 0.16em; color: var(--navy); text-decoration: none;
-    padding-left: 0.1em;
-}
-
-/* ── Hero ───────────────────────────────────────────────────────────────── */
+/* ── 3. Layout ────────────────────────────────────────────────────────────── */
 .hero {
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; color: #fff;
     background:
         linear-gradient(120deg, rgba(11,29,82,0.94) 0%, rgba(16,38,107,0.86) 55%, rgba(16,38,107,0.70) 100%),
         radial-gradient(120% 140% at 85% 0%, #2a4aa0 0%, #10266b 60%);
-    color: #fff;
 }
 .hero__inner { max-width: 1140px; margin: 0 auto; padding: 4.5rem 2rem 4rem; }
-.hero__eyebrow {
-    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    color: #b9c6ee; margin: 0 0 1rem;
-}
-.hero__title {
-    font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem);
-    line-height: 1.1; margin: 0 0 1.1rem; max-width: 18ch; letter-spacing: -0.005em;
-}
-.hero__sub { font-size: 1.08rem; color: #d6def3; max-width: 56ch; margin: 0; line-height: 1.6; }
+.hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #b9c6ee; margin: 0 0 1rem; }
+.hero__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.1; margin: 0; max-width: 18ch; letter-spacing: -0.005em; }
 .hero::after {
-    content: ""; position: absolute; right: -6%; top: -30%;
-    width: 46%; height: 180%;
+    content: ""; position: absolute; right: -6%; top: -30%; width: 46%; height: 180%;
     background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%);
     transform: skewX(-14deg); pointer-events: none;
 }
-
 .container { max-width: 1140px; margin: 0 auto; padding: 3rem 2rem 4.5rem; }
+.section-head { margin: 0 0 2rem; }
 
-/* eyebrow + serif heading row label */
+/* ── 4. Components ────────────────────────────────────────────────────────── */
+/* Shared text bits */
 .eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 .subtitle { color: var(--muted); font-size: 0.98rem; }
-
-.section-head { margin: 0 0 2rem; }
-.section-head h1 {
-    font-family: var(--serif); font-weight: 600; color: var(--ink);
-    font-size: 2rem; line-height: 1.15; margin: 0.35rem 0 0.5rem;
-}
-
-.level-picker {
-    background: var(--bg-soft); border: 1px solid var(--border-soft);
-    padding: 2rem; margin-bottom: 2rem;
-}
-.level-picker h2 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 0.35rem 0; font-size: 1.35rem; }
-.level-picker p { margin: 0 0 1.4rem 0; color: var(--body); font-size: 0.98rem; max-width: 60ch; }
-.level-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-.level-btn {
-    padding: 1.1rem 1rem; border: 1px solid var(--border); border-radius: 0;
-    background: #fff; cursor: pointer; text-align: left; transition: all 0.15s ease; font: inherit;
-    position: relative;
-}
-.level-btn .lvl-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
-.level-btn .lvl-tag { display: block; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
-.level-btn:hover { border-color: var(--navy); }
-.level-btn.active { border-color: var(--navy); box-shadow: inset 4px 0 0 var(--navy); background: #fff; }
-.level-btn.active .lvl-name { color: var(--navy); }
-.level-btn.active .lvl-tag { color: var(--navy); }
-
-.context-bar {
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    background: var(--navy); color: #eaf0ff; border: none;
-    padding: 1rem 1.5rem; margin-bottom: 2rem; font-size: 0.98rem;
-}
-.context-bar strong { color: #fff; font-weight: 700; }
-.context-bar .reset-link { background: none; border: none; color: #fff; cursor: pointer; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; padding: 0; }
-
-.competency-card {
-    background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--navy);
-    padding: 2rem; margin-bottom: 1.5rem;
-}
-.competency-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--ink); margin: 0 0 1.25rem 0; line-height: 1.2; }
-.grid-comparison {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
-    background: var(--bg-soft); padding: 1.5rem; border-radius: 0;
-}
-.grid-comparison.single { grid-template-columns: 1fr; }
-.level-box { padding: 1.1rem 1.2rem; border-radius: 0; }
-.level-box h4 { margin: 0 0 0.45rem 0; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); }
-.level-box p { margin: 0; font-size: 0.97rem; color: var(--body); }
-/* Current level — the box most relevant to the employee: prominent white card
-   with a navy accent bar and lift. */
-.level-box--current {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--navy);
-    box-shadow: 0 2px 10px rgba(16,38,107,0.10);
-}
-.level-box--current h4 { color: var(--navy); }
-.level-box--current p { color: var(--ink); }
-/* Next level — quieter, aspirational reference: recessed and muted. */
-.level-box--next {
-    background: transparent;
-    border: 1px dashed var(--border);
-    border-left: 4px dashed var(--border);
-}
-.level-box--next h4 { color: var(--muted); }
-.level-box--next p { color: var(--body); }
-.rating-section { margin-bottom: 0.5rem; }
-.rating-label { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; display: block; }
-.btn-group { display: flex; gap: 0.65rem; flex-wrap: wrap; }
-.btn-radio { display: none; }
-.btn-label {
-    padding: 0.55rem 1.05rem; border: 1px solid var(--border); border-radius: 0;
-    cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.15s ease;
-    display: flex; align-items: center; gap: 0.5rem; color: var(--body); background: #fff;
-}
-.btn-label::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.lbl-green::before { background-color: var(--color-green); }
-.lbl-orange::before { background-color: var(--color-orange); }
-.lbl-blue::before { background-color: var(--color-blue); }
-.lbl-aqua::before { background-color: var(--color-aqua); }
-.btn-label:hover { border-color: var(--navy); }
-.btn-radio:checked + .lbl-green { border-color: var(--color-green); background-color: #eef7f2; color: #1d6e4c; box-shadow: inset 0 -3px 0 var(--color-green); }
-.btn-radio:checked + .lbl-orange { border-color: var(--color-orange); background-color: #fdf4e8; color: #9a5e16; box-shadow: inset 0 -3px 0 var(--color-orange); }
-.btn-radio:checked + .lbl-blue { border-color: var(--color-blue); background-color: #e7ebf5; color: #10266b; box-shadow: inset 0 -3px 0 var(--color-blue); }
-.btn-radio:checked + .lbl-aqua { border-color: var(--color-aqua); background-color: #e4f6f8; color: #0f7c8c; box-shadow: inset 0 -3px 0 var(--color-aqua); }
-textarea {
-    width: 100%; border: 1px solid var(--border); border-radius: 0; padding: 0.85rem;
-    font-family: inherit; font-size: 0.97rem; resize: vertical; min-height: 70px; color: var(--ink);
-}
-textarea:focus { outline: none; border-color: var(--navy); }
-.add-comp-card { border-top-color: var(--border); border: 1px dashed var(--border); border-top: 1px dashed var(--border); }
-.add-comp-row { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; margin-bottom: 1rem; align-items: stretch; }
-.add-comp-row input[type=text] { width: 100%; border: none; border-bottom: 1.5px solid var(--border); border-radius: 0; padding: 0.6rem 0.1rem; font: inherit; font-size: 0.98rem; color: var(--ink); background: transparent; }
-.add-comp-row input[type=text]::placeholder { color: var(--muted); }
-.add-comp-row input[type=text]:focus { outline: none; border-bottom-color: var(--navy); }
-.remove-btn { border: 1px solid var(--border); background: #fff; color: var(--muted); border-radius: 0; padding: 0 0.95rem; cursor: pointer; font: inherit; font-weight: 600; transition: all .15s; }
-.remove-btn:hover { border-color: #c0392b; color: #c0392b; }
-.add-btn { border: 1px solid var(--navy); background: #fff; color: var(--navy); border-radius: 0; padding: 0.65rem 1.25rem; font: inherit; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; margin-top: 0.5rem; transition: all .15s; }
-.add-btn:hover { background: var(--navy); color: #fff; }
 .empty-note { color: var(--muted); font-size: 0.95rem; font-style: italic; }
-.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.compare-col { border: 1px solid var(--border); border-radius: 0; padding: 1.25rem; }
-.compare-col.employee { background: var(--bg-soft); }
-.compare-col.manager { background: #fff; border-top: 3px solid var(--navy); }
-.compare-col h5 { margin: 0 0 0.75rem 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
-.compare-col.manager h5 { color: var(--navy); }
-.chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.95rem; border-radius: 0; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--border); }
-.chip::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-.chip-green { background:#eef7f2; color:#1d6e4c; border-color:var(--color-green);} .chip-green::before{background:var(--color-green);}
-.chip-orange { background:#fdf4e8; color:#9a5e16; border-color:var(--color-orange);} .chip-orange::before{background:var(--color-orange);}
-.chip-blue { background:#e7ebf5; color:#10266b; border-color:var(--color-blue);} .chip-blue::before{background:var(--color-blue);}
-.chip-aqua { background:#e4f6f8; color:#0f7c8c; border-color:var(--color-aqua);} .chip-aqua::before{background:var(--color-aqua);}
-.chip-none { color: var(--muted); font-style: italic; font-weight: 600; border-style: dashed; }
-.mgr-comment-wrap { margin-top: 1rem; }
-.mgr-comment-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
-.mgr-comment { width: 100%; border: 1px solid var(--border); border-radius: 0; padding: 0.7rem 0.8rem; font-family: inherit; font-size: 0.92rem; line-height: 1.55; color: var(--ink); resize: none; overflow: hidden; min-height: 64px; background: #fff; box-sizing: border-box; }
-.mgr-comment:focus { outline: none; border-color: var(--navy); }
-.mgr-comment-print { display: none; }
-.evidence-readonly { font-size: 0.92rem; color: var(--body); margin-top: 0.75rem; white-space: pre-wrap; }
-.evidence-readonly .ev-label { display:block; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:0.25rem; }
-.actions { margin-top: 2rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex-wrap: wrap; }
-.save-note { color: var(--muted); font-size: 0.88rem; margin-right: auto; }
-.submit-btn { background-color: var(--navy); color: white; border: 1px solid var(--navy); padding: 0.8rem 1.6rem; border-radius: 0; font-weight: 700; font-size: 0.98rem; letter-spacing: 0.02em; cursor: pointer; transition: background .15s; }
-.submit-btn:hover { background-color: var(--navy-deep); border-color: var(--navy-deep); }
-.export-btn {
-    background-color: #fff; color: var(--navy); border: 1px solid var(--navy); padding: 0.8rem 1.6rem;
-    border-radius: 0; font-weight: 700; font-size: 0.98rem; letter-spacing: 0.02em; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 0.55rem; transition: all .15s;
-}
-.export-btn:hover { background-color: var(--navy); color: #fff; }
-.hidden { display: none !important; }
+
 /* Rating key / legend */
 .rating-key { background: var(--bg-soft); border: 1px solid var(--border-soft); border-left: 3px solid var(--navy); padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
 .rating-key h3 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 0.9rem 0; font-size: 1.05rem; }
@@ -220,134 +79,185 @@ textarea:focus { outline: none; border-color: var(--navy); }
 .rating-key__item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.92rem; color: var(--body); }
 .rating-key__dot { flex-shrink: 0; width: 13px; height: 13px; border-radius: 50%; margin-top: 0.28rem; border: 1px solid rgba(0,0,0,0.08); }
 .rating-key__name { font-weight: 700; color: var(--ink); }
-@media (max-width: 720px) { .rating-key__items { grid-template-columns: 1fr; } }
-.no-data { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 0; padding: 2.5rem; text-align: center; color: var(--body); }
-.export-banner {
-    display: flex; align-items: flex-start; gap: 0.85rem;
-    background: var(--bg-band); border: 1px solid var(--border); border-left: 3px solid var(--navy); border-radius: 0;
-    padding: 1.1rem 1.4rem; margin-bottom: 2rem; font-size: 0.95rem; color: var(--body); line-height: 1.6;
-}
-.export-banner svg { flex-shrink: 0; margin-top: 2px; color: var(--navy); }
-.print-btn {
-    background-color: var(--navy-deep); color: white; border: 1px solid var(--navy-deep); padding: 0.8rem 1.6rem;
-    border-radius: 0; font-weight: 700; font-size: 0.98rem; letter-spacing: 0.02em; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 0.55rem; transition: background .15s;
-}
-.print-btn:hover { background-color: #081640; }
-.print-chip-wrap { display: none; }
 
+/* Level picker */
+.level-picker { background: var(--bg-soft); border: 1px solid var(--border-soft); padding: 2rem; margin-bottom: 2rem; }
+.level-picker h2 { font-family: var(--serif); font-weight: 600; color: var(--ink); margin: 0 0 0.35rem 0; font-size: 1.35rem; }
+.level-picker p { margin: 0 0 1.4rem 0; color: var(--body); font-size: 0.98rem; max-width: 60ch; }
+.level-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.level-btn { padding: 1.1rem 1rem; border: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; transition: all 0.15s ease; font: inherit; }
+.level-btn .lvl-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+.level-btn .lvl-tag { display: block; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
+.level-btn:hover { border-color: var(--navy); }
+.level-btn.active { border-color: var(--navy); box-shadow: inset 4px 0 0 var(--navy); }
+.level-btn.active .lvl-name, .level-btn.active .lvl-tag { color: var(--navy); }
+
+/* Context bar */
+.context-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--navy); color: #eaf0ff; padding: 1rem 1.5rem; margin-bottom: 2rem; font-size: 0.98rem; }
+.context-bar strong { color: #fff; font-weight: 700; }
+
+/* Competency card */
+.competency-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--navy); padding: 2rem; margin-bottom: 1.5rem; }
+.competency-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; color: var(--ink); margin: 0 0 1.25rem 0; line-height: 1.2; }
+
+/* Level description comparison (current vs. next) */
+.grid-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; background: var(--bg-soft); padding: 1.5rem; }
+.grid-comparison.single { grid-template-columns: 1fr; }
+.level-box { padding: 1.1rem 1.2rem; }
+.level-box h4 { margin: 0 0 0.45rem 0; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); }
+.level-box p { margin: 0; font-size: 0.97rem; color: var(--body); }
+/* Current level — most relevant to the employee: prominent white card with lift. */
+.level-box--current { background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--navy); box-shadow: 0 2px 10px rgba(16,38,107,0.10); }
+.level-box--current h4 { color: var(--navy); }
+.level-box--current p { color: var(--ink); }
+/* Next level — quieter, aspirational reference: recessed and muted. */
+.level-box--next { background: transparent; border: 1px dashed var(--border); border-left: 4px dashed var(--border); }
+.level-box--next h4 { color: var(--muted); }
+.level-box--next p { color: var(--body); }
+
+/* Rating radio buttons */
+.rating-section { margin-bottom: 0.5rem; }
+.rating-label { display: block; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+.btn-group { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+.btn-radio { display: none; }
+.btn-label { display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.05rem; border: 1px solid var(--border); cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--body); background: #fff; transition: all 0.15s ease; }
+.btn-label::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.btn-label:hover { border-color: var(--navy); }
+.lbl-green::before  { background-color: var(--color-green); }
+.lbl-orange::before { background-color: var(--color-orange); }
+.lbl-blue::before   { background-color: var(--color-blue); }
+.lbl-aqua::before   { background-color: var(--color-aqua); }
+.btn-radio:checked + .lbl-green  { border-color: var(--color-green);  background-color: #eef7f2; color: #1d6e4c; box-shadow: inset 0 -3px 0 var(--color-green); }
+.btn-radio:checked + .lbl-orange { border-color: var(--color-orange); background-color: #fdf4e8; color: #9a5e16; box-shadow: inset 0 -3px 0 var(--color-orange); }
+.btn-radio:checked + .lbl-blue   { border-color: var(--color-blue);   background-color: #e7ebf5; color: #10266b; box-shadow: inset 0 -3px 0 var(--color-blue); }
+.btn-radio:checked + .lbl-aqua   { border-color: var(--color-aqua);   background-color: #e4f6f8; color: #0f7c8c; box-shadow: inset 0 -3px 0 var(--color-aqua); }
+
+/* Rating chips (read-only display of a rating) */
+.chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.95rem; font-weight: 700; font-size: 0.9rem; border: 1px solid var(--border); }
+.chip::before { content: ""; width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.chip-green { background:#eef7f2; color:#1d6e4c; border-color:var(--color-green);}  .chip-green::before  { background:var(--color-green); }
+.chip-orange{ background:#fdf4e8; color:#9a5e16; border-color:var(--color-orange);} .chip-orange::before { background:var(--color-orange); }
+.chip-blue  { background:#e7ebf5; color:#10266b; border-color:var(--color-blue);}   .chip-blue::before   { background:var(--color-blue); }
+.chip-aqua  { background:#e4f6f8; color:#0f7c8c; border-color:var(--color-aqua);}   .chip-aqua::before   { background:var(--color-aqua); }
+.chip-none  { color: var(--muted); font-style: italic; font-weight: 600; border-style: dashed; }
+
+/* Additional-strengths card */
+.add-comp-card { border: 1px dashed var(--border); }
+.add-comp-row { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; margin-bottom: 1rem; align-items: stretch; }
+.add-comp-row input[type=text] { width: 100%; border: none; border-bottom: 1.5px solid var(--border); padding: 0.6rem 0.1rem; font: inherit; font-size: 0.98rem; color: var(--ink); background: transparent; }
+.add-comp-row input[type=text]::placeholder { color: var(--muted); }
+.add-comp-row input[type=text]:focus { outline: none; border-bottom-color: var(--navy); }
+.remove-btn { border: 1px solid var(--border); background: #fff; color: var(--muted); padding: 0 0.95rem; cursor: pointer; font: inherit; font-weight: 600; transition: all .15s; }
+.remove-btn:hover { border-color: #c0392b; color: #c0392b; }
+.add-btn { border: 1px solid var(--navy); background: #fff; color: var(--navy); padding: 0.65rem 1.25rem; font: inherit; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; margin-top: 0.5rem; transition: all .15s; }
+.add-btn:hover { background: var(--navy); color: #fff; }
+
+/* Manager review columns */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.compare-col { border: 1px solid var(--border); padding: 1.25rem; }
+.compare-col.employee { background: var(--bg-soft); }
+.compare-col.manager { background: #fff; border-top: 3px solid var(--navy); }
+.compare-col h5 { margin: 0 0 0.75rem 0; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.compare-col.manager h5 { color: var(--navy); }
+.mgr-comment-wrap { margin-top: 1rem; }
+.mgr-comment-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.mgr-comment { width: 100%; border: 1px solid var(--border); padding: 0.7rem 0.8rem; font-family: inherit; font-size: 0.92rem; line-height: 1.55; color: var(--ink); resize: none; overflow: hidden; min-height: 64px; background: #fff; }
+.mgr-comment:focus { outline: none; border-color: var(--navy); }
+.mgr-comment-print { display: none; }       /* shown only in print */
+.print-chip-wrap { display: none; }         /* injected + shown only in print */
+
+/* Banners / empty states */
+.no-data { background: var(--bg-soft); border: 1px solid var(--border); padding: 2.5rem; text-align: center; color: var(--body); }
+.export-banner { display: flex; align-items: flex-start; gap: 0.85rem; background: var(--bg-band); border: 1px solid var(--border); border-left: 3px solid var(--navy); padding: 1.1rem 1.4rem; margin-bottom: 2rem; font-size: 0.95rem; color: var(--body); line-height: 1.6; }
+.export-banner svg { flex-shrink: 0; margin-top: 2px; color: var(--navy); }
+
+/* Action bar + buttons */
+.actions { margin-top: 2rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex-wrap: wrap; }
+.save-note { color: var(--muted); font-size: 0.88rem; margin-right: auto; }
+.action-btn { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.8rem 1.6rem; border: 1px solid var(--navy); font-weight: 700; font-size: 0.98rem; letter-spacing: 0.02em; cursor: pointer; transition: all .15s; }
+.action-btn--ghost { background: #fff; color: var(--navy); }
+.action-btn--ghost:hover { background: var(--navy); color: #fff; }
+.action-btn--solid { background: var(--navy-deep); border-color: var(--navy-deep); color: #fff; }
+.action-btn--solid:hover { background: #081640; }
+
+/* ── 5. Utilities ─────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── 6. Responsive ────────────────────────────────────────────────────────── */
 @media (max-width: 720px) {
-    .site-header__inner { padding: 0 1.25rem; min-height: 64px; }
-    .brand { font-size: 1.6rem; }
     .hero__inner { padding: 3rem 1.25rem 2.75rem; }
     .container { padding: 2rem 1.25rem 3rem; }
     .level-options { grid-template-columns: 1fr 1fr; }
-    .grid-comparison, .compare-grid { grid-template-columns: 1fr; }
+    .grid-comparison, .compare-grid, .rating-key__items { grid-template-columns: 1fr; }
     .competency-card, .level-picker { padding: 1.5rem; }
 }
 
-/* ── Print styles ─────────────────────────────────────────────────────────── */
+/* ── 7. Print ─────────────────────────────────────────────────────────────── */
 @page { size: A4 portrait; margin: 1cm 10mm; }
 @media print {
-    body {
-        background: #fff;
-        padding: 0;
-        font-size: 9pt;
-        line-height: 1.4;
-        color: #000;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
+    body { background: #fff; font-size: 9pt; line-height: 1.4; color: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .container { max-width: 100%; padding: 0 !important; }
-    /* Hide all screen chrome */
-    .site-header, .hero, .section-head, #employeeView, .export-banner, .actions { display: none !important; }
-    /* Force manager report visible */
+    /* Hide screen chrome; force the manager report visible */
+    .hero, .section-head, #employeeView, .export-banner, .actions { display: none !important; }
     #managerView, #mgrContent { display: block !important; }
     #mgrNoData { display: none !important; }
-    /* Print title */
     #managerView::before {
         content: "SWE Competency Matrix \2014 Manager Report";
-        display: block;
-        font-family: var(--serif);
-        font-size: 15pt;
-        font-weight: 700;
-        color: #10266b;
-        border-bottom: 1.5pt solid #10266b;
-        padding-bottom: 4mm;
-        margin-bottom: 5mm;
+        display: block; font-family: var(--serif); font-size: 15pt; font-weight: 700; color: #10266b;
+        border-bottom: 1.5pt solid #10266b; padding-bottom: 4mm; margin-bottom: 5mm;
     }
+    /* Rating key */
+    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 3mm 4mm; margin-bottom: 4mm; break-inside: avoid; }
+    .rating-key h3 { font-size: 9pt; color: #10266b !important; margin-bottom: 2mm; }
+    .rating-key__items { grid-template-columns: 1fr 1fr; gap: 1.5mm 4mm; }
+    .rating-key__item { font-size: 7.5pt; }
+    .rating-key__dot { width: 9px; height: 9px; }
     /* Context bar */
-    .context-bar {
-        background: #eef1f8 !important;
-        color: #1c2b50 !important;
-        border: 1pt solid #c5cee6 !important;
-        border-radius: 0;
-        padding: 3mm 4mm;
-        margin-bottom: 4mm;
-        font-size: 9pt;
-    }
-    .context-bar .reset-link { display: none !important; }
+    .context-bar { background: #eef1f8 !important; color: #1c2b50 !important; border: 1pt solid #c5cee6 !important; padding: 3mm 4mm; margin-bottom: 4mm; font-size: 9pt; }
     .context-bar strong { color: #10266b !important; }
     /* Cards */
-    .competency-card {
-        border: 1pt solid #cbd5e1;
-        border-top: 2pt solid #10266b;
-        border-radius: 0;
-        padding: 4mm;
-        margin-bottom: 3mm;
-        box-shadow: none;
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
+    .competency-card { border: 1pt solid #cbd5e1; border-top: 2pt solid #10266b; padding: 4mm; margin-bottom: 3mm; box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
     .add-comp-card { border-style: solid; border-top: 1pt solid #cbd5e1; }
     .competency-title { font-size: 11pt; font-weight: 700; color: #1c2b50 !important; margin-bottom: 2.5mm; }
     /* Level description boxes */
-    .grid-comparison { gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; border-radius: 0; }
+    .grid-comparison { gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f4f6fb !important; }
     .level-box { padding: 2.5mm 3mm; }
     .level-box h4 { font-size: 7pt; color: #10266b !important; margin-bottom: 1mm; }
-    .level-box p  { font-size: 8pt; }
+    .level-box p { font-size: 8pt; }
     .level-box--current { background: #fff !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; }
     .level-box--current p { color: #1c2b50 !important; }
     .level-box--next { background: transparent !important; border: 0.75pt dashed #dde2ee !important; border-left: 2pt dashed #c5cee6 !important; }
     .level-box--next h4 { color: #7a849c !important; }
     /* Rating columns — keep employee & manager side by side, never stacked */
     .compare-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 3mm; break-inside: avoid; page-break-inside: avoid; }
-    .compare-col { border: 1pt solid #dde2ee; border-radius: 0; padding: 3mm; min-width: 0; }
+    .compare-col { border: 1pt solid #dde2ee; padding: 3mm; min-width: 0; }
     .compare-col.manager { background: #f7f9fd !important; border-color: #c5cee6 !important; border-top: 2pt solid #10266b !important; }
     .compare-col h5 { font-size: 7pt; margin-bottom: 2mm; }
     .compare-col.manager h5 { color: #10266b !important; }
-    /* Hide radio buttons in manager col; show injected print chip instead */
+    /* Replace manager radios with injected static chip */
     .compare-col.manager .btn-group { display: none !important; }
     .print-chip-wrap { display: block !important; }
-    /* Manager comments: hide editable textarea, show injected static text */
+    /* Replace editable comment textarea with injected static text */
     .mgr-comment { display: none !important; }
     .mgr-comment-wrap { margin-top: 2.5mm; }
     .mgr-comment-label { font-size: 6.5pt !important; margin-bottom: 1mm !important; }
     .mgr-comment-print { display: block !important; font-size: 8pt; color: #1c2b50; white-space: pre-wrap; line-height: 1.4; }
     .mgr-comment-print:empty::before { content: "\2014"; color: #7a849c; }
-    /* Chips — force muted brand colours */
-    .chip { font-size: 8pt; padding: 1.5mm 3mm; border-radius: 0; border-width: 1pt; }
+    /* Chips */
+    .chip { font-size: 8pt; padding: 1.5mm 3mm; border-width: 1pt; }
     .chip::before { width: 8px; height: 8px; }
-    .chip-green { background: #eef7f2 !important; color: #1d6e4c !important; border-color: #2f9e6f !important; }
-    .chip-green::before { background: #2f9e6f !important; }
-    .chip-orange { background: #fdf4e8 !important; color: #9a5e16 !important; border-color: #e08a2c !important; }
-    .chip-orange::before { background: #e08a2c !important; }
-    .chip-blue   { background: #e7ebf5 !important; color: #10266b !important; border-color: #10266b !important; }
-    .chip-blue::before   { background: #10266b !important; }
-    .chip-aqua  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; }
-    .chip-aqua::before  { background: #17a2b8 !important; }
-    .chip-none   { color: #7a849c !important; }
-    .empty-note  { font-size: 8pt; }
-    /* Rating key */
-    .rating-key { background: #f4f6fb !important; border: 0.75pt solid #dde2ee !important; border-left: 2pt solid #10266b !important; padding: 3mm 4mm; margin-bottom: 4mm; break-inside: avoid; }
-    .rating-key h3 { font-size: 9pt; color: #10266b !important; margin-bottom: 2mm; }
-    .rating-key__items { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5mm 4mm; }
-    .rating-key__item { font-size: 7.5pt; }
-    .rating-key__dot { width: 9px; height: 9px; }
+    .chip-green { background: #eef7f2 !important; color: #1d6e4c !important; border-color: #2f9e6f !important; } .chip-green::before { background: #2f9e6f !important; }
+    .chip-orange{ background: #fdf4e8 !important; color: #9a5e16 !important; border-color: #e08a2c !important; } .chip-orange::before{ background: #e08a2c !important; }
+    .chip-blue  { background: #e7ebf5 !important; color: #10266b !important; border-color: #10266b !important; } .chip-blue::before  { background: #10266b !important; }
+    .chip-aqua  { background: #e4f6f8 !important; color: #0f7c8c !important; border-color: #17a2b8 !important; } .chip-aqua::before  { background: #17a2b8 !important; }
+    .chip-none  { color: #7a849c !important; }
+    .empty-note { font-size: 8pt; }
 }
 </style>
 </head>
 <body>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <section class="hero">
     <div class="hero__inner">
         <p class="hero__eyebrow">Engineering Career Framework</p>
@@ -361,8 +271,10 @@ textarea:focus { outline: none; border-color: var(--navy); }
         <div class="subtitle">Eight core competencies, rated against your current level and the one you're growing toward, with a manager review step.</div>
     </div>
 
+    <!-- Rating key (shared by both views) -->
     <div class="rating-key" id="ratingKey"></div>
 
+    <!-- ── Employee self-assessment view ─────────────────────────────────── -->
     <div id="employeeView">
         <div class="level-picker" id="levelPicker">
             <h2>Select your current level</h2>
@@ -382,7 +294,7 @@ textarea:focus { outline: none; border-color: var(--navy); }
             </div>
             <div class="actions">
                 <span class="save-note" id="saveNote">Progress saves automatically.</span>
-                <button type="button" class="export-btn" id="exportBtn">
+                <button type="button" class="action-btn action-btn--ghost" id="exportBtn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Generate Shareable HTML
                 </button>
@@ -390,8 +302,9 @@ textarea:focus { outline: none; border-color: var(--navy); }
         </div>
     </div>
 
+    <!-- ── Manager report view (only rendered from an exported file) ─────── -->
     <div id="managerView" class="hidden">
-        <div id="mgrNoData" class="no-data hidden">No self-assessment found. Switch to the Employee view, pick a level, and fill in the assessment first — or open the file shared by the employee.</div>
+        <div id="mgrNoData" class="no-data hidden">No self-assessment found. Open the file shared by the employee.</div>
         <div id="mgrContent" class="hidden">
             <div id="exportedBanner" class="export-banner hidden">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -404,11 +317,11 @@ textarea:focus { outline: none; border-color: var(--navy); }
             <div id="mgrForm"></div>
             <div class="actions">
                 <span class="save-note" id="mgrSaveNote">Manager ratings save automatically.</span>
-                <button type="button" class="export-btn" id="mgrExportBtn">
+                <button type="button" class="action-btn action-btn--ghost" id="mgrExportBtn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Save Updated HTML
                 </button>
-                <button type="button" class="print-btn" id="printBtn">
+                <button type="button" class="action-btn action-btn--solid" id="printBtn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
                     Print Report
                 </button>
@@ -418,13 +331,20 @@ textarea:focus { outline: none; border-color: var(--navy); }
 </div>
 
 <script>
+"use strict";
+
+/* ════════════════════════════════════════════════════════════════════════════
+   1. DATA
+   ════════════════════════════════════════════════════════════════════════════ */
 const STORAGE_KEY = "swe-matrix-state-v2";
+
 const LEVELS = [
-    { id: "swe1", name: "SWE I", tag: "Entry" },
-    { id: "swe2", name: "SWE II", tag: "Mid" },
+    { id: "swe1",   name: "SWE I",      tag: "Entry" },
+    { id: "swe2",   name: "SWE II",     tag: "Mid" },
     { id: "senior", name: "Senior SWE", tag: "Senior" },
-    { id: "staff", name: "Staff SWE", tag: "Top of ladder" }
+    { id: "staff",  name: "Staff SWE",  tag: "Top of ladder" }
 ];
+
 const COMPETENCIES = [
     { title: "System Architecture & Design", levels: {
         swe1: "Implements well-defined components to spec; asks for design guidance on anything non-trivial.",
@@ -467,34 +387,93 @@ const COMPETENCIES = [
         senior: "Prioritizes work by business impact and influences team roadmap.",
         staff: "Aligns engineering investment with company strategy and measurable impact." } }
 ];
+
+// Single source of truth for ratings. `id` drives the .lbl-*/.chip-* CSS classes.
 const RATINGS = [
-    { id: "green", label: "Green (Growth Needed)", cls: "lbl-green", name: "Growth Needed", desc: "Requires development to fully meet current expectations." },
-    { id: "orange", label: "Orange (On Track)", cls: "lbl-orange", name: "On Track", desc: "Consistently meeting the requirements of the level." },
-    { id: "blue", label: "Blue (Beyond Expectation)", cls: "lbl-blue", name: "Beyond Expectation", desc: "Exceeding the requirements of the current level." },
-    { id: "aqua", label: "Aqua (At Next Level)", cls: "lbl-aqua", name: "At Next Level", desc: "Fully mastering the competency, operating at the next-level standard." }
+    { id: "green",  name: "Growth Needed",      color: "#2f9e6f", desc: "Requires development to fully meet current expectations." },
+    { id: "orange", name: "On Track",           color: "#e08a2c", desc: "Consistently meeting the requirements of the level." },
+    { id: "blue",   name: "Beyond Expectation", color: "#10266b", desc: "Exceeding the requirements of the current level." },
+    { id: "aqua",   name: "At Next Level",      color: "#17a2b8", desc: "Fully mastering the competency, operating at the next-level standard." }
 ];
-const RATING_COLOR = { green: "#2f9e6f", orange: "#e08a2c", blue: "#10266b", aqua: "#17a2b8" };
-const RATING_LABEL = { "green":"Green (Growth Needed)", orange:"Orange (On Track)", blue:"Blue (Beyond Expectation)", aqua:"Aqua (At Next Level)" };
+const RATING_BY_ID = Object.fromEntries(RATINGS.map(r => [r.id, r]));
 
 // Replaced at export time with a JSON snapshot of the current state.
 // When non-null, this file was shared by an employee and the manager can add ratings.
 const EXPORTED_STATE = null;
 
-let state = { level: null, ratings: {}, evidence: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {} };
+/* ════════════════════════════════════════════════════════════════════════════
+   2. STATE + STORAGE
+   ════════════════════════════════════════════════════════════════════════════ */
+let state = { level: null, ratings: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {}, mgrComments: {} };
 
 function load() {
     if (EXPORTED_STATE) {
-        // Seed from baked-in state; also persist so manager edits survive a refresh
+        // Seed from baked-in state; also persist so manager edits survive a refresh.
         state = Object.assign(state, JSON.parse(JSON.stringify(EXPORTED_STATE)));
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+        save();
         return;
     }
     try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
 }
 function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
-function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function levelById(id){ return LEVELS.find(l => l.id === id); }
-function nextLevel(id){ const i = LEVELS.findIndex(l=>l.id===id); return (i>=0 && i<LEVELS.length-1)?LEVELS[i+1]:null; }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   3. HELPERS
+   ════════════════════════════════════════════════════════════════════════════ */
+function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function levelById(id) { return LEVELS.find(l => l.id === id); }
+function nextLevel(id) { const i = LEVELS.findIndex(l => l.id === id); return (i >= 0 && i < LEVELS.length - 1) ? LEVELS[i + 1] : null; }
+
+// Grow a textarea to fit its content.
+function autoGrow(el) { el.style.height = "auto"; el.style.height = el.scrollHeight + "px"; }
+
+let flashTimer = null;
+function flashSaved(noteId) {
+    const note = document.getElementById(noteId);
+    const original = note.dataset.original || note.textContent;
+    note.dataset.original = original;
+    note.textContent = "Saved ✓";
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => { note.textContent = original; }, 1500);
+}
+
+// ── Shared HTML fragments (DRY: used by both employee and manager renders) ──
+function chipHTML(ratingId) {
+    const r = RATING_BY_ID[ratingId];
+    return r ? '<span class="chip chip-' + r.id + '">' + r.name + '</span>'
+             : '<span class="chip chip-none">Not rated</span>';
+}
+// Current-vs-next level description block.
+function comparisonHTML(cur, nxt, comp) {
+    return '<div class="grid-comparison' + (nxt ? "" : " single") + '">'
+        + '<div class="level-box level-box--current"><h4>Current Level (' + cur.name + ')</h4><p>' + comp.levels[cur.id] + '</p></div>'
+        + (nxt ? '<div class="level-box level-box--next"><h4>Next Level (' + nxt.name + ')</h4><p>' + comp.levels[nxt.id] + '</p></div>' : '')
+        + '</div>';
+}
+// A group of rating radios. `group` is the radio `name`; `uid` makes ids unique.
+function ratingRadiosHTML(group, uid, selected) {
+    return '<div class="btn-group">' + RATINGS.map(r => {
+        const inputId = group + "-" + r.id + "-" + uid;
+        return '<input type="radio" id="' + inputId + '" name="' + group + '" value="' + r.id + '" class="btn-radio"' + (selected === r.id ? " checked" : "") + '>'
+             + '<label for="' + inputId + '" class="btn-label lbl-' + r.id + '">' + r.name + '</label>';
+    }).join("") + '</div>';
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   4. RENDERERS
+   ════════════════════════════════════════════════════════════════════════════ */
+function renderRatingKey() {
+    const items = RATINGS.map(r =>
+        '<div class="rating-key__item">'
+        + '<span class="rating-key__dot" style="background:' + r.color + '"></span>'
+        + '<span><span class="rating-key__name">' + r.name + '</span> &mdash; ' + r.desc + '</span>'
+        + '</div>'
+    ).join("");
+    document.getElementById("ratingKey").innerHTML = '<h3>Rating key</h3><div class="rating-key__items">' + items + '</div>';
+}
+
+// ── Employee view ──────────────────────────────────────────────────────────
+function renderEmployee() { renderLevelOptions(); renderMatrix(); }
 
 function renderLevelOptions() {
     const wrap = document.getElementById("levelOptions");
@@ -503,7 +482,7 @@ function renderLevelOptions() {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "level-btn" + (state.level === l.id ? " active" : "");
-        btn.innerHTML = '<span class="lvl-name">'+l.name+'</span><span class="lvl-tag">'+l.tag+'</span>';
+        btn.innerHTML = '<span class="lvl-name">' + l.name + '</span><span class="lvl-tag">' + l.tag + '</span>';
         btn.addEventListener("click", () => { state.level = l.id; save(); renderEmployee(); });
         wrap.appendChild(btn);
     });
@@ -515,222 +494,149 @@ function renderMatrix() {
     matrix.classList.remove("hidden");
     const cur = levelById(state.level), nxt = nextLevel(state.level);
     document.getElementById("ctxLevel").textContent = cur.name;
-    document.getElementById("ctxNext").textContent = nxt ? nxt.name : "\u2014 top of ladder";
-    const form = document.getElementById("assessForm");
-    form.innerHTML = "";
-    COMPETENCIES.forEach((comp, idx) => {
-        const ratingId = "comp-"+idx;
-        const savedRating = state.ratings[ratingId];
-        const card = document.createElement("div");
-        card.className = "competency-card";
-        let html = '<div class="competency-title">'+(idx+1)+'. '+comp.title+'</div>';
-        html += '<div class="grid-comparison'+(nxt?"":" single")+'"><div class="level-box level-box--current"><h4>Current Level ('+cur.name+')</h4><p>'+comp.levels[cur.id]+'</p></div>'
-            + (nxt?'<div class="level-box level-box--next"><h4>Next Level ('+nxt.name+')</h4><p>'+comp.levels[nxt.id]+'</p></div>':'') + '</div>';
-        html += '<div class="rating-section"><span class="rating-label">Self-Assessment Rating</span><div class="btn-group">';
-        RATINGS.forEach(r => {
-            const inputId = r.id+"-"+idx;
-            html += '<input type="radio" id="'+inputId+'" name="'+ratingId+'" value="'+r.id+'" class="btn-radio" '+(savedRating===r.id?"checked":"")+'>'
-                 + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
-        });
-        html += '</div></div>';
+    document.getElementById("ctxNext").textContent = nxt ? nxt.name : "— top of ladder";
 
-        card.innerHTML = html;
-        form.appendChild(card);
-    });
+    const form = document.getElementById("assessForm");
+    form.innerHTML = COMPETENCIES.map((comp, idx) =>
+        '<div class="competency-card">'
+        + '<div class="competency-title">' + (idx + 1) + '. ' + comp.title + '</div>'
+        + comparisonHTML(cur, nxt, comp)
+        + '<div class="rating-section"><span class="rating-label">Self-Assessment Rating</span>'
+        + ratingRadiosHTML("comp-" + idx, idx, state.ratings["comp-" + idx])
+        + '</div></div>'
+    ).join("");
+
     form.querySelectorAll(".btn-radio").forEach(inp => inp.addEventListener("change", e => {
         state.ratings[e.target.name] = e.target.value; save(); flashSaved("saveNote");
     }));
-
     renderExtras();
 }
 
 function renderExtras() {
     const list = document.getElementById("addCompList");
-    list.innerHTML = "";
-    if (state.extras.length === 0) { list.innerHTML = '<p class="empty-note">None added yet.</p>'; }
-    state.extras.forEach((extra, i) => {
-        const row = document.createElement("div");
-        row.className = "add-comp-row";
-        row.innerHTML = '<input type="text" value="'+esc(extra)+'" data-i="'+i+'" placeholder="e.g. Incident command during outages, internal tooling, accessibility...">'
-            + '<button type="button" class="remove-btn" data-i="'+i+'">Remove</button>';
-        list.appendChild(row);
-    });
+    list.innerHTML = state.extras.length === 0
+        ? '<p class="empty-note">None added yet.</p>'
+        : state.extras.map((extra, i) =>
+            '<div class="add-comp-row">'
+            + '<input type="text" value="' + esc(extra) + '" data-i="' + i + '" placeholder="e.g. Incident command during outages, internal tooling, accessibility...">'
+            + '<button type="button" class="remove-btn" data-i="' + i + '">Remove</button>'
+            + '</div>'
+        ).join("");
+
     list.querySelectorAll('input[type=text]').forEach(inp => inp.addEventListener("input", e => {
         state.extras[+e.target.dataset.i] = e.target.value; save();
     }));
     list.querySelectorAll('.remove-btn').forEach(b => b.addEventListener("click", e => {
         const i = +e.target.dataset.i;
-        state.extras.splice(i,1);
+        state.extras.splice(i, 1);
+        // Re-key manager extra-ratings so they keep pointing at the right strength.
         const remapped = {};
         state.extras.forEach((_, ni) => {
-            const oldKey = "extra-"+(ni>=i?ni+1:ni);
-            if (state.mgrExtraRatings[oldKey] !== undefined) remapped["extra-"+ni] = state.mgrExtraRatings[oldKey];
+            const oldKey = "extra-" + (ni >= i ? ni + 1 : ni);
+            if (state.mgrExtraRatings[oldKey] !== undefined) remapped["extra-" + ni] = state.mgrExtraRatings[oldKey];
         });
         state.mgrExtraRatings = remapped;
         save(); renderExtras();
     }));
 }
 
-function renderEmployee() { renderLevelOptions(); renderMatrix(); }
-
-function ratingChip(val) {
-    if (!val) return '<span class="chip chip-none">Not rated</span>';
-    return '<span class="chip chip-'+val+'">'+RATING_LABEL[val]+'</span>';
-}
-
+// ── Manager view (only shown from an exported file) ─────────────────────────
 function renderManager() {
-    // The manager report is only viewable from an exported file, never on the
-    // working copy. Keep it hidden entirely until a baked-in state is present.
     const managerView = document.getElementById("managerView");
     if (!EXPORTED_STATE) { managerView.classList.add("hidden"); return; }
     managerView.classList.remove("hidden");
+
     const noData = document.getElementById("mgrNoData");
     const content = document.getElementById("mgrContent");
     if (!state.level) { noData.classList.remove("hidden"); content.classList.add("hidden"); return; }
     noData.classList.add("hidden"); content.classList.remove("hidden");
-    document.getElementById("exportedBanner").classList.toggle("hidden", !EXPORTED_STATE);
+    document.getElementById("exportedBanner").classList.remove("hidden");
+
     const cur = levelById(state.level), nxt = nextLevel(state.level);
     document.getElementById("mgrCtxLevel").textContent = cur.name;
-    document.getElementById("mgrCtxNext").textContent = nxt ? nxt.name : "\u2014 top of ladder";
-    const form = document.getElementById("mgrForm");
-    form.innerHTML = "";
-    COMPETENCIES.forEach((comp, idx) => {
-        const ratingId = "comp-"+idx;
-        const empRating = state.ratings[ratingId];
-        const mgrRating = state.mgrRatings[ratingId];
-        const card = document.createElement("div");
-        card.className = "competency-card";
-        let html = '<div class="competency-title">'+(idx+1)+'. '+comp.title+'</div>';
-        html += '<div class="grid-comparison'+(nxt?"":" single")+'"><div class="level-box level-box--current"><h4>Current Level ('+cur.name+')</h4><p>'+comp.levels[cur.id]+'</p></div>'
-            + (nxt?'<div class="level-box level-box--next"><h4>Next Level ('+nxt.name+')</h4><p>'+comp.levels[nxt.id]+'</p></div>':'') + '</div>';
-        html += '<div class="compare-grid">';
-        html += '<div class="compare-col employee"><h5>Employee self-rating</h5>'+ratingChip(empRating);
+    document.getElementById("mgrCtxNext").textContent = nxt ? nxt.name : "— top of ladder";
 
-        html += '</div>';
-        html += '<div class="compare-col manager"><h5>Manager rating</h5><div class="btn-group">';
-        RATINGS.forEach(r => {
-            const inputId = "mgr-"+r.id+"-"+idx;
-            html += '<input type="radio" id="'+inputId+'" name="mgr-'+ratingId+'" value="'+r.id+'" class="btn-radio mgr-radio" '+(mgrRating===r.id?"checked":"")+'>'
-                 + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
-        });
-        const mgrComment = state.mgrComments[ratingId] || "";
-        html += '</div>'
-             + '<div class="mgr-comment-wrap"><label class="mgr-comment-label" for="mgrc-'+idx+'">Manager comments</label>'
-             + '<textarea id="mgrc-'+idx+'" class="mgr-comment" data-key="'+ratingId+'" placeholder="Evidence, context, and guidance for this competency...">'+esc(mgrComment)+'</textarea>'
-             + '<div class="mgr-comment-print"></div></div>';
-        html += '</div></div>';
-        card.innerHTML = html;
-        form.appendChild(card);
-    });
-    const extras = (state.extras||[]).filter(x => x && x.trim());
-    const extraCard = document.createElement("div");
-    extraCard.className = "competency-card add-comp-card";
-    let eh = '<div class="competency-title">Additional Strengths (employee-nominated)</div>';
-    if (extras.length === 0) {
-        eh += '<p class="empty-note">The employee did not list any additional strengths.</p>';
-    } else {
-        extras.forEach((extra, i) => {
-            const key = "extra-"+i;
-            const mr = state.mgrExtraRatings[key];
-            eh += '<div style="margin-bottom:1.25rem;"><div style="font-weight:600;margin-bottom:0.5rem;">'+esc(extra)+'</div>'
-                + '<div class="compare-grid"><div class="compare-col employee"><h5>Employee</h5><span class="chip chip-none">Self-nominated strength</span></div>'
-                + '<div class="compare-col manager"><h5>Manager rating</h5><div class="btn-group">';
-            RATINGS.forEach(r => {
-                const inputId = "mgrx-"+r.id+"-"+i;
-                eh += '<input type="radio" id="'+inputId+'" name="mgrx-'+key+'" value="'+r.id+'" class="btn-radio mgr-radio" '+(mr===r.id?"checked":"")+'>'
-                    + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
-            });
-            eh += '</div></div></div></div>';
-        });
-    }
-    extraCard.innerHTML = eh;
-    form.appendChild(extraCard);
+    const form = document.getElementById("mgrForm");
+    // Core competency cards
+    let html = COMPETENCIES.map((comp, idx) => {
+        const key = "comp-" + idx;
+        return '<div class="competency-card">'
+            + '<div class="competency-title">' + (idx + 1) + '. ' + comp.title + '</div>'
+            + comparisonHTML(cur, nxt, comp)
+            + '<div class="compare-grid">'
+            +   '<div class="compare-col employee"><h5>Employee self-rating</h5>' + chipHTML(state.ratings[key]) + '</div>'
+            +   '<div class="compare-col manager"><h5>Manager rating</h5>'
+            +     ratingRadiosHTML("mgr-" + key, idx, state.mgrRatings[key])
+            +     '<div class="mgr-comment-wrap"><label class="mgr-comment-label" for="mgrc-' + idx + '">Manager comments</label>'
+            +     '<textarea id="mgrc-' + idx + '" class="mgr-comment" data-key="' + key + '" placeholder="Evidence, context, and guidance for this competency...">' + esc(state.mgrComments[key] || "") + '</textarea>'
+            +     '<div class="mgr-comment-print"></div></div>'
+            +   '</div>'
+            + '</div></div>';
+    }).join("");
+
+    // Additional-strengths card
+    const extras = (state.extras || []).filter(x => x && x.trim());
+    html += '<div class="competency-card add-comp-card"><div class="competency-title">Additional Strengths (employee-nominated)</div>';
+    html += extras.length === 0
+        ? '<p class="empty-note">The employee did not list any additional strengths.</p>'
+        : extras.map((extra, i) => {
+            const key = "extra-" + i;
+            return '<div style="margin-bottom:1.25rem;"><div style="font-weight:600;margin-bottom:0.5rem;">' + esc(extra) + '</div>'
+                + '<div class="compare-grid">'
+                +   '<div class="compare-col employee"><h5>Employee</h5><span class="chip chip-none">Self-nominated strength</span></div>'
+                +   '<div class="compare-col manager"><h5>Manager rating</h5>' + ratingRadiosHTML("mgrx-" + key, "x" + i, state.mgrExtraRatings[key]) + '</div>'
+                + '</div></div>';
+        }).join("");
+    html += '</div>';
+    form.innerHTML = html;
+
+    // Wire up manager inputs. The radio `name` is "<scope>-<key>"; strip the scope to get the state key.
     form.querySelectorAll('.btn-radio[name^="mgr-comp"]').forEach(inp => inp.addEventListener("change", e => {
-        const compKey = e.target.name.replace("mgr-","");
-        state.mgrRatings[compKey] = e.target.value; save(); flashSaved("mgrSaveNote");
+        state.mgrRatings[e.target.name.replace("mgr-", "")] = e.target.value; save(); flashSaved("mgrSaveNote");
     }));
     form.querySelectorAll('.btn-radio[name^="mgrx-"]').forEach(inp => inp.addEventListener("change", e => {
-        const key = e.target.name.replace("mgrx-","");
-        state.mgrExtraRatings[key] = e.target.value; save(); flashSaved("mgrSaveNote");
+        state.mgrExtraRatings[e.target.name.replace("mgrx-", "")] = e.target.value; save(); flashSaved("mgrSaveNote");
     }));
     form.querySelectorAll('.mgr-comment').forEach(t => {
-        autoGrow(t);              // size to existing content on render
-        t.addEventListener("input", e => {
-            state.mgrComments[e.target.dataset.key] = e.target.value;
-            autoGrow(e.target);
-            save();
-        });
+        autoGrow(t);
+        t.addEventListener("input", e => { state.mgrComments[e.target.dataset.key] = e.target.value; autoGrow(e.target); save(); });
     });
 }
 
-// Grow a textarea to fit its content (reliable across all sections).
-function autoGrow(el) {
-    el.style.height = "auto";
-    el.style.height = el.scrollHeight + "px";
-}
-
-let flashTimer = null;
-function flashSaved(noteId) {
-    const note = document.getElementById(noteId);
-    const original = note.dataset.original || note.textContent;
-    note.dataset.original = original;
-    note.textContent = "Saved \u2713";
-    clearTimeout(flashTimer);
-    flashTimer = setTimeout(() => { note.textContent = original; }, 1500);
-}
-
-// ── Export: bake current state into a self-contained HTML file ──────────────
+/* ════════════════════════════════════════════════════════════════════════════
+   5. EXPORT + PRINT
+   ════════════════════════════════════════════════════════════════════════════ */
+// Bake current state into a self-contained copy of this file.
 function generateShareableHTML(filenamePrefix) {
-    const snapshot = JSON.parse(JSON.stringify(state));
-    const pageSource = document.documentElement.outerHTML;
-
-    // Swap the placeholder const with the real state snapshot
-    const injected = pageSource.replace(
+    const snapshot = JSON.stringify(JSON.parse(JSON.stringify(state)));
+    const injected = document.documentElement.outerHTML.replace(
         /const EXPORTED_STATE = null;/,
-        'const EXPORTED_STATE = ' + JSON.stringify(snapshot) + ';'
+        'const EXPORTED_STATE = ' + snapshot + ';'
     );
-
-    const blob = new Blob([injected], { type: "text/html;charset=utf-8" });
+    const blob = new Blob(["<!DOCTYPE html>\n" + injected], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
+    const lvl = levelById(state.level);
+    const slug = lvl ? lvl.name.replace(/\s+/g, "-").toLowerCase() : "assessment";
     const a = document.createElement("a");
     a.href = url;
-    const lvl = levelById(state.level);
-    const lvlSlug = lvl ? lvl.name.replace(/\s+/g, "-").toLowerCase() : "assessment";
-    const dateStr = new Date().toISOString().slice(0, 10);
-    a.download = filenamePrefix + "-" + lvlSlug + "-" + dateStr + ".html";
+    a.download = filenamePrefix + "-" + slug + "-" + new Date().toISOString().slice(0, 10) + ".html";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
 
-
-document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
-
-document.getElementById("exportBtn").addEventListener("click", () => {
-    if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
-    generateShareableHTML("swe-matrix");
-});
-
-document.getElementById("mgrExportBtn").addEventListener("click", () => {
-    generateShareableHTML("swe-matrix-manager-report");
-});
-
-// ── Print: inject static chips + comment text for manager before printing ────
+// Before printing, replace each manager radio group with a static chip and mirror
+// comment text into a static element (radios/textarea don't render reliably).
 function injectPrintChips() {
     document.querySelectorAll('.compare-col.manager').forEach(col => {
-        // Remove any previously injected chips
         col.querySelectorAll('.print-chip-wrap').forEach(el => el.remove());
-        // Find which radio is checked
         const checked = col.querySelector('.btn-radio:checked');
         const wrap = document.createElement('div');
         wrap.className = 'print-chip-wrap';
-        wrap.innerHTML = checked ? ratingChip(checked.value) : ratingChip(null);
-        // Place the chip right after the heading, before any comment block
+        wrap.innerHTML = chipHTML(checked ? checked.value : null);
         const commentWrap = col.querySelector('.mgr-comment-wrap');
-        if (commentWrap) col.insertBefore(wrap, commentWrap);
-        else col.appendChild(wrap);
-        // Mirror the textarea value into the static print element
+        commentWrap ? col.insertBefore(wrap, commentWrap) : col.appendChild(wrap);
         const ta = col.querySelector('.mgr-comment');
         const printEl = col.querySelector('.mgr-comment-print');
         if (ta && printEl) printEl.textContent = ta.value.trim();
@@ -741,28 +647,22 @@ function removePrintChips() {
     document.querySelectorAll('.mgr-comment-print').forEach(el => { el.textContent = ""; });
 }
 
-document.getElementById("printBtn").addEventListener("click", () => {
-    injectPrintChips();
-    window.print();
+/* ════════════════════════════════════════════════════════════════════════════
+   6. INIT
+   ════════════════════════════════════════════════════════════════════════════ */
+document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
+document.getElementById("exportBtn").addEventListener("click", () => {
+    if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
+    generateShareableHTML("swe-matrix");
 });
+document.getElementById("mgrExportBtn").addEventListener("click", () => generateShareableHTML("swe-matrix-manager-report"));
+document.getElementById("printBtn").addEventListener("click", () => { injectPrintChips(); window.print(); });
 window.addEventListener("afterprint", removePrintChips);
-
-function renderRatingKey() {
-    const items = RATINGS.map(r =>
-        '<div class="rating-key__item">'
-        + '<span class="rating-key__dot" style="background:'+RATING_COLOR[r.id]+'"></span>'
-        + '<span><span class="rating-key__name">'+r.name+'</span> &mdash; '+r.desc+'</span>'
-        + '</div>'
-    ).join("");
-    document.getElementById("ratingKey").innerHTML =
-        '<h3>Rating key</h3><div class="rating-key__items">'+items+'</div>';
-}
 
 renderRatingKey();
 load();
 if (EXPORTED_STATE) {
-    // Manager's exported copy: show only the manager report, never the
-    // employee self-assessment view.
+    // Manager's exported copy: show only the manager report.
     document.getElementById("employeeView").classList.add("hidden");
     document.getElementById("employeeSectionHead").classList.add("hidden");
 } else {
