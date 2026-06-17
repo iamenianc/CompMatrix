@@ -1,1 +1,1 @@
-- commit all work to the local main branch when task completed
+- commit all work to the local main branch when task completed. stage ALL files that have changed.

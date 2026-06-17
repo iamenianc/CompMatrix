@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SWE Competency Matrix</title>
+<style>
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --color-green-rating: #22c55e;
+    --color-orange: #f97316;
+    --color-blue: #3b82f6;
+    --color-lilac: #a78bfa;
+    --accent: #4f46e5;
+    --mgr-accent: #0d9488;
+}
+* { box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    margin: 0;
+    padding: 2.5rem;
+}
+.container { max-width: 1040px; margin: 0 auto; }
+.topbar {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 2rem; border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem; margin-bottom: 1.75rem;
+}
+h1 { margin: 0 0 0.25rem 0; font-size: 1.85rem; }
+.subtitle { color: var(--text-muted); font-size: 0.95rem; }
+
+.level-picker {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
+    padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.level-picker h2 { margin: 0 0 0.25rem 0; font-size: 1.1rem; }
+.level-picker p { margin: 0 0 1rem 0; color: var(--text-muted); font-size: 0.9rem; }
+.level-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.level-btn {
+    padding: 0.85rem 1rem; border: 2px solid var(--border-color); border-radius: 8px;
+    background: #fff; cursor: pointer; text-align: center; transition: all 0.15s ease; font: inherit;
+}
+.level-btn .lvl-name { display: block; font-weight: 600; font-size: 0.95rem; }
+.level-btn .lvl-tag { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+.level-btn:hover { border-color: #94a3b8; }
+.level-btn.active { border-color: var(--accent); background: #eef2ff; color: var(--accent); }
+.level-btn.active .lvl-tag { color: var(--accent); }
+.context-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px;
+    padding: 0.85rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.95rem;
+}
+.context-bar strong { color: var(--accent); }
+.context-bar .reset-link { background: none; border: none; color: var(--accent); cursor: pointer; font: inherit; text-decoration: underline; padding: 0; }
+.competency-card {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
+    padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.competency-title { font-size: 1.2rem; font-weight: 600; margin: 0 0 1rem 0; }
+.grid-comparison {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;
+    background: #f1f5f9; padding: 1rem; border-radius: 6px;
+}
+.grid-comparison.single { grid-template-columns: 1fr; }
+.level-box h4 { margin: 0 0 0.25rem 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.level-box p { margin: 0; font-size: 0.95rem; }
+.rating-section { margin-bottom: 1rem; }
+.rating-label { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; display: block; }
+.btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.btn-radio { display: none; }
+.btn-label {
+    padding: 0.5rem 1rem; border: 2px solid var(--border-color); border-radius: 6px;
+    cursor: pointer; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease;
+    display: flex; align-items: center; gap: 0.5rem;
+}
+.btn-label::before { content: ""; width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.lbl-green-rating::before { background-color: var(--color-green-rating); }
+.lbl-orange::before { background-color: var(--color-orange); }
+.lbl-blue::before { background-color: var(--color-blue); }
+.lbl-lilac::before { background-color: var(--color-lilac); }
+.btn-radio:checked + .lbl-green-rating { border-color: var(--color-green-rating); background-color: #f0fdf4; color: #166534; }
+.btn-radio:checked + .lbl-orange { border-color: var(--color-orange); background-color: #fff7ed; color: #9a3412; }
+.btn-radio:checked + .lbl-blue { border-color: var(--color-blue); background-color: #eff6ff; color: #1e40af; }
+.btn-radio:checked + .lbl-lilac { border-color: var(--color-lilac); background-color: #f5f3ff; color: #5b21b6; }
+textarea {
+    width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 0.75rem;
+    font-family: inherit; font-size: 0.95rem; resize: vertical; min-height: 70px;
+}
+textarea:focus { outline: none; border-color: #94a3b8; }
+.add-comp-card { border-style: dashed; }
+.add-comp-row { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; margin-bottom: 0.75rem; align-items: stretch; }
+.add-comp-row input[type=text] { width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 0.7rem 0.75rem; font: inherit; font-size: 0.95rem; }
+.add-comp-row input[type=text]:focus { outline: none; border-color: #94a3b8; }
+.remove-btn { border: 1px solid var(--border-color); background: #fff; color: var(--text-muted); border-radius: 6px; padding: 0 0.85rem; cursor: pointer; font: inherit; }
+.remove-btn:hover { border-color: var(--color-red); color: var(--color-red); }
+.add-btn { border: 1px dashed #94a3b8; background: #fff; color: var(--accent); border-radius: 6px; padding: 0.6rem 1rem; font: inherit; font-weight: 600; cursor: pointer; margin-top: 0.25rem; }
+.add-btn:hover { background: #eef2ff; }
+.empty-note { color: var(--text-muted); font-size: 0.9rem; font-style: italic; }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.compare-col { border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem; }
+.compare-col.employee { background: #f8fafc; }
+.compare-col.manager { background: #f0fdfa; border-color: #99f6e4; }
+.compare-col h5 { margin: 0 0 0.65rem 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.compare-col.manager h5 { color: var(--mgr-accent); }
+.chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.9rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem; border: 2px solid var(--border-color); }
+.chip::before { content: ""; width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.chip-green-rating { background:#f0fdf4; color:#166534; border-color:var(--color-green-rating);} .chip-green-rating::before{background:var(--color-green-rating);}
+.chip-orange { background:#fff7ed; color:#9a3412; border-color:var(--color-orange);} .chip-orange::before{background:var(--color-orange);}
+.chip-blue { background:#eff6ff; color:#1e40af; border-color:var(--color-blue);} .chip-blue::before{background:var(--color-blue);}
+.chip-lilac { background:#f5f3ff; color:#5b21b6; border-color:var(--color-lilac);} .chip-lilac::before{background:var(--color-lilac);}
+.chip-none { color: var(--text-muted); font-style: italic; font-weight: 500; border-style: dashed; }
+.evidence-readonly { font-size: 0.9rem; color: var(--text-main); margin-top: 0.65rem; white-space: pre-wrap; }
+.evidence-readonly .ev-label { display:block; font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.2rem; }
+.actions { margin-top: 1rem; display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex-wrap: wrap; }
+.save-note { color: var(--text-muted); font-size: 0.85rem; margin-right: auto; }
+.submit-btn { background-color: var(--text-main); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; }
+.submit-btn:hover { background-color: #0f172a; }
+.export-btn {
+    background-color: #4f46e5; color: white; border: none; padding: 0.75rem 1.5rem;
+    border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.export-btn:hover { background-color: #4338ca; }
+.hidden { display: none !important; }
+.no-data { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 2rem; text-align: center; color: var(--text-muted); }
+.export-banner {
+    display: flex; align-items: flex-start; gap: 0.85rem;
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+    padding: 0.9rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.9rem; color: #166534; line-height: 1.5;
+}
+.export-banner svg { flex-shrink: 0; margin-top: 1px; }
+.print-btn {
+    background-color: #0f172a; color: white; border: none; padding: 0.75rem 1.5rem;
+    border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.print-btn:hover { background-color: #334155; }
+.print-chip-wrap { display: none; }
+
+/* ── Print styles ─────────────────────────────────────────────────────────── */
+@page { size: A4 portrait; margin: 0; }
+@media print {
+    body {
+        background: #fff;
+        padding: 10mm;
+        font-size: 9pt;
+        line-height: 1.4;
+        color: #000;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .container { max-width: 100%; }
+    /* Hide all screen chrome */
+    .topbar, #employeeView, .export-banner, .actions { display: none !important; }
+    /* Force manager report visible */
+    #managerView, #mgrContent { display: block !important; }
+    #mgrNoData { display: none !important; }
+    /* Print title */
+    #managerView::before {
+        content: "SWE Competency Matrix \2014 Manager Report";
+        display: block;
+        font-size: 14pt;
+        font-weight: 700;
+        border-bottom: 1.5pt solid #1e293b;
+        padding-bottom: 4mm;
+        margin-bottom: 5mm;
+    }
+    /* Context bar */
+    .context-bar {
+        background: #f1f5f9 !important;
+        border: 1pt solid #cbd5e1 !important;
+        border-radius: 3pt;
+        padding: 3mm 4mm;
+        margin-bottom: 4mm;
+        font-size: 9pt;
+    }
+    .context-bar .reset-link { display: none !important; }
+    /* Cards */
+    .competency-card {
+        border: 1pt solid #cbd5e1;
+        border-radius: 3pt;
+        padding: 4mm;
+        margin-bottom: 3mm;
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .add-comp-card { border-style: solid; }
+    .competency-title { font-size: 10pt; font-weight: 700; margin-bottom: 2.5mm; }
+    /* Level description boxes */
+    .grid-comparison { gap: 3mm; padding: 3mm; margin-bottom: 3mm; background: #f8fafc !important; border-radius: 2pt; }
+    .level-box h4 { font-size: 7pt; margin-bottom: 1mm; }
+    .level-box p  { font-size: 8pt; }
+    /* Rating columns */
+    .compare-grid { gap: 3mm; }
+    .compare-col { border: 1pt solid #e2e8f0; border-radius: 2pt; padding: 3mm; }
+    .compare-col.manager { background: #f0fdfa !important; border-color: #6ee7b7 !important; }
+    .compare-col h5 { font-size: 7pt; margin-bottom: 2mm; }
+    /* Hide radio buttons in manager col; show injected print chip instead */
+    .compare-col.manager .btn-group { display: none !important; }
+    .print-chip-wrap { display: block !important; }
+    /* Chips — force colours */
+    .chip { font-size: 8pt; padding: 1.5mm 3mm; border-radius: 2pt; border-width: 1pt; }
+    .chip::before { width: 8px; height: 8px; }
+    .chip-green-rating { background: #f0fdf4 !important; color: #166534 !important; border-color: #22c55e !important; }
+    .chip-green-rating::before { background: #22c55e !important; }
+    .chip-orange { background: #fff7ed !important; color: #9a3412 !important; border-color: #f97316 !important; }
+    .chip-orange::before { background: #f97316 !important; }
+    .chip-blue   { background: #eff6ff !important; color: #1e40af !important; border-color: #3b82f6 !important; }
+    .chip-blue::before   { background: #3b82f6 !important; }
+    .chip-lilac  { background: #f5f3ff !important; color: #5b21b6 !important; border-color: #a78bfa !important; }
+    .chip-lilac::before  { background: #a78bfa !important; }
+    .chip-none   { color: #64748b !important; }
+    .empty-note  { font-size: 8pt; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <div>
+            <h1>SWE Competency Matrix</h1>
+            <div class="subtitle">Self-assessment across 8 competencies, with a manager review step.</div>
+        </div>
+
+    </div>
+
+    <div id="employeeView">
+        <div class="level-picker" id="levelPicker">
+            <h2>Select your current level</h2>
+            <p>This filters the matrix to show your current expectations alongside the level you're growing toward.</p>
+            <div class="level-options" id="levelOptions"></div>
+        </div>
+        <div id="matrix" class="hidden">
+            <div class="context-bar">
+                <div>Assessing as <strong id="ctxLevel"></strong> &rarr; growth toward <strong id="ctxNext"></strong></div>
+                <button class="reset-link" id="changeLevel">Change level</button>
+            </div>
+            <form id="assessForm"></form>
+            <div class="competency-card add-comp-card">
+                <div class="competency-title">Additional Strengths</div>
+                <p class="subtitle" style="margin-top:-0.5rem;margin-bottom:1rem;">Competencies you excel at that aren't listed above. These carry into the manager report.</p>
+                <div id="addCompList"></div>
+                <button type="button" class="add-btn" id="addCompBtn">+ Add a strength</button>
+            </div>
+            <div class="actions">
+                <span class="save-note" id="saveNote">Progress saves automatically.</span>
+                <button type="button" class="submit-btn" id="saveBtn">Submit Self-Assessment</button>
+                <button type="button" class="export-btn" id="exportBtn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Generate Shareable HTML
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="managerView">
+        <div id="mgrNoData" class="no-data hidden">No self-assessment found. Switch to the Employee view, pick a level, and fill in the assessment first — or open the file shared by the employee.</div>
+        <div id="mgrContent" class="hidden">
+            <div id="exportedBanner" class="export-banner hidden">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <div>This file was shared by an employee. Their self-assessment is pre-filled and read-only. Add your ratings in the green panels on the right, then use <strong>Save Updated HTML</strong> to download the completed report.</div>
+            </div>
+            <div class="context-bar">
+                <div>Reviewing <strong id="mgrCtxLevel"></strong> &rarr; growth toward <strong id="mgrCtxNext"></strong></div>
+                <span style="color:var(--text-muted);font-size:0.85rem;">Employee rating on the left &mdash; add yours on the right.</span>
+            </div>
+            <div id="mgrForm"></div>
+            <div class="actions">
+                <span class="save-note" id="mgrSaveNote">Manager ratings save automatically.</span>
+                <button type="button" class="submit-btn" id="mgrSaveBtn">Finalize Manager Report</button>
+                <button type="button" class="export-btn" id="mgrExportBtn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Save Updated HTML
+                </button>
+                <button type="button" class="print-btn" id="printBtn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    Print Report
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const STORAGE_KEY = "swe-matrix-state-v2";
+const LEVELS = [
+    { id: "swe1", name: "SWE I", tag: "Entry" },
+    { id: "swe2", name: "SWE II", tag: "Mid" },
+    { id: "senior", name: "Senior SWE", tag: "Senior" },
+    { id: "staff", name: "Staff SWE", tag: "Top of ladder" }
+];
+const COMPETENCIES = [
+    { title: "System Architecture & Design", levels: {
+        swe1: "Implements well-defined components to spec; asks for design guidance on anything non-trivial.",
+        swe2: "Designs reliable, scalable components and medium-sized services independently; identifies technical debt.",
+        senior: "Designs multi-system architectures, sets engineering standards across teams, and explicitly mitigates long-term technical risk.",
+        staff: "Defines architecture direction across an org; resolves cross-team design tradeoffs and sets multi-year technical strategy." } },
+    { title: "Code Quality & Craft", levels: {
+        swe1: "Writes clean, tested code for assigned tasks; incorporates review feedback reliably.",
+        swe2: "Produces robust, maintainable code; raises the quality bar in reviews for their team.",
+        senior: "Establishes patterns and tooling that lift code quality team-wide; reviews are a teaching tool.",
+        staff: "Drives quality practices and standards adopted across multiple teams." } },
+    { title: "Problem Solving & Debugging", levels: {
+        swe1: "Solves scoped problems; escalates ambiguous or cross-cutting issues.",
+        swe2: "Independently diagnoses and resolves complex bugs across their service.",
+        senior: "Leads diagnosis of gnarly, cross-system production issues; builds prevention into the system.",
+        staff: "Anticipates classes of failure org-wide and drives systemic resilience improvements." } },
+    { title: "Ownership & Delivery", levels: {
+        swe1: "Owns individual tasks to completion within an estimate.",
+        swe2: "Owns features end-to-end, including rollout, monitoring, and follow-up.",
+        senior: "Owns delivery of significant projects spanning multiple people and quarters.",
+        staff: "Owns outcomes across teams; unblocks delivery at the program level." } },
+    { title: "Collaboration & Communication", levels: {
+        swe1: "Communicates progress and blockers clearly within the team.",
+        swe2: "Coordinates effectively across the team; writes clear design docs and updates.",
+        senior: "Aligns multiple stakeholders; communicates tradeoffs to technical and non-technical audiences.",
+        staff: "Builds alignment across orgs; influences direction through clear written and verbal communication." } },
+    { title: "Mentorship & People Development", levels: {
+        swe1: "Shares learnings with peers; supports new joiners informally.",
+        swe2: "Actively mentors junior engineers via code reviews and pairing.",
+        senior: "Maps growth tracks for engineers, sponsors individuals for promotion, and scales onboarding.",
+        staff: "Develops senior engineers; shapes the engineering culture and mentorship norms across teams." } },
+    { title: "Technical Judgment & Decision-Making", levels: {
+        swe1: "Makes sound choices within a defined task; knows when to ask.",
+        swe2: "Makes good build-vs-buy and tradeoff calls for their own work.",
+        senior: "Makes high-leverage technical decisions for the team and defends them with data.",
+        staff: "Makes decisions with org-wide and long-term impact under high ambiguity." } },
+    { title: "Impact & Business Alignment", levels: {
+        swe1: "Understands how their tasks connect to team goals.",
+        swe2: "Connects their work to product and team outcomes; flags low-value effort.",
+        senior: "Prioritizes work by business impact and influences team roadmap.",
+        staff: "Aligns engineering investment with company strategy and measurable impact." } }
+];
+const RATINGS = [
+    { id: "green-rating", label: "Green (Growth Needed)", cls: "lbl-green-rating" },
+    { id: "orange", label: "Orange (Okay)", cls: "lbl-orange" },
+    { id: "blue", label: "Blue (Excelling)", cls: "lbl-blue" },
+    { id: "lilac", label: "Lilac (Levelling Up)", cls: "lbl-lilac" }
+];
+const RATING_LABEL = { "green-rating":"Green (Growth Needed)", orange:"Orange (Okay)", blue:"Blue (Excelling)", lilac:"Lilac (Levelling Up)" };
+
+// Replaced at export time with a JSON snapshot of the current state.
+// When non-null, this file was shared by an employee and the manager can add ratings.
+const EXPORTED_STATE = null;
+
+let state = { level: null, ratings: {}, evidence: {}, extras: [], mgrRatings: {}, mgrExtraRatings: {} };
+
+function load() {
+    if (EXPORTED_STATE) {
+        // Seed from baked-in state; also persist so manager edits survive a refresh
+        state = Object.assign(state, JSON.parse(JSON.stringify(EXPORTED_STATE)));
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+        return;
+    }
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
+}
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function levelById(id){ return LEVELS.find(l => l.id === id); }
+function nextLevel(id){ const i = LEVELS.findIndex(l=>l.id===id); return (i>=0 && i<LEVELS.length-1)?LEVELS[i+1]:null; }
+
+function renderLevelOptions() {
+    const wrap = document.getElementById("levelOptions");
+    wrap.innerHTML = "";
+    LEVELS.forEach(l => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "level-btn" + (state.level === l.id ? " active" : "");
+        btn.innerHTML = '<span class="lvl-name">'+l.name+'</span><span class="lvl-tag">'+l.tag+'</span>';
+        btn.addEventListener("click", () => { state.level = l.id; save(); renderEmployee(); });
+        wrap.appendChild(btn);
+    });
+}
+
+function renderMatrix() {
+    const matrix = document.getElementById("matrix");
+    if (!state.level) { matrix.classList.add("hidden"); return; }
+    matrix.classList.remove("hidden");
+    const cur = levelById(state.level), nxt = nextLevel(state.level);
+    document.getElementById("ctxLevel").textContent = cur.name;
+    document.getElementById("ctxNext").textContent = nxt ? nxt.name : "\u2014 top of ladder";
+    const form = document.getElementById("assessForm");
+    form.innerHTML = "";
+    COMPETENCIES.forEach((comp, idx) => {
+        const ratingId = "comp-"+idx;
+        const savedRating = state.ratings[ratingId];
+        const card = document.createElement("div");
+        card.className = "competency-card";
+        let html = '<div class="competency-title">'+(idx+1)+'. '+comp.title+'</div>';
+        html += '<div class="grid-comparison'+(nxt?"":" single")+'"><div class="level-box"><h4>Current Level ('+cur.name+')</h4><p>'+comp.levels[cur.id]+'</p></div>'
+            + (nxt?'<div class="level-box"><h4>Next Level ('+nxt.name+')</h4><p>'+comp.levels[nxt.id]+'</p></div>':'') + '</div>';
+        html += '<div class="rating-section"><span class="rating-label">Self-Assessment Rating</span><div class="btn-group">';
+        RATINGS.forEach(r => {
+            const inputId = r.id+"-"+idx;
+            html += '<input type="radio" id="'+inputId+'" name="'+ratingId+'" value="'+r.id+'" class="btn-radio" '+(savedRating===r.id?"checked":"")+'>'
+                 + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
+        });
+        html += '</div></div>';
+
+        card.innerHTML = html;
+        form.appendChild(card);
+    });
+    form.querySelectorAll(".btn-radio").forEach(inp => inp.addEventListener("change", e => {
+        state.ratings[e.target.name] = e.target.value; save(); flashSaved("saveNote");
+    }));
+
+    renderExtras();
+}
+
+function renderExtras() {
+    const list = document.getElementById("addCompList");
+    list.innerHTML = "";
+    if (state.extras.length === 0) { list.innerHTML = '<p class="empty-note">None added yet.</p>'; }
+    state.extras.forEach((extra, i) => {
+        const row = document.createElement("div");
+        row.className = "add-comp-row";
+        row.innerHTML = '<input type="text" value="'+esc(extra)+'" data-i="'+i+'" placeholder="e.g. Incident command during outages, internal tooling, accessibility...">'
+            + '<button type="button" class="remove-btn" data-i="'+i+'">Remove</button>';
+        list.appendChild(row);
+    });
+    list.querySelectorAll('input[type=text]').forEach(inp => inp.addEventListener("input", e => {
+        state.extras[+e.target.dataset.i] = e.target.value; save();
+    }));
+    list.querySelectorAll('.remove-btn').forEach(b => b.addEventListener("click", e => {
+        const i = +e.target.dataset.i;
+        state.extras.splice(i,1);
+        const remapped = {};
+        state.extras.forEach((_, ni) => {
+            const oldKey = "extra-"+(ni>=i?ni+1:ni);
+            if (state.mgrExtraRatings[oldKey] !== undefined) remapped["extra-"+ni] = state.mgrExtraRatings[oldKey];
+        });
+        state.mgrExtraRatings = remapped;
+        save(); renderExtras();
+    }));
+}
+
+function renderEmployee() { renderLevelOptions(); renderMatrix(); }
+
+function ratingChip(val) {
+    if (!val) return '<span class="chip chip-none">Not rated</span>';
+    return '<span class="chip chip-'+val+'">'+RATING_LABEL[val]+'</span>';
+}
+
+function renderManager() {
+    const noData = document.getElementById("mgrNoData");
+    const content = document.getElementById("mgrContent");
+    if (!state.level) { noData.classList.remove("hidden"); content.classList.add("hidden"); return; }
+    noData.classList.add("hidden"); content.classList.remove("hidden");
+    document.getElementById("exportedBanner").classList.toggle("hidden", !EXPORTED_STATE);
+    const cur = levelById(state.level), nxt = nextLevel(state.level);
+    document.getElementById("mgrCtxLevel").textContent = cur.name;
+    document.getElementById("mgrCtxNext").textContent = nxt ? nxt.name : "\u2014 top of ladder";
+    const form = document.getElementById("mgrForm");
+    form.innerHTML = "";
+    COMPETENCIES.forEach((comp, idx) => {
+        const ratingId = "comp-"+idx;
+        const empRating = state.ratings[ratingId];
+        const mgrRating = state.mgrRatings[ratingId];
+        const card = document.createElement("div");
+        card.className = "competency-card";
+        let html = '<div class="competency-title">'+(idx+1)+'. '+comp.title+'</div>';
+        html += '<div class="grid-comparison'+(nxt?"":" single")+'"><div class="level-box"><h4>Current Level ('+cur.name+')</h4><p>'+comp.levels[cur.id]+'</p></div>'
+            + (nxt?'<div class="level-box"><h4>Next Level ('+nxt.name+')</h4><p>'+comp.levels[nxt.id]+'</p></div>':'') + '</div>';
+        html += '<div class="compare-grid">';
+        html += '<div class="compare-col employee"><h5>Employee self-rating</h5>'+ratingChip(empRating);
+
+        html += '</div>';
+        html += '<div class="compare-col manager"><h5>Manager rating</h5><div class="btn-group">';
+        RATINGS.forEach(r => {
+            const inputId = "mgr-"+r.id+"-"+idx;
+            html += '<input type="radio" id="'+inputId+'" name="mgr-'+ratingId+'" value="'+r.id+'" class="btn-radio mgr-radio" '+(mgrRating===r.id?"checked":"")+'>'
+                 + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
+        });
+        html += '</div></div></div>';
+        card.innerHTML = html;
+        form.appendChild(card);
+    });
+    const extras = (state.extras||[]).filter(x => x && x.trim());
+    const extraCard = document.createElement("div");
+    extraCard.className = "competency-card add-comp-card";
+    let eh = '<div class="competency-title">Additional Strengths (employee-nominated)</div>';
+    if (extras.length === 0) {
+        eh += '<p class="empty-note">The employee did not list any additional strengths.</p>';
+    } else {
+        extras.forEach((extra, i) => {
+            const key = "extra-"+i;
+            const mr = state.mgrExtraRatings[key];
+            eh += '<div style="margin-bottom:1.25rem;"><div style="font-weight:600;margin-bottom:0.5rem;">'+esc(extra)+'</div>'
+                + '<div class="compare-grid"><div class="compare-col employee"><h5>Employee</h5><span class="chip chip-none">Self-nominated strength</span></div>'
+                + '<div class="compare-col manager"><h5>Manager rating</h5><div class="btn-group">';
+            RATINGS.forEach(r => {
+                const inputId = "mgrx-"+r.id+"-"+i;
+                eh += '<input type="radio" id="'+inputId+'" name="mgrx-'+key+'" value="'+r.id+'" class="btn-radio mgr-radio" '+(mr===r.id?"checked":"")+'>'
+                    + '<label for="'+inputId+'" class="btn-label '+r.cls+'">'+r.label+'</label>';
+            });
+            eh += '</div></div></div></div>';
+        });
+    }
+    extraCard.innerHTML = eh;
+    form.appendChild(extraCard);
+    form.querySelectorAll('.btn-radio[name^="mgr-comp"]').forEach(inp => inp.addEventListener("change", e => {
+        const compKey = e.target.name.replace("mgr-","");
+        state.mgrRatings[compKey] = e.target.value; save(); flashSaved("mgrSaveNote");
+    }));
+    form.querySelectorAll('.btn-radio[name^="mgrx-"]').forEach(inp => inp.addEventListener("change", e => {
+        const key = e.target.name.replace("mgrx-","");
+        state.mgrExtraRatings[key] = e.target.value; save(); flashSaved("mgrSaveNote");
+    }));
+}
+
+let flashTimer = null;
+function flashSaved(noteId) {
+    const note = document.getElementById(noteId);
+    const original = note.dataset.original || note.textContent;
+    note.dataset.original = original;
+    note.textContent = "Saved \u2713";
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => { note.textContent = original; }, 1500);
+}
+
+// ── Export: bake current state into a self-contained HTML file ──────────────
+function generateShareableHTML(filenamePrefix) {
+    const snapshot = JSON.parse(JSON.stringify(state));
+    const pageSource = document.documentElement.outerHTML;
+
+    // Swap the placeholder const with the real state snapshot
+    const injected = pageSource.replace(
+        /const EXPORTED_STATE = null;/,
+        'const EXPORTED_STATE = ' + JSON.stringify(snapshot) + ';'
+    );
+
+    const blob = new Blob([injected], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const lvl = levelById(state.level);
+    const lvlSlug = lvl ? lvl.name.replace(/\s+/g, "-").toLowerCase() : "assessment";
+    const dateStr = new Date().toISOString().slice(0, 10);
+    a.download = filenamePrefix + "-" + lvlSlug + "-" + dateStr + ".html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+
+document.getElementById("changeLevel").addEventListener("click", () => document.getElementById("levelPicker").scrollIntoView({behavior:"smooth"}));
+document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
+
+document.getElementById("saveBtn").addEventListener("click", () => {
+    save();
+    const filled = Object.keys(state.ratings).length;
+    alert("Self-assessment submitted. "+filled+" of "+COMPETENCIES.length+" competencies rated. Switch to Manager Report to review.");
+});
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+    if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
+    generateShareableHTML("swe-matrix");
+});
+
+document.getElementById("mgrSaveBtn").addEventListener("click", () => {
+    save();
+    const filled = Object.keys(state.mgrRatings).length;
+    alert("Manager report finalized. "+filled+" of "+COMPETENCIES.length+" competencies rated by manager.");
+});
+
+document.getElementById("mgrExportBtn").addEventListener("click", () => {
+    generateShareableHTML("swe-matrix-manager-report");
+});
+
+// ── Print: inject static chips for manager ratings before printing ──────────
+function injectPrintChips() {
+    document.querySelectorAll('.compare-col.manager').forEach(col => {
+        // Remove any previously injected chips
+        col.querySelectorAll('.print-chip-wrap').forEach(el => el.remove());
+        // Find which radio is checked
+        const checked = col.querySelector('.btn-radio:checked');
+        const wrap = document.createElement('div');
+        wrap.className = 'print-chip-wrap';
+        wrap.innerHTML = checked ? ratingChip(checked.value) : ratingChip(null);
+        col.appendChild(wrap);
+    });
+}
+function removePrintChips() {
+    document.querySelectorAll('.print-chip-wrap').forEach(el => el.remove());
+}
+
+document.getElementById("printBtn").addEventListener("click", () => {
+    injectPrintChips();
+    window.print();
+});
+window.addEventListener("afterprint", removePrintChips);
+
+load();
+renderEmployee();
+renderManager();
+</script>
+</body>
+</html>
