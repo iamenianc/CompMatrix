@@ -178,7 +178,7 @@ textarea:focus { outline: none; border-color: var(--navy); }
 .chip-none { color: var(--muted); font-style: italic; font-weight: 600; border-style: dashed; }
 .mgr-comment-wrap { margin-top: 1rem; }
 .mgr-comment-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
-.mgr-comment { width: 100%; border: 1px solid var(--border); border-radius: 0; padding: 0.7rem 0.8rem; font-family: inherit; font-size: 0.92rem; line-height: 1.55; color: var(--ink); resize: vertical; min-height: 64px; background: #fff; }
+.mgr-comment { width: 100%; border: 1px solid var(--border); border-radius: 0; padding: 0.7rem 0.8rem; font-family: inherit; font-size: 0.92rem; line-height: 1.55; color: var(--ink); resize: none; overflow: hidden; min-height: 64px; background: #fff; box-sizing: border-box; }
 .mgr-comment:focus { outline: none; border-color: var(--navy); }
 .mgr-comment-print { display: none; }
 .evidence-readonly { font-size: 0.92rem; color: var(--body); margin-top: 0.75rem; white-space: pre-wrap; }
@@ -615,9 +615,20 @@ function renderManager() {
         const key = e.target.name.replace("mgrx-","");
         state.mgrExtraRatings[key] = e.target.value; save(); flashSaved("mgrSaveNote");
     }));
-    form.querySelectorAll('.mgr-comment').forEach(t => t.addEventListener("input", e => {
-        state.mgrComments[e.target.dataset.key] = e.target.value; save();
-    }));
+    form.querySelectorAll('.mgr-comment').forEach(t => {
+        autoGrow(t);              // size to existing content on render
+        t.addEventListener("input", e => {
+            state.mgrComments[e.target.dataset.key] = e.target.value;
+            autoGrow(e.target);
+            save();
+        });
+    });
+}
+
+// Grow a textarea to fit its content (reliable across all sections).
+function autoGrow(el) {
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
 }
 
 let flashTimer = null;
