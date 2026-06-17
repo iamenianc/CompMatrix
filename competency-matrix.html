@@ -916,6 +916,16 @@ document.getElementById("ovGrid").addEventListener("click", e => {
     const c = e.target.closest(".ovgrid__c");
     if (c && !c.classList.contains("is-open")) toggleOverviewColumn(c.dataset.level);
 });
+// Double-click anywhere on an expanded column's body collapses it. (Headers
+// already collapse on a single click; restricting to cells avoids a flicker
+// from the two single-clicks a dblclick also fires.)
+document.getElementById("ovGrid").addEventListener("dblclick", e => {
+    const c = e.target.closest(".ovgrid__c");
+    if (c && c.classList.contains("is-open")) {
+        window.getSelection().removeAllRanges();   // drop the text selection a dblclick makes
+        toggleOverviewColumn(c.dataset.level);
+    }
+});
 // Recompute open-column widths when the browser is resized (overview is screen-only).
 let ovResizeTimer = null;
 window.addEventListener("resize", () => {
