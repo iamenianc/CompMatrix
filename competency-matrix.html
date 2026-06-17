@@ -639,8 +639,8 @@ function renderRatingKey() {
 
 // ── Framework overview grid ─────────────────────────────────────────────────
 // Transient view-state only (not persisted): ordered list of expanded level
-// ids, acting as a rolling window of at most 2.
-let overviewOpen = [];
+// ids, acting as a rolling window of at most 2. L1 starts expanded on load.
+let overviewOpen = [LEVELS[0].id];
 
 function toggleOverviewColumn(levelId) {
     const at = overviewOpen.indexOf(levelId);
