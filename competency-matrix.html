@@ -111,15 +111,9 @@ body {
 .ovgrid { display: grid; border: 1px solid var(--border); border-bottom: none; background: var(--bg-soft); }
 /* Header row */
 .ovgrid__corner { background: var(--bg-band); border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0.85rem 1rem; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; }
-/* Each header is a size container so the role tag's visibility can depend on
-   the header's own width (see container query below). */
-.ovgrid__h { container-type: inline-size; appearance: none; border: none; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; padding: 0.85rem 0.9rem; font: inherit; transition: background 0.15s ease, box-shadow 0.15s ease; }
+.ovgrid__h { appearance: none; border: none; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; padding: 0.85rem 0.9rem; font: inherit; transition: background 0.15s ease, box-shadow 0.15s ease; }
 .ovgrid__h .ovgrid__h-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1rem; color: var(--ink); }
 .ovgrid__h .ovgrid__h-tag { display: block; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-/* Width-based: hide the role tag when the header column is too narrow to fit it
-   on one line (purely a function of column width — not tied to any interaction).
-   Threshold leaves room for the longest tag plus the header padding. */
-@container (max-width: 150px) { .ovgrid__h-tag { display: none; } }
 .ovgrid__h:hover { background: var(--bg-soft); }
 .ovgrid__h.is-open { background: var(--bg-soft); box-shadow: inset 0 -3px 0 var(--navy); }
 .ovgrid__h.is-open .ovgrid__h-name, .ovgrid__h.is-open .ovgrid__h-tag { color: var(--navy); }
