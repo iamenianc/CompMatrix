@@ -696,8 +696,10 @@ function renderOverview() {
     // many are actually open, so a single open column matches each of two.
     const budget = total - TITLE_W - (LEVELS.length - 2) * CLOSED_W - GAP;
     const openW = Math.max(360, Math.min(720, Math.floor(budget / 2)));
+    // Title column is a fixed width — it must not grow on wide screens. Closed
+    // columns flex (minmax) to absorb any leftover width.
     grid.style.gridTemplateColumns =
-        "minmax(200px, 1fr) " + LEVELS.map(l => isOpen(l.id) ? openW + "px" : "minmax(52px, 0.5fr)").join(" ");
+        TITLE_W + "px " + LEVELS.map(l => isOpen(l.id) ? openW + "px" : "minmax(52px, 1fr)").join(" ");
 
     let html = '<div class="ovgrid__corner">Competency</div>';
     html += LEVELS.map(l =>
