@@ -1,38 +1,4 @@
-{
-  "track": "Software Engineer",
-  "levels": {
-    "L1": {
-      "stage": "Early career",
-      "typical_title": "Junior Software Engineer",
-      "typical_scope": "Yourself",
-      "what_it_looks_like": "Focused on sharpening your engineering skills, learning AGI's stack and group insurance domain, and delivering features with significant oversight and support from more senior engineers."
-    },
-    "L2": {
-      "stage": "Experienced",
-      "typical_title": "Software Engineer",
-      "typical_scope": "Your feature area(s)",
-      "what_it_looks_like": "Continuing to sharpen your engineering skills, potentially with different languages or focus areas. Starting to own a feature area while growing your collaboration and communication skills. Beginning to mentor juniors with support from seniors."
-    },
-    "L3": {
-      "stage": "Emerging leader",
-      "typical_title": "Senior Software Engineer",
-      "typical_scope": "Your team",
-      "what_it_looks_like": "Still sharpening your engineering skills, while starting to grow those skills in others. Trusted to build out a feature area with little oversight, while proposing ideas and solutions across the team."
-    },
-    "L4": {
-      "stage": "Experienced team lead",
-      "typical_title": "Lead Software Engineer / Tech Lead",
-      "typical_scope": "Your team(s)",
-      "what_it_looks_like": "Strong engineering skills, focused on keeping up with industry trends to continually improve your craft. Someone the team looks up to and learns from. Guiding the team on a significant product area, capable of handling complex projects across teams."
-    },
-    "L5": {
-      "stage": "Seasoned lead",
-      "typical_title": "Principal Engineer",
-      "typical_scope": "IT / across several teams",
-      "what_it_looks_like": "Seasoned engineer at the top of your game. Trusted to lead the largest and highest-impact projects with significant complexity. Capable of guiding work from multiple engineering teams and turning product visions into reality."
-    }
-  },
-  "competencies": [
+[
     {
       "theme": "Delivery",
       "competency": "Software development",
@@ -276,4 +242,3 @@
       }
     }
   ]
-}
