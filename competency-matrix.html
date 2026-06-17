@@ -345,7 +345,6 @@ textarea:focus { outline: none; border-color: var(--navy); }
             </div>
             <div class="actions">
                 <span class="save-note" id="saveNote">Progress saves automatically.</span>
-                <button type="button" class="submit-btn" id="saveBtn">Submit Self-Assessment</button>
                 <button type="button" class="export-btn" id="exportBtn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Generate Shareable HTML
@@ -368,7 +367,6 @@ textarea:focus { outline: none; border-color: var(--navy); }
             <div id="mgrForm"></div>
             <div class="actions">
                 <span class="save-note" id="mgrSaveNote">Manager ratings save automatically.</span>
-                <button type="button" class="submit-btn" id="mgrSaveBtn">Finalize Manager Report</button>
                 <button type="button" class="export-btn" id="mgrExportBtn">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     Save Updated HTML
@@ -661,21 +659,9 @@ function generateShareableHTML(filenamePrefix) {
 document.getElementById("changeLevel").addEventListener("click", () => document.getElementById("levelPicker").scrollIntoView({behavior:"smooth"}));
 document.getElementById("addCompBtn").addEventListener("click", () => { state.extras.push(""); save(); renderExtras(); });
 
-document.getElementById("saveBtn").addEventListener("click", () => {
-    save();
-    const filled = Object.keys(state.ratings).length;
-    alert("Self-assessment submitted. "+filled+" of "+COMPETENCIES.length+" competencies rated. Switch to Manager Report to review.");
-});
-
 document.getElementById("exportBtn").addEventListener("click", () => {
     if (!state.level) { alert("Please select a level before generating a shareable file."); return; }
     generateShareableHTML("swe-matrix");
-});
-
-document.getElementById("mgrSaveBtn").addEventListener("click", () => {
-    save();
-    const filled = Object.keys(state.mgrRatings).length;
-    alert("Manager report finalized. "+filled+" of "+COMPETENCIES.length+" competencies rated by manager.");
 });
 
 document.getElementById("mgrExportBtn").addEventListener("click", () => {
