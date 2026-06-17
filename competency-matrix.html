@@ -296,6 +296,16 @@ body {
 </section>
 
 <div class="container">
+    <!-- Framework overview: the whole matrix at a glance, columns expand on click.
+         Sits above the self-assessment; screen-only (hidden in print/manager view). -->
+    <div id="overview" class="overview">
+        <div class="overview__head">
+            <span class="eyebrow">Framework overview</span>
+            <div class="subtitle">The full matrix, L1&ndash;L6. Click a level heading to expand its descriptions &mdash; up to two open at once.</div>
+        </div>
+        <div class="ovgrid" id="ovGrid"></div>
+    </div>
+
     <div class="section-head" id="employeeSectionHead">
         <span class="eyebrow">Self-assessment</span>
         <div class="subtitle" id="employeeSubtitle"></div>
@@ -306,15 +316,6 @@ body {
 
     <!-- ── Employee self-assessment view ─────────────────────────────────── -->
     <div id="employeeView">
-        <!-- Framework overview: the whole matrix at a glance, columns expand on click -->
-        <div id="overview" class="overview">
-            <div class="overview__head">
-                <span class="eyebrow">Framework overview</span>
-                <div class="subtitle">The full matrix, L1&ndash;L6. Click a level heading to expand its descriptions &mdash; up to two open at once.</div>
-            </div>
-            <div class="ovgrid" id="ovGrid"></div>
-        </div>
-
         <div class="level-picker" id="levelPicker">
             <h2>Select your current level</h2>
             <p>This filters the matrix to show your current expectations alongside the level you're growing toward.</p>
@@ -896,6 +897,7 @@ renderRatingKey();
 load();
 if (EXPORTED_STATE) {
     // Manager's exported copy: show only the manager report.
+    document.getElementById("overview").classList.add("hidden");
     document.getElementById("employeeView").classList.add("hidden");
     document.getElementById("employeeSectionHead").classList.add("hidden");
 } else {
