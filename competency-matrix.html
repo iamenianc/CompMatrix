@@ -114,8 +114,9 @@ body {
 .ovgrid__h { appearance: none; border: none; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; cursor: pointer; text-align: left; padding: 0.85rem 0.9rem; font: inherit; transition: background 0.15s ease, box-shadow 0.15s ease; }
 .ovgrid__h .ovgrid__h-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 1rem; color: var(--ink); }
 .ovgrid__h .ovgrid__h-tag { display: block; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-top: 0.1rem; }
-/* When the column is collapsed (narrow), drop the role tag — leave just L1, L2… */
-.ovgrid__h:not(.is-open) .ovgrid__h-tag { display: none; }
+/* On first load all tags show; once the user expands/collapses a column,
+   collapsed (narrow) columns drop the role tag — leaving just L1, L2… */
+.ovgrid.interacted .ovgrid__h:not(.is-open) .ovgrid__h-tag { display: none; }
 .ovgrid__h:hover { background: var(--bg-soft); }
 .ovgrid__h.is-open { background: var(--bg-soft); box-shadow: inset 0 -3px 0 var(--navy); }
 .ovgrid__h.is-open .ovgrid__h-name, .ovgrid__h.is-open .ovgrid__h-tag { color: var(--navy); }
@@ -644,8 +645,12 @@ function renderRatingKey() {
 // Transient view-state only (not persisted): ordered list of expanded level
 // ids, acting as a rolling window of at most 2. L1 starts expanded on load.
 let overviewOpen = [LEVELS[0].id];
+// Becomes true once the user expands/collapses a column; before that, headers
+// keep their role tags even on collapsed columns.
+let overviewInteracted = false;
 
 function toggleOverviewColumn(levelId) {
+    overviewInteracted = true;
     const at = overviewOpen.indexOf(levelId);
     if (at !== -1) {
         overviewOpen.splice(at, 1);          // already open → toggle closed
@@ -659,6 +664,7 @@ function toggleOverviewColumn(levelId) {
 function renderOverview() {
     const grid = document.getElementById("ovGrid");
     if (!grid) return;
+    grid.classList.toggle("interacted", overviewInteracted);
     const isOpen = id => overviewOpen.includes(id);
 
     // Column widths reflow with open state. Open columns get an explicit width
