@@ -1,0 +1,58 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   MATRIX template — the ★ ROLE-SPECIFIC BLOCK ★ only.
+
+   This is the ONLY part of competency-matrix.html you edit to adapt the file to
+   a different role. Paste a filled-in copy of this over the existing `const
+   MATRIX = { ... };` block in competency-matrix.html — nothing else changes.
+
+   Shape:
+     • role / title / *Eyebrow / *Subtitle / storageKey — user-facing copy & storage.
+     • levels[]        — the rungs: { id, name, tag }. ids (l1, l2, …) key the descriptions.
+     • competencies[]  — { theme, title, levels:{ <levelId>: "description" } }.
+                         Duplicate a competency block to add more; keep the level
+                         ids in sync with `levels`. `theme` groups related entries.
+   ════════════════════════════════════════════════════════════════════════════ */
+const MATRIX = {
+    // ── Page identity / wording for this role (all user-facing copy) ─────────
+    role: "<ROLE NAME>",
+    title: "<ROLE NAME> Competency Matrix",                      // <title>, hero, print header
+    heroEyebrow: "<CAREER FRAMEWORK LABEL>",                     // small caps line above the hero title
+    selfAssessEyebrow: "Self-assessment",                        // eyebrow above the assessment section
+    overviewEyebrow: "Framework overview",                       // eyebrow above the overview grid
+    overviewSubtitle: "The full matrix, L1–L6. Click a level heading to expand its descriptions — up to two open at once.",
+    // {n} is replaced with the competency count.
+    selfAssessSubtitle: "{n} core competencies, rated against your current level and the one you're growing toward, with a manager review step.",
+    // Persistence key — bump the suffix if the data shape changes.
+    storageKey: "compmatrix-<role-slug>-v1",
+
+    // The rungs (here L1–L6). Add/remove entries to change the level count; the
+    // page reflows to match. Tags are descriptive labels, edit freely.
+    levels: [
+        { id: "l1", name: "L1", tag: "<TAG>" },
+        { id: "l2", name: "L2", tag: "<TAG>" },
+        { id: "l3", name: "L3", tag: "<TAG>" },
+        { id: "l4", name: "L4", tag: "<TAG>" },
+        { id: "l5", name: "L5", tag: "<TAG>" },
+        { id: "l6", name: "L6", tag: "<TAG>" }
+    ],
+
+    // One object per competency. Duplicate a block to add another; keep the
+    // level ids (l1–l6) in sync with `levels` above.
+    competencies: [
+        { theme: "<THEME>", title: "<COMPETENCY TITLE>", levels: {
+            l1: "<L1 description>",
+            l2: "<L2 description>",
+            l3: "<L3 description>",
+            l4: "<L4 description>",
+            l5: "<L5 description>",
+            l6: "<L6 description>" } },
+        { theme: "<THEME>", title: "<COMPETENCY TITLE>", levels: {
+            l1: "<L1 description>",
+            l2: "<L2 description>",
+            l3: "<L3 description>",
+            l4: "<L4 description>",
+            l5: "<L5 description>",
+            l6: "<L6 description>" } }
+        // … duplicate the block above for each additional competency.
+    ]
+};
